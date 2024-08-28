@@ -1,6 +1,11 @@
-# Tools for Reproducible Research
+---
+layout: lesson
+title: Introduction to Data Management practices
+---
 
 ![](images/achievement-agreement-arms-1068523.jpg)
+
+See the [Syllabus]($CANVAS_COURSE_REFERENCE$/assignments/syllabus) for a full description of the course, registration details can be found on the course delivery platform Canvas.
 
 # Course overview
 
