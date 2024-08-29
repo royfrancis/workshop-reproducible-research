@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# Except the Gemfile and lock file
+!Gemfile
+!Gemfile.lock
