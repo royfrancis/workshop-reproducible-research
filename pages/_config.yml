@@ -12,7 +12,7 @@ carpentry: "nbis"
 remote_theme: NBISweden/styles-dm-practices@canvas
 
 # Overall title for pages.
-title: "Introduction to Data Management Practices"
+title: "Tools for Reproducible Research"
 
 # Life cycle stage of the lesson
 # See this page for more details: https://cdh.carpentries.org/the-lesson-life-cycle.html
@@ -42,4 +42,3 @@ collections:
   course_settings:
     output: true
     permalink: /:path/index.html
-
