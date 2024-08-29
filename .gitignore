@@ -1,6 +1,10 @@
 # Conda environments
 *-env
 
+# Site build files
+pages/_site
+pages/vendor
+
 # Lecture-related files
 lectures/*/*/remark-css-0.0.1/default.css
 lectures/*/*/header-attrs-2.3/header-attrs.js
