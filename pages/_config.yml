@@ -41,3 +41,27 @@ collections:
   course_settings:
     output: true
     permalink: /:path/index.html
+
+defaults:
+  - values:
+      root: .
+      layout: page
+  - scope:
+      path: ""
+      type: episodes
+    values:
+      root: ..
+      layout: episode
+  - scope:
+      path: ""
+      type: course_settings
+    values:
+      root: ..
+      layout: page
+
+exclude:
+  - .gitignore
+  - .dockerignore
+  - Dockerfile
+  - README.md
+  - vendor
