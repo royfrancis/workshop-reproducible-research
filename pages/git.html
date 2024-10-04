@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Version control with Git</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background-image: url(../assets/images/banner.jpg);
+background-size: cover;
+      }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono&amp;family=Nunito:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;display=swap" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/logos/nbis-scilifelab.png" alt="logo" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_contents.html"> 
+<span class="menu-text">Contents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_precourse.html"> 
+<span class="menu-text">Pre-course</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Version control with Git</h1>
+            <p class="subtitle lead">How to keep track of your code and collaborate with others</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">04-Oct-2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#creating-repositories" id="toc-creating-repositories" class="nav-link" data-scroll-target="#creating-repositories"><span class="header-section-number">2</span> Creating repositories</a></li>
+  <li><a href="#adding-and-committing-files" id="toc-adding-and-committing-files" class="nav-link" data-scroll-target="#adding-and-committing-files"><span class="header-section-number">3</span> Adding and committing files</a>
+  <ul>
+  <li><a href="#unstaging-files" id="toc-unstaging-files" class="nav-link" data-scroll-target="#unstaging-files"><span class="header-section-number">3.1</span> Unstaging files</a></li>
+  <li><a href="#deleting-files" id="toc-deleting-files" class="nav-link" data-scroll-target="#deleting-files"><span class="header-section-number">3.2</span> Deleting files</a></li>
+  <li><a href="#browsing-the-history" id="toc-browsing-the-history" class="nav-link" data-scroll-target="#browsing-the-history"><span class="header-section-number">3.3</span> Browsing the history</a></li>
+  </ul></li>
+  <li><a href="#ignoring-files" id="toc-ignoring-files" class="nav-link" data-scroll-target="#ignoring-files"><span class="header-section-number">4</span> Ignoring files</a></li>
+  <li><a href="#branches" id="toc-branches" class="nav-link" data-scroll-target="#branches"><span class="header-section-number">5</span> Branches</a></li>
+  <li><a href="#tags" id="toc-tags" class="nav-link" data-scroll-target="#tags"><span class="header-section-number">6</span> Tags</a></li>
+  <li><a href="#working-remotely" id="toc-working-remotely" class="nav-link" data-scroll-target="#working-remotely"><span class="header-section-number">7</span> Working remotely</a>
+  <ul>
+  <li><a href="#create-a-remote-repository" id="toc-create-a-remote-repository" class="nav-link" data-scroll-target="#create-a-remote-repository"><span class="header-section-number">7.1</span> Create a remote repository</a></li>
+  <li><a href="#browsing-github" id="toc-browsing-github" class="nav-link" data-scroll-target="#browsing-github"><span class="header-section-number">7.2</span> Browsing GitHub</a></li>
+  <li><a href="#working-with-remote-repositories" id="toc-working-with-remote-repositories" class="nav-link" data-scroll-target="#working-with-remote-repositories"><span class="header-section-number">7.3</span> Working with remote repositories</a></li>
+  <li><a href="#remote-branches" id="toc-remote-branches" class="nav-link" data-scroll-target="#remote-branches"><span class="header-section-number">7.4</span> Remote branches</a></li>
+  <li><a href="#sharing-tags" id="toc-sharing-tags" class="nav-link" data-scroll-target="#sharing-tags"><span class="header-section-number">7.5</span> Sharing tags</a></li>
+  </ul></li>
+  <li><a href="#conflicts" id="toc-conflicts" class="nav-link" data-scroll-target="#conflicts"><span class="header-section-number">8</span> Conflicts</a></li>
+  <li><a href="#extra-material" id="toc-extra-material" class="nav-link" data-scroll-target="#extra-material"><span class="header-section-number">9</span> Extra material</a>
+  <ul>
+  <li><a href="#forking" id="toc-forking" class="nav-link" data-scroll-target="#forking"><span class="header-section-number">9.1</span> Forking</a></li>
+  <li><a href="#amending-commits" id="toc-amending-commits" class="nav-link" data-scroll-target="#amending-commits"><span class="header-section-number">9.2</span> Amending commits</a></li>
+  <li><a href="#rebasing" id="toc-rebasing" class="nav-link" data-scroll-target="#rebasing"><span class="header-section-number">9.3</span> Rebasing</a></li>
+  <li><a href="#rebasing-as-clean-up" id="toc-rebasing-as-clean-up" class="nav-link" data-scroll-target="#rebasing-as-clean-up"><span class="header-section-number">9.4</span> Rebasing as clean-up</a></li>
+  <li><a href="#resetting" id="toc-resetting" class="nav-link" data-scroll-target="#resetting"><span class="header-section-number">9.5</span> Resetting</a></li>
+  <li><a href="#the-reflog" id="toc-the-reflog" class="nav-link" data-scroll-target="#the-reflog"><span class="header-section-number">9.6</span> The reflog</a></li>
+  <li><a href="#decorating-your-prompt" id="toc-decorating-your-prompt" class="nav-link" data-scroll-target="#decorating-your-prompt"><span class="header-section-number">9.7</span> Decorating your prompt</a></li>
+  <li><a href="#bash-aliases-for-git" id="toc-bash-aliases-for-git" class="nav-link" data-scroll-target="#bash-aliases-for-git"><span class="header-section-number">9.8</span> Bash aliases for git</a></li>
+  <li><a href="#pretty-logs" id="toc-pretty-logs" class="nav-link" data-scroll-target="#pretty-logs"><span class="header-section-number">9.9</span> Pretty logs</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>Git is a widely used system (both in academia and industry) for version controlling files and collaborating on code. It is used to track changes in (text) files, thereby establishing a history of all edits made to each file, together with short messages about each change and information about who made it. Git is mainly run from the command line, but there are several tools that have implemented a graphical user interface to run Git commands.</p>
+<p>Using version control for tracking your files, and edits to those, is an essential step in making your computational research reproducible. A typical Git workflow consists of:</p>
+<ul>
+<li>Making distinct and related edits to one or several files</li>
+<li>Committing those changes (<em>i.e.</em> telling Git to add those edits to the history, together with a message about what those changes involve)</li>
+<li>Pushing the commit to a remote repository (<em>i.e.</em> syncing your local project directory with one in the cloud)</li>
+</ul>
+<p>There are many benefits of using Git in your research project:</p>
+<ul>
+<li>You are automatically forced into a more organized way of working, which is usually a first step towards reproducibility.</li>
+<li>If you have made some changes to a file and realize that those were probably not a good idea after all, it is simple to view exactly what the changes were and revert them.</li>
+<li>If there is more than one person involved in the project, Git makes it easy to collaborate by tracking all edits made by each person. It will also handle any potential conflicting edits.</li>
+<li>Using a cloud-based repository hosting service (the one you push your commits to), like <em>e.g.</em> <a href="https://github.com/">GitHub</a> or <a href="https://bitbucket.org/">Bitbucket</a>, adds additional features, such as being able to discuss the project, comment on edits, or report issues.</li>
+<li>If at some point your project will be published GitHub or Bitbucket (or similar) are excellent places to publicly distribute your code. Other researchers can then use Git to access the code needed for reproducing your results, in exactly the state it was when used for the publication.</li>
+<li>If needed, you can host private repositories on GitHub and Bitbucket as well. This may be convenient during an ongoing research project, before it is publicly published.</li>
+</ul>
+<p>These tutorials will walk you through the basics of using Git as a tool for reproducible research. The things covered in these tutorials are what you will be using most of the time in your day-to-day work with Git, but Git has many more advanced features that might be of use to you.</p>
+<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="../home_precourse.html">setup</a> for instructions on how to set it up if you haven’t done so already.</p>
+</section>
+<section id="creating-repositories" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="creating-repositories"><span class="header-section-number">2</span> Creating repositories</h2>
+<p>In order to create a new Git repository, we first need a directory to track. For this tutorial, go ahead and create a directory called <code>git_tutorial</code>, then navigate into it.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The directory should <em>not</em> be within the <code>workshop-reproducible-research</code> directory, since this is itself a Git-tracked directory.</p>
+</div>
+</div>
+<p>Once we are inside the desired directory, we can <em>initialise</em> Git with the following command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The directory is now a version-tracked directory. How can you know? Run the command <code>git status</code>, which will probably return something like this:</p>
+<pre class="no-highlight"><code>On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you try to run <code>git status</code> in a non-Git directory, it will say that it is <em>not a git repository</em>. The way this works is that Git adds a hidden directory <code>.git/</code> in the root of a Git tracked directory (run <code>ls -a</code> to see it). This hidden directory contains all information and settings Git needs in order to run and version track your files. This also means that your Git-tracked directory is self-contained, <em>i.e.</em> you can simply delete it and everything that has to do with Git in connection to that directory will be gone.</p>
+</div>
+</div>
+<p>The text <code>nothing to commit (create/copy files and use "git add" to track)</code> tells us that while we are inside a directory that Git is currently tracking, there are currently no files being tracked; let’s add some!</p>
+<p>Copy the following files from the <code>workshop-reproducible-research/tutorials/git</code> directory into your <code>git_tutorial</code> directory:</p>
+<ul>
+<li><code>Dockerfile</code></li>
+<li><code>Snakefile</code></li>
+<li><code>config.yml</code></li>
+<li><code>environment.yml</code></li>
+</ul>
+<p>Once you have done that, run <code>git status</code> again. It will tell you that there are files in the directory that are not version tracked by Git.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For the purpose of this tutorial, the exact contents of the files you just copied are not important. But you will probably recognize many of them, as they are all files used in the MRSA case study described in the <a href="introduction.html">introduction to the tutorials</a>. The details of what these files do are described in their respective sessions later in the course, but we provide a brief overview here:</p>
+<ul>
+<li>The <code>environment.yml</code> file contains the Conda environment with all the software used in the analysis (see the <a href="conda.html">Conda tutorial</a>).</li>
+<li>The <code>Snakefile</code> and <code>config.yml</code> are both used to define the Snakemake workflow, that we’ll go through in the <a href="snakemake.html">Snakemake tutorial</a>.</li>
+<li>The <code>Dockerfile</code> contains the recipe for making a Docker container for the analysis, which will be covered in detail in the <a href="containers.html">Container tutorial</a>.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have used two <code>git</code> commands this far:</p>
+<ul>
+<li><code>git init</code> tells Git to track the current directory.</li>
+<li><code>git status</code> is a command you should use <em>a lot</em>. It will tell you, amongst other things, the status of your Git clone in relation to the online remote repository.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="adding-and-committing-files" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="adding-and-committing-files"><span class="header-section-number">3</span> Adding and committing files</h2>
+<p>We will now commit the untracked files. A commit is essentially a set of changes to a set of files. Preferably, the changes making out a commit should be related to something, <em>e.g.</em> a specific bug fix or a new feature.</p>
+<ul>
+<li>Our first commit will be to add the copied files to the repository. Run the following (as suggested by <code>git status</code>):</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add Dockerfile Snakefile</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Run <code>git status</code> again! See that we have added Dockerfile and Snakefile to our upcoming commit (listed under “<em>Changes to be committed</em>”). This is called the staging area, and the files there are staged to be committed.</p></li>
+<li><p>We might as well commit all files in one go! Use <code>git add</code> on the remaining files as well:</p></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add config.yml environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Run <code>git status</code> and see that all files are in the staging area, and that no files are listed as untracked.</p></li>
+<li><p>We are now ready to commit! Run the following:</p></li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add initial files"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>-m</code> option adds a commit message. This should be a short description of what the commit contains.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Good commit messages">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Good commit messages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Writing informative and succinct commit messages can be tricky when you’re just starting out. Here are some general guidelines that can help you write good commit messages from the start:</p>
+<ul>
+<li>Separate subject from body with a blank line</li>
+<li>Limit the subject line to 50 characters</li>
+<li>Capitalize the subject line</li>
+<li>Do not end the subject line with a period</li>
+<li>Use the <a href="https://en.wikipedia.org/wiki/Imperative_mood">imperative mood</a> in the subject line</li>
+<li>Wrap the body at 72 characters</li>
+<li>Use the body to explain <em>what</em> and <em>why</em> vs.&nbsp;<em>how</em></li>
+</ul>
+<p>In the command above we just added a short subject line (“Add initial files”). It is capitalized, less than 50 characters, does not end with a period, and uses imperative mood (Add!). It is possible to add a descriptive body text as well, as hinted by the points above. This is easiest done in a text editor. If you run <code>git commit</code> without the <code>-m</code> flag, Git will open the default terminal text editor (which can be configured with the <code>core.editor</code> variable) where you can write a longer commit message and body. If you want to read more about the motivation for these points, please see <a href="https://chris.beams.io/posts/git-commit/">this website</a>.</p>
+</div>
+</div>
+<ul>
+<li>Run <code>git status</code> again. It should tell you <em>“nothing to commit, working directory clean”</em>.</li>
+</ul>
+<p>What have we done, so far? We had some files in our working directory that we added to the Git staging area, which we subsequently committed to our Git repository. A schematic overview of this process can be seen in the following figure:</p>
+<p><img src="images/git_overview_local.png" class="img-fluid" width="600"></p>
+<p>Let’s repeat this process by editing a file!</p>
+<ul>
+<li><p>Open up <code>environment.yml</code> in your favourite editor, and change the version of Bowtie2 to a different value, <em>e.g.</em> <code>bowtie2=2.2.4</code>.</p></li>
+<li><p>Run <code>git status</code>. It will tell you that there are modifications in one file (<code>environment.yml</code>) compared to the previous commit. This is nice! We don’t have to keep track of which files we have edited, Git will do that for us.</p></li>
+<li><p>Run <code>git diff environment.yml</code>. This will show you the changes made to the file. A <code>-</code> means a deleted line, a <code>+</code> means an added line. There are also shown a few lines before and after the changes, to put them in context.</p></li>
+<li><p>Let’s edit another file! Open <code>config.yml</code> and change the line <code>genome_id: NCTC8325</code> to <code>genome_id: ST398</code>. Run <code>git status</code>. Run <code>git diff</code>. If we don’t specify a file, it will show all changes made in any file, compared to the previous commit. Do you see your changes?</p></li>
+<li><p>Okay, we made our changes. Let’s commit them! Run:</p></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add config.yml environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will add both our files to the staging area at the same time. Run <code>git status</code> and see that the changes in both <code>config.yml</code> and <code>environment.yml</code> are ready to be committed.</p>
+<section id="unstaging-files" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="unstaging-files"><span class="header-section-number">3.1</span> Unstaging files</h3>
+<p>But wait a minute! Shouldn’t each commit optimally be a conceptual unit of change? Here we have one change to the genome ID used for an analysis and one change where another software version is specified: these should probably be separate. We thus want to make two commits, one for each change.</p>
+<ul>
+<li>Let’s remove <code>environment.yml</code> from the staging area.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> restore <span class="at">--staged</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please note the use of the <code>--staged</code> flag here, which simply removes the specified file(s) from the staging area without changing the file contents. Using the <code>restore</code> command without this flag will not only remove the file from the staging area, but <em>also</em> restore the file to the state it was in the last commit, which is not what we want here.</p>
+</div>
+</div>
+<ul>
+<li><p>Run <code>git status</code> again. See that now only <code>config.yml</code> is staged for being committed, whereas the changes in <code>environment.yml</code> are tracked by Git, but not ready to be committed.</p></li>
+<li><p>Commit the changes in <code>config.yml</code>:</p></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Change to ST398 for alignment"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Add and commit the changes in <code>environment.yml</code>:</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add environment.yml</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Change Bowtie2 version"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You don’t have to run <code>git status</code> between each command, but it can be useful in the beginning while learning what each command does.</p>
+<p>As you can see, each commit is a point in history. The more often you commit, and the more specific you keep your commits, the better (more fine-grained) history and version tracking you will have of your files.</p>
+</section>
+<section id="deleting-files" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="deleting-files"><span class="header-section-number">3.2</span> Deleting files</h3>
+<ul>
+<li>We can also try to delete a file:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Dockerfile</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Run <code>git status</code>. As you can see, Git tells us that the file is deleted, but that the deletion is not committed. In the same way as we commit edits to files, we need to commit a deletion of a file:</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add Dockerfile</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Remove Dockerfile"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we used <code>rm Dockerfile</code> to delete the file and <code>git add Dockerfile</code> to stage the deletion. You can also use <code>git rm Dockerfile</code> to do both these operations in one step.</p>
+</section>
+<section id="browsing-the-history" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="browsing-the-history"><span class="header-section-number">3.3</span> Browsing the history</h3>
+<ul>
+<li>To see a history of our changes so far, run:</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Since Git keeps track of changes in text, <em>e.g.</em> code and text-based documentation, there are some files which you should <em>not</em> commit. Examples of such files are file formats that are not text-based, <em>e.g.</em> Microsoft Word/Excel files or PDFs - although one might sometimes want to track one of these files regardless, such as when you have a static PDF report you received from a sequencing platform that’s never going to change. Other files you shouldn’t track are vary large text files, <em>e.g.</em> those larger than 50 MB.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We added four important Git commands to our repertoire:</p>
+<ul>
+<li><code>git add</code> adds a file to the staging area</li>
+<li><code>git commit</code> commits the changes we have staged</li>
+<li><code>git restore --staged</code> to remove files from the staging area</li>
+<li><code>git rm</code> is shorthand for <code>rm &lt;file&gt;; git add &lt;file&gt;</code></li>
+<li><code>git log</code> shows us the commit history</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="ignoring-files" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ignoring-files"><span class="header-section-number">4</span> Ignoring files</h2>
+<p>Git is aware of all files within the repository. However, it is not uncommon to have files that we don’t want Git to track. For instance, our analysis might produce several intermediate files and results. We typically don’t track such files. Rather, we want to track the actual code and other related files (<em>e.g.</em> configuration files) that produce the intermediate and result files, given the raw input data.</p>
+<ul>
+<li>Let’s make some mock result files. These are some of the files that would have been generated by the Snakemake workflow if it was run.</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/multiqc</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> results/multiqc/multiqc_general_stats.txt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> results/supplementary.html</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> log.tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Run <code>git status</code>. You will see that Git tells you that you have untracked files. However, we don’t want Git to track these files anyway. To tell Git what files to ignore we use a file called <code>.gitignore</code>. Let’s create it:</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> .gitignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Open the <code>.gitignore</code> file in a text editor and add the following lines to it:</li>
+</ul>
+<pre><code># Ignore these directories:
+results/
+
+# Ignore temporary files:
+*.tmp</code></pre>
+<ul>
+<li><p>Run <code>git status</code> again. Now there is no mention of the <code>results</code> directory or the <code>log.tmp</code> file. Notice that we can use wildcards (*) to ignore files with a given pattern, <em>e.g.</em> a specific file extension.</p></li>
+<li><p>Sometimes you want to ignore all files in a directory with one or two exceptions. For example, you don’t want to track all your huge raw data files, but there may be a smaller data file that you <em>do</em> want to track, <em>e.g.</em> metadata or a list of barcodes used in your experiment. Let’s add some mock data:</p></li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> data</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> data/huge.fastq.gz</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> data/metadata.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Git allows you to ignore all files using the aforementioned wildcard, but then <em>exclude</em> certain files from that ignore command. Open the <code>.gitignore</code> file again and add the following:</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ignore all files in the data/ directory</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">data/*</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude the metadata file by prefixing it with an exclamation mark</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">!data/metadata.txt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Finish up by adding the <code>.gitignore</code> and <code>data/metadata.txt</code> files to the staging area and committing them:</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .gitignore</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add .gitignore file"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add data/metadata.txt</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add metadata file"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is common for certain programming languages or text editors to leave <em>e.g.</em> swap files or hidden data files in the working directory, which you don’t want to track using Git. Instead of manually adding these to every single project you have, you can use the <code>.gitignore_global</code> file, which should be placed in your home directory. It works exactly like a normal gitignore file, but is applied to all Git repositories that you are using on your machine. Some common file extensions that might be put in the global gitignore are <code>.DS_Store</code> if you’re working on a Mac or <code>.swp</code> if you’re coding in (Neo)Vim. To configure git to use the <code>.gitignore_global</code> file you can run <code>git config --global core.excludesfile ~/.gitignore_global</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We now learned how to ignore certain files and directories:</p>
+<ul>
+<li>The <code>.gitignore</code> file controls which files and directories Git should ignore, if any.</li>
+<li>Specific files can be excluded from ignored directories using the exclamation mark (<code>!</code>) prefix.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="branches" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="branches"><span class="header-section-number">5</span> Branches</h2>
+<p>One of the most useful features of Git is called <em>branching</em>. Branching allows you to diverge from the main line of work and edit or update your code and files (<em>e.g.</em> to test out a new analysis or some experimental feature) without affecting your main work. If the work you did in the branch turns out to be useful you can merge that back into your <code>main</code> branch. On the other hand, if the work didn’t turn out as planned, you can simply delete the branch and continue where you left off in your main line of work. Another use case for branching is when you are working in a project with multiple people. Branching can be a way of compartmentalizing your team’s work on different parts of the project and enables merging back into the <code>main</code> branch in a controlled fashion; we will learn more about this in the section about working remotely.</p>
+<ul>
+<li>Let’s start trying out branching! We can see the current branch by running:</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This tells us that there is only the <code>main</code> branch at the moment.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Main and Master">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Main and Master
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your branch is called <code>master</code> instead of <code>main</code> that’s perfectly fine as well, but do check out the Git section of the <a href="../home_precourse.html">pre-course setup</a> for more details about the choice of default branch names.</p>
+</div>
+</div>
+<ul>
+<li>Let’s make a new branch:</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch test_alignment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Run <code>git branch</code> again to see the available branches. Do you note which one is selected as the active branch?</p></li>
+<li><p>Let’s move to our newly created branch using the <code>switch</code> command:</p></li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch test_alignment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can create and switch to a new branch in one line with <code>git switch -c branch_name</code> (or <code>--create</code>).</p>
+</div>
+</div>
+<p>Let’s add some changes to our new branch! We’ll use this to try out a different set of parameters on the sequence alignment step of the case study project.</p>
+<ul>
+<li>Edit the <code>Snakefile</code> so that the shell command of the <code>align_to_genome</code> rule looks like this (add the <code>--very-sensitive-local</code> option):</li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">--very-sensitive-local</span> <span class="at">-x</span> results/bowtie2/{config[genome_id]} <span class="at">-U</span> {input.fastq} <span class="op">&gt;</span> {output} <span class="dv">2</span><span class="op">&gt;</span>{log}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Add and commit the change!</p></li>
+<li><p>To get a visual view of your branches and commits you can use the command:</p></li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--graph</span> <span class="at">--all</span> <span class="at">--oneline</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It is often useful to see what differences exist between branches. You can use the <code>diff</code> command for this:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This shows the difference between the active branch (<code>test_alignment</code>) and <code>main</code> on a line-per-line basis. Do you see which lines have changed between <code>test_alignment</code> and <code>main</code> branches?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We can also add the <code>--color-words</code> flag to <code>git diff</code>, which instead displays the difference on a word-per-word basis rather than line-per-line.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Git is constantly evolving, along with some of its commands. The <code>checkout</code> command was previously used for switching between branches, but this functionality now has the dedicated (and clearer) <code>switch</code> command for this. If you’ve previously learned using <code>checkout</code> instead you can keep doing that without any issues, as the <code>checkout</code> command itself hasn’t changed.</p>
+</div>
+</div>
+<p>Now, let’s assume that we have tested our code and the alignment analysis is run successfully with our new parameters. We thus want to merge our work into the <code>main</code> branch. It is good to start with checking the differences between branches (as we just did) so that we know what we will merge.</p>
+<ul>
+<li>Switch to the branch you want to merge into, <em>i.e.</em> <code>main</code>:</li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>To merge, run the following code:</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge test_alignment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Run <code>git log --graph --all --oneline</code> again to see how the merge commit brings back the changes made in <code>test_alignment</code> to <code>main</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If working on different features or parts of an analysis on different branches, and at the same time maintaining a working <code>main</code> branch for the stable code, it is convenient to periodically merge the changes made to <code>main</code> into relevant branches (<em>i.e.</em> the opposite to what we did above). That way, you keep your experimental branches up-to-date with the newest changes and make them easier to merge into <code>main</code> when time comes.</p>
+</div>
+</div>
+<ul>
+<li>If we do not want to do more work in <code>test_alignment</code> we can delete that branch:</li>
+</ul>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> test_alignment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Run <code>git log --graph --all --oneline</code> again. Note that the commits and the graph history are still there? A branch is simply a pointer to a specific commit, and that pointer has been removed.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are many types of so-called “branching models”, each with varying degrees of complexity depending on the developer’s needs and the number of collaborators. While there certainly isn’t a single branching model that can be considered to be the “best”, it is very often most useful to keep it simple. An example of a simple and functional model is to have a <code>main</code> branch that is always working (<em>i.e.</em> can successfully run all your code and without known bugs) and develop new code on feature branches (one new feature per branch). Feature branches are short-lived, meaning that they are deleted once they are merged into <code>main</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have now learned how to divide our work into branches and how to manage them:</p>
+<ul>
+<li><code>git branch &lt;branch&gt;</code> creates a new branch.</li>
+<li><code>git switch &lt;branch&gt;</code> moves the repository to the state in which the specified branch is currently in.</li>
+<li><code>git merge &lt;branch&gt;</code> merges the specified branch into the current one.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="tags" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="tags"><span class="header-section-number">6</span> Tags</h2>
+<p>Git allows us to <em>tag</em> commits, <em>i.e.</em> give names to specific points in the history of our project. This can be particularly important for reproducible research, but also for development projects that want to highlight specific versions of a software. A tag can be, for example, the version of the repository that was used for the manuscript submission, the version used during resubmission, and, most importantly, the version used for the final publication. The first two examples are mainly useful internally, but the latter is essential for other researchers to be able to rerun your published analysis.</p>
+<ul>
+<li>Let’s assume that the status of the repository as it is now is ready for a submission to a journal. It may for example contain the scripts that were used to generate the manuscript figures. Let’s add a tag:</li>
+</ul>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">"submission1"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>We can now list all the tags available in the current repository:</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use the flag <code>-a</code> or <code>--annotate</code> to give more detailed information about a specific tag, similar to a commit message. This can be quite useful when there are many changes that happened, in that it allows you to summarise them. You can, for example, do <code>git tag -a submission1 -m "Annotation for tag submission1"</code> to write the annotation along with the command (similar to the <code>-m</code> flag for committing) or just <code>git tag -a submission1</code> to write the annotation with your default editor. To list all your tags along with their annotations you can use <em>e.g.</em> <code>git tag -n10</code> (which will list the first 10 lines of each tag’s annotation).</p>
+</div>
+</div>
+<ul>
+<li>Let’s assume we now got comments from the reviewers, and by fixing those we had to update our code. Open <code>config.yml</code> and change the line <code>max_reads: 25000</code> to <code>max_reads: 50000</code>. Commit and tag the changes:</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add config.yml</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Increase number of reads"</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">"revision-1"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Now let’s say that the reviewers were happy and the manuscript was accepted for publication. Let’s immediately add a tag:</li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">"publication"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>A good thing about using tags is that you can easily switch between versions of your code. Let’s move to the first submission version:</li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-d</span> submission1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When switching between tags you have to use the <code>-d</code> (or <code>--detach</code>) flag to the <code>switch</code> command. This is because the <code>switch</code> command only switches between branches as default; switching between tags requires us to be in a <em>detached</em> state. This means that we’re not actually on a branch, but rather at a specific point in the Git history without a branch.</p>
+<ul>
+<li>Open <code>config.yml</code> and note that the <code>max_reads</code> variable is <code>25000</code>! To go back to the latest version, run:</li>
+</ul>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Open <code>config.yml</code> and see that the value is now <code>50000</code>.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can also see the difference between tags in the same way as for branches and commits using <em>e.g.</em> <code>git diff &lt;tag1&gt; &lt;tag2&gt;</code>.</p>
+</div>
+</div>
+<p>At this point could run <code>git log --oneline --decorate</code> to get a condensed commit history, where you should also be able to see the tagged commits.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have now learned how to tag important commits:</p>
+<ul>
+<li><code>git tag</code> adds a tag to a commit.</li>
+<li><code>git switch -d</code> moves between tags in a similar fashion as between branches.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="working-remotely" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="working-remotely"><span class="header-section-number">7</span> Working remotely</h2>
+<p>So far we’ve only been working on files present on our own computer, <em>i.e.</em> locally. While Git is an amazing tool for reproducibility even if you’re working alone, it really starts to shine in collaborative work. This entails working with <em>remote</em> repositories, <em>i.e.</em> repositories that are stored somewhere online; some of the most common places to store your repositories are <a href="https://github.com">GitHub</a>, <a href="https://bitbucket.org">BitBucket</a> and <a href="https://about.gitlab.com/">GitLab</a>. GitHub is the most popular of these, and is what we’ll be using for this tutorial.</p>
+<p>An important thing to keep in mind here is the difference between <em>Git</em> (the version control system) and online hosting of <em>Git repositories</em> (such as GitHub): the former is the core of keeping track of your code’s history, while the latter is how to store and share that history with others.</p>
+<section id="create-a-remote-repository" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="create-a-remote-repository"><span class="header-section-number">7.1</span> Create a remote repository</h3>
+<p>Log in to your GitHub account and press the <em>New</em> button:</p>
+<ul>
+<li>Make sure you are listed as the owner</li>
+<li>Add a repository name, <em>e.g.</em> <code>git_tutorial</code></li>
+<li>You can keep the repo private or make it public, as you wish</li>
+<li>Skip including a README, a <code>.gitignore</code> and licence</li>
+</ul>
+<blockquote class="blockquote">
+<p><img src="images/github_new_repo.png" class="img-fluid" width="600"></p>
+</blockquote>
+<p>You will now be redirected to the repository page which will list several ways for you to start adding content (files) to the repository. What we will do is to connect the local repository we’ve been working on so far to the remote GitHub server using SSH:</p>
+<ul>
+<li>Add a remote SSH address to your local repository (make sure you change <code>user</code> to your GitHub username and <code>git_tutorial</code> to your repository name):</li>
+</ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:user/git_tutorial.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Run <code>git remote -v</code>. This will show you what remote location is connected to your local Git clone. The short name of the default remote is usually “<em>origin</em>” by convention.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure you’ve used an SSH address (<em>i.e.</em> starting with <code>git@github.com</code> rather than an HTTPS address (starting with <code>https://github.com</code>)!</p>
+</div>
+</div>
+<ul>
+<li>We have not yet synced the local and remote repositories, though, we’ve simply connected them. Let’s sync them now:</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>push</code> command sends our local history of the <code>main</code> branch to the same branch on the remote (<code>origin</code>). Our Git repository is now stored on GitHub!</p>
+<ul>
+<li>Run <code>git status</code>. This should tell you that:</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">On</span> branch main</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nothing</span> to commit, working tree clean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You always need to specify <code>git push origin main</code> by default, but you can circumvent this by telling Git that you always want to push to <code>origin/main</code> when you’re on your local <code>main</code> branch. To do this, use the command <code>git branch --set-upstream-to origin/main</code>. <strong>Try it out now</strong>.</p>
+<ul>
+<li>Now run <code>git-status</code> again. You should see that now git additionally tells you that your local branch is up to date with the remote branch.</li>
+</ul>
+<p>If you go to the repository’s GitHub page you should now be able to see all your files and your code there! It should look something like this:</p>
+<blockquote class="blockquote">
+<p><img src="images/github_repo_overview.png" class="img-fluid" width="600"></p>
+</blockquote>
+<p>You can see a lot of things there, such as each file and the latest commit that changed them, the repository’s branches and a message from GitHub at the bottom: <em>“Help people interested in this repository understand your project by adding a README.”</em> This refers to GitHub’s built-in functionality of automatically rendering any <em>markdown</em> document named <code>README</code> or <code>README.md</code> in the repository’s root directory and displaying it along with what you can already see. Let’s try it out!</p>
+<ul>
+<li>Let’s create a <code>README.md</code> file and fill it with the following text:</li>
+</ul>
+<div class="sourceCode" id="cb37"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># A Git tutorial</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>This repository contains tutorial information related to the **NBIS/ELIXIR** course</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>_Tools for Reproducible Research_, specifically the session on using the <span class="in">`git`</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>software for version control.</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">### Links</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>You can find the latest stable version of the Git tutorial for the course</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">here</span><span class="co">](https://uppsala.instructure.com/courses/87979/pages/git-7-working-remotely?module_item_id=890886)</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled" title="The Markdown format">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The Markdown format
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you haven’t seen this format before you can learn more about it at the <a href="markdown.html">markdown</a> page.</p>
+</div>
+</div>
+<ul>
+<li>Add, commit and push these changes to GitHub.</li>
+</ul>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add README.md"</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should now be able to see the rendered markdown document in your GitHub repository. It is important to add README-files to your repositories so that they are better documented and more easily understood by others and, more likely, your future self. In fact, documentation is an important part of reproducible research! While the tools that you are introduced to by this course are all directly related to making science reproducible, you will <em>also</em> need good documentation. Make it a habit of always adding README-files for your repositories, fully explaining the ideas and rationale behind the project. You can even add README-files to sub-directories as well, giving you the opportunity to go more in-depth where you so desire.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We learned how to connect local Git repositories to remote locations such as GitHub and how to upload commits using <code>git push</code>. We also learned the basics of <em>markdown</em> and how it can be used to document Git repositories.</p>
+</div>
+</div>
+</section>
+<section id="browsing-github" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="browsing-github"><span class="header-section-number">7.2</span> Browsing GitHub</h3>
+<p>GitHub and the rest of the websites that offer remote hosting of git repositories all have numerous features, which can be somewhat difficult to navigate in the beginning. We here go through some of the basics of what you can do with GitHub.</p>
+<ul>
+<li>Go to your GitHub repository in your browser again and click on <em>Code</em> to the left. Click on <code>config.yml</code>. You will see the contents of the file. Notice that it is the latest version, where we previously changed the <code>genome_id</code> variable:</li>
+</ul>
+<blockquote class="blockquote">
+<p><img src="images/github_config_yml.png" class="img-fluid" width="600"></p>
+</blockquote>
+<ul>
+<li>Click on <em>History</em>. You will see an overview of the commits involving changes made to this file:</li>
+</ul>
+<blockquote class="blockquote">
+<p><img src="images/github_config_yml_history.png" class="img-fluid" width="600"></p>
+</blockquote>
+<ul>
+<li>Click on the <code>Change to ST398 for alignment</code> commit. You will see the changes made to <code>config.yml</code> file compared to the previous commit.</li>
+</ul>
+<blockquote class="blockquote">
+<p><img src="images/github_config_yml_diff.png" class="img-fluid" width="600"></p>
+</blockquote>
+<ul>
+<li>Go back to the repository’s main page and click on the commit tracker on the right above the list of files, which will give you an overview of all commits made. Clicking on a specific commit lets you see the changes introduced by that commit. Click on the commit that was the initial commit, where we added all the files.</li>
+</ul>
+<blockquote class="blockquote">
+<p><img src="images/github_initial_commit.png" class="img-fluid" width="600"></p>
+</blockquote>
+<p>You will now see the files as they were when we first added them. Specifically you can see that the <code>Dockerfile</code> is back, even though we deleted it! Click on the <em>Code</em> tab to the left to return to the overview of the latest repository version.</p>
+</section>
+<section id="working-with-remote-repositories" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="working-with-remote-repositories"><span class="header-section-number">7.3</span> Working with remote repositories</h3>
+<p>While remote repositories are extremely useful as backups and for collaborating with others, that’s not their only use: remotes also help when you are working from different computers, a computer cluster or a cloud service.</p>
+<ul>
+<li>Let’s pretend that you want to work on this repository from a different computer. First, create a different directory (<em>e.g.</em> <code>git_remote_tutorial</code>) in a separate location that is not already tracked by Git and <code>cd</code> into it. Now we can download the repository we just uploaded using the following:</li>
+</ul>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:user/git_tutorial.git .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Again, make sure to replace <code>user</code> with your GitHub user name.</p>
+<p>Notice the dot at the end of the command above, which will put the clone into the current directory, instead of creating a new directory with the same name as the remote repository. You will see that all your files are here, identical to the original <code>git_tutorial</code> repository!</p>
+<ul>
+<li><p>Since you already gave the address to Git when you cloned the repository, you don’t have to add it manually as before. Verify this with <code>git remote -v</code>.</p></li>
+<li><p>Let’s say that we now want to change the <code>multiqc</code> software to an earlier version: open the <code>environment.yml</code> file in the second local repo and change <code>multiqc=1.14</code> to <code>multiqc=1.7</code>; add and commit the change.</p></li>
+<li><p>We can now use <code>push</code> again to sync our remote repository with the new local changes. Refresh your web page again and see that the changes have taken effect.</p></li>
+</ul>
+<p>Since we have now updated the remote repository with code that came from the second local repository, the first local repository is now outdated. We thus need to update the first local repo with the new changes. This can be done with the <code>pull</code> command.</p>
+<ul>
+<li><p><code>cd</code> back into the first local repository (<em>e.g.</em> <code>git_tutorial</code>) and run the <code>git pull</code> command. This will download the newest changes from the remote repository and merge them locally automatically.</p></li>
+<li><p>Check that everything is up-to-date with <code>git status</code>.</p></li>
+</ul>
+<p>Another command is <code>git fetch</code>, which will download remote changes <em>without</em> merging them. This can be useful when you want to see if there are any remote changes that you <em>may</em> want to merge, without actually doing it, such as in a collaborative setting. In fact, <code>git pull</code> in its default mode is just a shorthand for <code>git fetch</code> followed by <code>git merge FETCH_HEAD</code> (where <code>FETCH_HEAD</code> points to the tip of the branch that was just fetched).</p>
+<p>That’s quite a few concepts and commands you’ve just learnt! It can be a bit hard to keep track of everything and the connections between local and remote Git repositories and how you work with them, but hopefully the following figure will give you a short visual summary:</p>
+<p><img src="images/git_overview_remote.png" class="img-fluid" width="600"></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have learned the difference between local and remote copies of git repositories and how to sync them:</p>
+<ul>
+<li><code>git push</code> uploads commits to a remote repository</li>
+<li><code>git pull</code> downloads commits from a remote repository and merges them to the local branch</li>
+<li><code>git fetch</code> downloads commits from a remote repository without merging them to the local branch</li>
+<li><code>git clone</code> makes a local copy of a remote repository</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="remote-branches" class="level3" data-number="7.4">
+<h3 data-number="7.4" class="anchored" data-anchor-id="remote-branches"><span class="header-section-number">7.4</span> Remote branches</h3>
+<p>Remote branches work much in the same way a local branches, but you have to push them separately; you might have noticed that GitHub only listed our repository as having one branch (you can see this by going to the <em>Code</em> tab). This is because we only pushed our <code>main</code> branch to the remote. Let’s create a new local branch and add some changes that we’ll push as a separate branch to our remote - you should do this in the original <code>git_tutorial</code> repository, so make sure you’re in that directory.</p>
+<ul>
+<li>Create a new branch named <code>trimming</code> and add the <code>--trim5 5</code> flag to the Bowtie2-command part of the <code>Snakefile</code>, which should now look like this:</li>
+</ul>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">--trim5</span> 5 <span class="at">--very-sensitive-local</span> <span class="at">-x</span> results/bowtie2/{config[genome_id]} <span class="at">-U</span> {input.fastq} <span class="op">&gt;</span> {output} <span class="dv">2</span><span class="op">&gt;</span>{log}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Add and commit the change to your local repository.</p></li>
+<li><p>Instead of doing what we previously did, <em>i.e.</em> merge the <code>trimming</code> branch into the <code>main</code> branch, we’ll push <code>trimming</code> straight to our remote:</p></li>
+</ul>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin trimming</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Go the repository at GitHub and see if the new branch has appeared. Just above the file listing click the <em>Branch</em> drop-down and select the new branch to view it. Can you see the difference in the <code>Snakefile</code> depending on which branch you choose?</li>
+</ul>
+<p>We now have two branches both locally and remotely: <code>main</code> and <code>trimming</code>. We can continue working on our <code>trimming</code> branch until we’re satisfied (all the while pushing to the remote branch with the same name), at which point we want to merge it into <code>main</code>.</p>
+<ul>
+<li><p>Switch to your local <code>main</code> branch and merge it with the <code>trimming</code> branch.</p></li>
+<li><p>Push your <code>main</code> branch to your remote and subsequently delete your local <code>trimming</code> branch.</p></li>
+</ul>
+<p>The above command only deleted the local branch. If you want to remove the branch from the remote repository as well, run:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--delete</span> trimming</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We learned how to push local branches to a remote with <code>git push origin &lt;branch&gt;</code> and how to delete remote branches with <code>git push origin --delete &lt;branch&gt;</code>.</p>
+</div>
+</div>
+</section>
+<section id="sharing-tags" class="level3" data-number="7.5">
+<h3 data-number="7.5" class="anchored" data-anchor-id="sharing-tags"><span class="header-section-number">7.5</span> Sharing tags</h3>
+<p>Your local repository tags are not included when you do a normal push. To push tags to the remote you need to supply the <code>--tags</code> flag to the <code>git push</code> command:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Go to the repository overview page on GitHub. You will see that the repository now has three tags! If you click on <em>Tags</em> you will be given an overview of the existing tags for your repository - if you click <em>Releases</em> you will see more or less the same information. Confusing? Well, a <em>tag</em> is a Git concept while a <em>release</em> is a GitHub concept that is based on Git tags. Releases add some extra features that can be useful for distributing software and are done manually from the repository’s GitHub page.</p></li>
+<li><p>Click on one of the tags. Here users can download a compressed file containing the repository at the version specified by the tags.</p></li>
+</ul>
+<blockquote class="blockquote">
+<p><img src="images/github_tags_list.png" class="img-fluid" width="600"></p>
+</blockquote>
+<p>Alternatively, Git users who want to reproduce your analysis with the code used for the publication can clone the GitHub repository and then run <code>git switch -d publication</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We learned how to push Git tags to a remote by using the <code>--tags</code> flag.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="conflicts" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="conflicts"><span class="header-section-number">8</span> Conflicts</h2>
+<p>It is not uncommon to run into conflicts when you are trying to merge separate branches, and it’s even more common when you’re working in a collaborative setting with remote repositories. It’ll happen sooner or later, even if you’re only working locally, so it’s important to know how to deal with them! We’ll now introduce a conflict on purpose, which we can then solve.</p>
+<ul>
+<li>Remember that we have two separate local copies of the same repository? Let’s go into the first one, <code>git_tutorial</code>, and change the MultiQC version in the <code>environment.yml</code> file:</li>
+</ul>
+<div class="sourceCode" id="cb44"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="at">multiqc=1.8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Add, commit and push your change to the remote.</li>
+</ul>
+<p>Now we have a change in our remote and <em>one</em> of our local copies, but not in the other. This could happen if a collaborator of yours committed a change and pushed it to GitHub. Let’s create a conflict!</p>
+<ul>
+<li><p>Move into your other local repository, <code>git_remote_tutorial</code>, which doesn’t have the new change. Run <code>git status</code>. Notice that Git says: “<em>Your branch is up-to-date with ‘origin/main’.</em>”. We know that this is not true, but this local clone is not yet aware of the remote changes.</p></li>
+<li><p>Let’s change the <code>environment.yml</code> file in this local repository as well, but to version 1.6, instead! It may be the case that your collaborator thought it was good to use MultiQC version 1.8, whereas you thought it would be better to use MultiQC version 1.6, but neither of you communicated that to the other.</p></li>
+<li><p>Add and commit your change and try to push the commit, which should give you an error message that looks like this:</p></li>
+</ul>
+<pre class="no-highlight"><code> ! [rejected]        main -&gt; main (fetch first)
+error: failed to push some refs to 'https://github.com/user/git_tutorial.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.</code></pre>
+<p>This error message is thankfully quite informative in regards to what is going on and what might be done about it. In essence it will not allow you to push to the remote since there are conflicting changes made to it.</p>
+<ul>
+<li>Let’s download the changes made to the remote, but without trying to merge them directly. This can be done using the following command:</li>
+</ul>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>fetch</code> command is very similar to <code>pull</code> in that it downloads remote changes that are not present locally, but differs in that it doesn’t try to merge them locally; <code>pull</code> both downloads and merges (unless there’s a conflict, in which case it will tell you so and raise an error like the one above). You can thus skip <code>fetch</code> and just do <code>pull</code> straight away, if you prefer.</p>
+</div>
+</div>
+<ul>
+<li><p>Now run <code>git status</code>. Unlike before, our local Git clone now is aware of the latest changes pushed to the remote. It will tell you something along the lines: “<em>Your branch and ‘origin/main’ have diverged, and have 1 and 1 different commit each, respectively.</em>”.</p></li>
+<li><p>We can now run the following to see what the difference is between the current state of our local clone and the <code>main</code> branch on the remote origin:</p></li>
+</ul>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff origin/main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Now let’s try to integrate the remote changes with our local changes and get up to sync with the remote:</li>
+</ul>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Unsurprisingly, the <code>git merge</code> command resulted in a conflict. Git tells us about this and suggests that we should fix the conflicts and commit that.</p>
+<ul>
+<li>As always, run <code>git status</code> to get an overview: you will see that you have so-called unmerged paths and that the conflicting file is <code>environment.yml</code>, since both modified the same line in this file. To fix a conflict, open the affected file in a text editor. You will see that it now looks something like this:</li>
+</ul>
+<pre class="no-highlight"><code>name: git-env
+channels:
+  - conda-forge
+  - bioconda
+  - r
+dependencies:
+  - python=3.10.10
+  - fastqc=0.11.9
+  - seqtk=1.3
+  - snakemake=7.25.0
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  - multiqc=1.6
+=======
+  - multiqc=1.8
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; refs/remotes/origin/main
+  - bowtie2=2.5.1
+  - tbb=2021.8.0
+  - samtools=1.16
+  - subread=2.0.3
+  - bedtools=2.30.0
+  - r-base=4.1.3
+  - r-ggplot2=3.4.2
+  - r-reshape2=1.4.4
+  - r-stringi=1.7.12
+  - r-pheatmap=1.0.12
+  - r-r.utils=2.12.2
+  - bioconductor-rtracklayer=1.54.0
+  - bioconductor-geoquery=2.62.0
+  - wget
+  - graphviz
+  - xorg-libxrender
+  - xorg-libxpm</code></pre>
+<p>The part between <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> and <code>=======</code> is your local version, and the part between <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; refs/remotes/origin/main</code> is the one added to the remote and which caused the conflict when you tried to merge those changes to your local repository. It is now up to you to decide which version to keep, or to change it to a third alternative.</p>
+<ul>
+<li>Let’s say that you are confident that it is better to run MultiQC 1.6 rather than 1.8. Edit the file so that it looks like you want it to, <em>i.e.</em> remove the lines added by Git and delete the line with <code>multiqc=1.8</code>. The final file should look like this:</li>
+</ul>
+<pre class="no-highlight"><code>name: git-env
+channels:
+  - conda-forge
+  - bioconda
+  - r
+dependencies:
+  - python=3.10.10
+  - fastqc=0.11.9
+  - seqtk=1.3
+  - snakemake=7.25.0
+  - multiqc=1.6
+  - bowtie2=2.5.1
+  - tbb=2021.8.0
+  - samtools=1.16
+  - subread=2.0.3
+  - bedtools=2.30.0
+  - r-base=4.1.3
+  - r-ggplot2=3.4.2
+  - r-reshape2=1.4.4
+  - r-stringi=1.7.12
+  - r-pheatmap=1.0.12
+  - r-r.utils=2.12.2
+  - bioconductor-rtracklayer=1.54.0
+  - bioconductor-geoquery=2.62.0
+  - wget
+  - graphviz
+  - xorg-libxrender
+  - xorg-libxpm</code></pre>
+<ul>
+<li>Run <code>git status</code> again. Notice that it says <code>use "git add &lt;file&gt;..." to mark   resolution</code>? Let’s do that!</li>
+</ul>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Run <code>git status</code> again! It will now tell us: <code>All conflicts fixed but you are   still merging. (use "git commit" to conclude merge)</code>. So, you probably guessed it, run:</li>
+</ul>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Merge and set MultiQC to v1.6"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Finally, push these changes to GitHub:</li>
+</ul>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Go to GitHub in the browser and click the commit tracker again. You will see a list of commits including where MultiQC was first changed to version <code>1.7</code> from our previous work, then to <code>1.8</code>, <code>1.6</code> and, finally, followed by a merge where the version was set to <code>1.6</code>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While the example we’ve used here is from a collaborative setting, conflicts also arise when you are working alone. They usually happen when you have several feature branches that you want to merge into <code>main</code> and you’ve forgot to keep all branches up-to-date with each other.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We learned about how conflicting commits can happen and how to deal with them by inspecting the affected files and looking for the source of the conflict.</p>
+</div>
+</div>
+</section>
+<section id="extra-material" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="extra-material"><span class="header-section-number">9</span> Extra material</h2>
+<p>The following extra material contains some more advanced things you can do with Git and the command line in general, which is not part of the main course materials. All the essential skills of Git are covered by the previous sections; the material here should be considered tips and tricks from people who use Git every day. You thus don’t need to use these things unless you want to, and you can even skip this part of the lesson if you like!</p>
+<p>If you are interested in learning more about Git in general, here are some reading tips for you:</p>
+<ul>
+<li><a href="https://education.github.com/git-cheat-sheet-education.pdf">Git cheat-sheet</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/">A simple Git guide</a></li>
+<li><a href="https://try.github.io/levels/1/challenges/1">Resources to learn Git</a></li>
+<li><a href="https://book.git-scm.com/docs">Git reference manual</a></li>
+</ul>
+<section id="forking" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="forking"><span class="header-section-number">9.1</span> Forking</h3>
+<p>When you want to work on an Open Source project that is available on <em>e.g.</em> GitHub, you usually don’t have permission to directly push code to the project’s repository - this is so that the project’s maintainers are the only ones that can directly change anything in their codebase. How do you then contribute to projects that don’t allow you to push your code to their repository? Simple: use <em>forking</em>!</p>
+<p>Forking is when you make your own copy of a repository on your GitHub account, which you will then have permissions to change as you see fit. You can then create pull requests from your fork to the original repository, rather than pushing code to a new branch and making a pull request from that. Working with forks just adds an additional step to the whole workflow: instead of being “clone; code and commit changes on a new branch; push branch to remote; pull request from branch” it becomes “fork; clone; code and commit changes; push code to fork; pull request from fork”.</p>
+<p>You might also want to do a fork of a project simply because you want to have your own copy of it as well, without ever having the intention of changing it. This is, of course, perfectly fine as well, but do keep in mind that developers are usually quite happy to incorporate new changes from contributors if they are reasonable and fulfil a purpose and add functionality to the project. It is quite common that you have a use-case the maintainer didn’t think of before, and that you’ve helped the project grow by contributing your code!</p>
+</section>
+<section id="amending-commits" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="amending-commits"><span class="header-section-number">9.2</span> Amending commits</h3>
+<p>Once in a while you’ll have just committed something to your Git repo and immediately remembered that you forgot to add something small, or perhaps you saw an error somewhere. While you can certainly just add that and make a new commit, wouldn’t it be nicer if you could just make the change as if it was already a part of the first commit? Well, you can! Just make the change, stage it and the commit together with the <code>--amend</code> flag, like so:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="op">&lt;</span>file<span class="op">&gt;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">--amend</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will add the staged changes to the previous commit as if they had always been there. Be careful, though! This will actually rewrite history, meaning that it only works if you only amended local changes. If you had already pushed the first commit to a remote repository you would run into trouble: you will be able to make the amend without issue, but you’ll get an error when you try to push your new changes, since the remote already contains the <em>first</em> version of the commit and can’t simply rewrite what it already has.</p>
+<p>Amending changes is thus a good way to fix small mistakes you realise you made just after committing them, as long as you only amend local changes!</p>
+</section>
+<section id="rebasing" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="rebasing"><span class="header-section-number">9.3</span> Rebasing</h3>
+<p>The <code>git rebase</code> command is an alternative to <code>git merge</code> in that it solves the same problem: getting changes in one branch into another branch. We’ve already gone through merging extensively, so how is rebasing different? Let’s look at a common case: a <code>feature-branch</code> which we want to get into the <code>main</code> branch.</p>
+<p><img src="images/git-rebase-1.png" class="img-fluid" width="300"></p>
+<p>Recall that a merge creates a <em>merge commit</em>, something akin to <code>Merge branch 'feature-branch' into main</code> or similar. This is a <em>new</em> commit that didn’t exist that brings the changes on <code>feature-branch</code> into <code>main</code>, but it contains no actual work itself. This is both a good and a bad thing: good, because merging is a safe, <em>non-destructive</em> operation (it doesn’t alter history); bad, because it can make the history itself look quite messy. These are the commands used and what the history will look like afterwards:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge feature-branch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/git-rebase-2.png" class="img-fluid" width="400"></p>
+<p>(The commit with the dashed border is the merge commit.)</p>
+<p>Rebasing, on the other hand does <em>not</em> create merge commits. Indeed, what rebase does is to “re-base” one branch on the other, <em>i.e.</em> pretend that new changes were done on a different base than what actually happened (hence the name). Getting our <code>feature-branch</code> onto <code>main</code> using rebase actually entails two separate steps: first the rebase itself, followed by a fast-forward merge:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch feature-branch</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> rebase main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/git-rebase-3.png" class="img-fluid" width="500"></p>
+<p>This step rebases our <code>feature-branch</code> on top of <code>main</code>, meaning that we pretend that the commits on <code>feature-branch</code> were done based on the latest commits on <code>main</code> - you can also think of it as moving the entire <code>feature-branch</code> to the tip of the <code>main</code> branch. The commits with the dashed borders here indicate <em>brand new</em> commits; rebasing can’t somehow move the commits to the new base, rather it has to “replay” those commits as if they were done on the new base.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge feature-branch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/git-rebase-4.png" class="img-fluid" width="500"></p>
+<p>We’ve now got our <code>feature-branch</code> commits onto <code>main</code> with a single, linear history without any merge commits! We did have to rewrite history, though, when we did the rebase itself. As with amending (see <a href="#amending-commits">above</a>), this is fine if we’re only working locally, but we’ll quickly run into trouble if we try to rebase things that have already been pushed. We can rebase <em>on top of</em> remote things, of course, since we’re not changing any remote history, only the local history. Be careful when you rebase!</p>
+</section>
+<section id="rebasing-as-clean-up" class="level3" data-number="9.4">
+<h3 data-number="9.4" class="anchored" data-anchor-id="rebasing-as-clean-up"><span class="header-section-number">9.4</span> Rebasing as clean-up</h3>
+<p>If the above section felt scary, don’t worry! There’s another highly useful use-case for <code>git rebase</code> that doesn’t risk destroying any history, namely local clean-up!</p>
+<p>Let’s imagine you’ve worked on your local <code>feature-branch</code> for some time, and you have a number of commits on it. Some are highly related to each other and might actually be better suited as a single commit. You’ve also spotted a spelling error in one commit message, and realised that you missed important information in another. We can actually solve all of these issues with an <em>interactive rebase</em>! If you have 4 commits on your branch you can type the following:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> rebase <span class="at">-i</span> HEAD~4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>-i</code> flag means <em>interactive</em>, while <code>HEAD~4</code> means 4 commits back from <code>HEAD</code>. This will open your default text editor and give you a selection looking something like this:</p>
+<pre class="no-highlight"><code>pick 0abf162 First feature commit
+pick befc682 A minor change on the first commit
+pick c9d1426 A commit with an uncomplete commit message
+pick 2e0cb97 A commit with a spelling mitake
+
+# Rebase 879ddcc..0abf162 onto 879ddcc (4 commands)
+#
+# Commands:
+# p, pick &lt;commit&gt; = use commit
+# r, reword &lt;commit&gt; = use commit, but edit the commit message
+# e, edit &lt;commit&gt; = use commit, but stop for amending
+# s, squash &lt;commit&gt; = use commit, but meld into previous commit
+
+(... more instructions ...)</code></pre>
+<p>The commits are ordered with the most recent one at the bottom. The commented instructions (all of which are not shown here) show you what alternatives you have to work with; all you have to do is to change the <code>pick</code> keyword next to the commit hashes to whatever keyword you need from the list, save and exit.</p>
+<p>In order to solve the toy example here we might decide that the four keywords should be <code>pick</code>, <code>squash</code>, <code>reword</code> and <code>reword</code>, from top to bottom. Once that’s done simply save and exit, and another instance of your default text editor will open for you to complete the specified changes. In the case above we’d get two separate new instances where we can change the commit message - these work the same as any normal commit.</p>
+<p>Interactive rebasing is thus well-suited for fixing and cleaning of local changes you have yet to push anywhere, even if you don’t use rebasing as an alternative to merging! This can make your Git history both cleaner and more concise, which is great when you’re collaborating with others.</p>
+</section>
+<section id="resetting" class="level3" data-number="9.5">
+<h3 data-number="9.5" class="anchored" data-anchor-id="resetting"><span class="header-section-number">9.5</span> Resetting</h3>
+<p>Sometimes you’ll want to simply discard changes you’ve already committed. This should, however, be something that you <em>rarely</em> have to do. Completely moving back to a previous commit is something called a <em>hard reset</em>, which can be accomplished like so:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> reset <span class="at">--hard</span> 5b83463</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You specify the commit you wish to return to, discarding <em>all</em> other changes, including any changes done to the working directory. It goes without saying that this command is among the most dangerous commands available in Git and should be used with caution.</p>
+</section>
+<section id="the-reflog" class="level3" data-number="9.6">
+<h3 data-number="9.6" class="anchored" data-anchor-id="the-reflog"><span class="header-section-number">9.6</span> The reflog</h3>
+<p>We have shown many ways to work with Git and its various commands, and it occasionally happens that errors are introduced - especially when you’re not careful with using <code>git commit --amend</code>, <code>git rebase</code> or <code>git reset</code> on remote changes. This is where the <em>reflog</em> comes in. Think of the reflog as Git’s “safety net”: it stores almost every change you make to a Git repository (regardless of whether you commit the change) in a chronological manner. The following is an example of what the output of the <code>git reflog</code> command might show:</p>
+<pre class="no-highlight"><code>58deba6 HEAD@{0}: merge: feature-branch: Fast-forward
+8c80c88 HEAD@{1}: checkout: moving from feature-branch to main
+555544a HEAD@{2}: commit: feature development 2
+4c92630 HEAD@{3}: commit: feature development 1
+8c80c88 HEAD@{4}: checkout: moving from main to feature-branch</code></pre>
+<p>It shows the most recent change at the top, notified by <code>HEAD@{0}</code>. We thus have a merging of <code>feature-branch</code> into <code>main</code>, a checkout (switch) into <code>main</code>, two commits on <code>feature-branch</code> and a checkout into <code>feature-branch</code> - reading it backwards we get a chronological log of what has happened.</p>
+<p>The reflog is incredibly useful for when you’ve lost something you later realise you want to access again, such as when you’ve just used <code>git reset</code>. The reflog might look like this, for example:</p>
+<pre class="no-highlight"><code>bc3641f HEAD@{0}: reset: moving to HEAD~2
+caf9321 HEAD@{1}: commit: More work on the feature
+1bc36af HEAD@{2}: commit: Work on a new feature</code></pre>
+<p>We see two commits related to some new feature and a reset to <code>HEAD~2</code> (two commits back from <code>HEAD</code>). If we realise that we actually liked the work we just threw away we can move around in the reflog in a similar manner we do normal commits:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> reset HEAD@{1}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will put us back to the state we were in before we used <code>git reset</code>. We here refer to the reflog using the <code>HEAD@{N}</code> notation, which differs from the usual <code>HEAD~N</code> notation so that it is clear if it is the commit history or the reflog that is intended. While the reflog is hopefully not something you’ll have to use often it’s quite useful to know it exists, if only to be able to search the internet for more details regarding a problem you’ve encountered!</p>
+</section>
+<section id="decorating-your-prompt" class="level3" data-number="9.7">
+<h3 data-number="9.7" class="anchored" data-anchor-id="decorating-your-prompt"><span class="header-section-number">9.7</span> Decorating your prompt</h3>
+<p>When you are working on the command line interface (CLI), you will usually have some small pieces of information relating to your current directory, the name of the computer or host you’re working on, and so forth. You’ve probably already seen your prompt while working with Git throughout this lesson, but here’s an example of what one might look like:</p>
+<pre class="no-highlight"><code>erikfmbp:~/teaching/workshop-reproducible-research erik.fasterius $</code></pre>
+<p>The above prompt contains the name of the computer, a colon, the current working directory, the username and a dollar-sign; it is stored in the variable <code>PS1</code>. You can type <code>echo $PS1</code> to see what variables your prompt is made up of; the above example contains <code>\h:\W \u\$</code>, where <code>\h</code> is the hostname, <code>\W</code> the working directory and <code>\u</code> the username.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you’re using <code>zsh</code> instead of bash you’ll have to replace the backslashes (<code>\</code>) in the commands with percent signs (<code>%</code>).</p>
+</div>
+</div>
+<p>Some people like to also show the current branch on their prompt, thus avoiding having to type <code>git branch</code> continuously. There are several ways you might do this, and we’re only presenting one of them here: a bash function.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git_branch()</span> <span class="kw">{</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">git</span> branch <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">'/^[^*]/d'</span> <span class="at">-e</span> <span class="st">'s/* \(.*\)/ (\1)/'</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This function does a number of things:</p>
+<ol type="1">
+<li>Ejects the error message from Git if the current directory isn’t a part of a Git repository into <code>/dev/null</code> (<em>i.e.</em> into nothing).</li>
+<li>Find the current branch by searching for a line that starts with <code>*</code> (<em>i.e.</em> the current branch) using the command line program <code>sed</code>.</li>
+<li>Put the current branch into parentheses with a space before it.</li>
+</ol>
+<p>We can then build our new prompt by adding this function into it:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The first part of the old prompt</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="va">PS1</span><span class="op">=</span><span class="st">'\h:\W \u'</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the Git branch</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="va">PS1</span><span class="op">=</span><span class="va">$PS1</span><span class="st">'$(git_branch)'</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the last part of the old prompt</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="va">PS1</span><span class="op">=</span><span class="va">$PS1</span><span class="st">' \$'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now you should see the current Git branch on your prompt! The only problem now is that this only works for your current session: once you restart your CLI you’ll have to re-define your prompt again. This can be circumvented, though. What you need to do is to add the code defining your prompt into your so-called bash profile: <code>~/.bash_profile</code>. Every time you load a new CLI session this file is read and any code inside it is executed. You might already have this file, so make sure you don’t overwrite it!</p>
+</section>
+<section id="bash-aliases-for-git" class="level3" data-number="9.8">
+<h3 data-number="9.8" class="anchored" data-anchor-id="bash-aliases-for-git"><span class="header-section-number">9.8</span> Bash aliases for git</h3>
+<p>Some Git commands are used over and over again when working with git, such as <code>git status</code>. Some people like to have aliases (<em>i.e.</em> shortcuts) for these common commands. Here is a small list of such aliases that you may find useful or, even better, might inspire you to create your own! Add them to your <code>~/.bash_profile</code> as above, so that they’re available across sessions.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic Git commands</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> ga=<span class="st">'git add'</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gb=<span class="st">'git branch'</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gc=<span class="st">'git commit'</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gd=<span class="st">'git diff'</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gl=<span class="st">'git log'</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gm=<span class="st">'git merge'</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gp=<span class="st">'git push'</span></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gt=<span class="st">'git tag'</span></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gu=<span class="st">'git pull'</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gw=<span class="st">'git switch'</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Git status in short format</span></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gs=<span class="st">'git status --short'</span></span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Show diff of staged files</span></span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gds=<span class="st">'git diff --staged'</span></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add and commit all tracked and modified files</span></span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gca=<span class="st">'git commit --all'</span></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and switch to a new branch</span></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> gwc=<span class="st">'git switch --create'</span></span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Git log with one line per commit</span></span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> glo=<span class="st">'git log --oneline'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="pretty-logs" class="level3" data-number="9.9">
+<h3 data-number="9.9" class="anchored" data-anchor-id="pretty-logs"><span class="header-section-number">9.9</span> Pretty logs</h3>
+<p>If you want to customise <em>e.g.</em> the format and the colours of the logs you can use the <code>gitconfig</code> file (the same one we added things to using <code>git config --global user.name "Mona Lisa"</code> in the pre-course setup). You can read more about exactly what you can do at the documentation for <a href="https://git-scm.com/docs/git-config">Git configs</a> and <a href="https://git-scm.com/docs/pretty-formats">pretty formats</a>, but we’ll provide two examples here:</p>
+<pre class="no-highlight"><code>[format]
+    pretty = format:%C(yellow)commit %H %C(auto)%d %nAuthor: %C(cyan)%aN %C(italic reset)(%ae) %nDate:   %C(blue)%ar %C(italic reset)(%ai) %n%n%C(bold reset)%w(0,6,6)%s%n%C(reset)%+b</code></pre>
+<p>This first example alters the format of the default <code>git log</code> command. It looks similar to what you’d be used to seeing with that command, except his has some colour highlights and adds the relative date (<em>e.g.</em> “1 hour ago” and similar relative times).</p>
+<pre class="no-highlight"><code>[pretty]
+    line = format:%C(yellow)%h %C(blue)%&gt;(12)%ar %C(cyan)%aN%C(auto)%d %C(reset)%s</code></pre>
+<p>This second example is a custom format that can be called using <code>git log --pretty=&lt;format-name&gt;</code>, and is similar to the built-in <code>--oneline</code> flag, but also containing nicer colours, the relative date as well as the author name ;the format name <code>line</code> here is used for its similarity to <code>oneline</code>. You can add any number of custom formats you like using such config specifications. If you’re using aliases as in the section above you might change the <code>glo</code> alias to be <code>git log --pretty=line</code> instead, which will give you the nicer log on one line.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Published with <a href="https://quarto.org/">Quarto</a> v1.4.549
+</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

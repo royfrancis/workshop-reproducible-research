@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Pre-course setup | Tools for Reproducible Research</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./assets/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background-image: url(assets/images/banner.jpg);
+background-size: cover;
+      }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono&amp;family=Nunito:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;display=swap" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/logos/nbis-scilifelab.png" alt="logo" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./home_schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./home_contents.html"> 
+<span class="menu-text">Contents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./home_syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./home_precourse.html" aria-current="page"> 
+<span class="menu-text">Pre-course</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Pre-course setup</h1>
+            <p class="subtitle lead">Setup to be completed before the workshop</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup-for-mac-linux-users" id="toc-setup-for-mac-linux-users" class="nav-link active" data-scroll-target="#setup-for-mac-linux-users"><span class="header-section-number">1</span> Setup for Mac / Linux users</a></li>
+  <li><a href="#setup-for-windows-users" id="toc-setup-for-windows-users" class="nav-link" data-scroll-target="#setup-for-windows-users"><span class="header-section-number">2</span> Setup for Windows users</a></li>
+  <li><a href="#installing-git" id="toc-installing-git" class="nav-link" data-scroll-target="#installing-git"><span class="header-section-number">3</span> Installing Git</a>
+  <ul>
+  <li><a href="#configure-git" id="toc-configure-git" class="nav-link" data-scroll-target="#configure-git"><span class="header-section-number">3.1</span> Configure git</a></li>
+  <li><a href="#github-setup" id="toc-github-setup" class="nav-link" data-scroll-target="#github-setup"><span class="header-section-number">3.2</span> GitHub setup</a></li>
+  </ul></li>
+  <li><a href="#installing-conda" id="toc-installing-conda" class="nav-link" data-scroll-target="#installing-conda"><span class="header-section-number">4</span> Installing Conda</a>
+  <ul>
+  <li><a href="#if-you-already-have-conda-installed" id="toc-if-you-already-have-conda-installed" class="nav-link" data-scroll-target="#if-you-already-have-conda-installed"><span class="header-section-number">4.1</span> If you already have Conda installed</a></li>
+  <li><a href="#configuring-conda" id="toc-configuring-conda" class="nav-link" data-scroll-target="#configuring-conda"><span class="header-section-number">4.2</span> Configuring Conda</a></li>
+  <li><a href="#conda-on-new-macs" id="toc-conda-on-new-macs" class="nav-link" data-scroll-target="#conda-on-new-macs"><span class="header-section-number">4.3</span> Conda on new Macs</a></li>
+  </ul></li>
+  <li><a href="#installing-snakemake" id="toc-installing-snakemake" class="nav-link" data-scroll-target="#installing-snakemake"><span class="header-section-number">5</span> Installing Snakemake</a></li>
+  <li><a href="#installing-nextflow" id="toc-installing-nextflow" class="nav-link" data-scroll-target="#installing-nextflow"><span class="header-section-number">6</span> Installing Nextflow</a></li>
+  <li><a href="#installing-quarto" id="toc-installing-quarto" class="nav-link" data-scroll-target="#installing-quarto"><span class="header-section-number">7</span> Installing Quarto</a></li>
+  <li><a href="#installing-jupyter" id="toc-installing-jupyter" class="nav-link" data-scroll-target="#installing-jupyter"><span class="header-section-number">8</span> Installing Jupyter</a></li>
+  <li><a href="#installing-docker" id="toc-installing-docker" class="nav-link" data-scroll-target="#installing-docker"><span class="header-section-number">9</span> Installing Docker</a>
+  <ul>
+  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos"><span class="header-section-number">9.1</span> MacOS</a></li>
+  <li><a href="#linux" id="toc-linux" class="nav-link" data-scroll-target="#linux"><span class="header-section-number">9.2</span> Linux</a></li>
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows"><span class="header-section-number">9.3</span> Windows</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<p>All of the tutorials and the material in them is dependent on the GitHub repository for the course. The first step of the setup is thus to download all the files that you will need, which is done differently depending on which operating system you have.</p>
+<p>On the last day, in the <em>Putting the pieces together</em> session we will give examples of how we use these tools in our day-to-day work. During the course, spend some time thinking about how these tools could be useful for you in your own project(s). After you’ve gone through the tutorial you may feel that some of the tools could make your life easier from the get-go, while others may take some time to implement efficiently (and some you may never use again after the course). Our idea with the <em>Putting the pieces together</em> session is to have an open discussion about where to go from here.</p>
+<section id="setup-for-mac-linux-users" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="setup-for-mac-linux-users"><span class="header-section-number">1</span> Setup for Mac / Linux users</h2>
+<p>First, <code>cd</code> into a directory on your computer (or create one) where it makes sense to download the course directory.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/your/directory</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/NBISweden/workshop-reproducible-research.git</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop-reproducible-research</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong>Tip</strong> <br> If you want to revisit the material from an older instance of this course, you can do that using <code>git switch -d tags/&lt;tag-name&gt;</code>, e.g. <code>git switch -d tags/course_1905</code>. To list all available tags, use <code>git tag</code>. Run this command after you have <code>cd</code> into <code>workshop-reproducible-research</code> as described above. If you do that, you probably also want to view the same older version of this website. Until spring 2021, the website was hosted at <a href="https://nbis-reproducible-research.readthedocs.io">ReadTheDocs</a>. Locate the version box in the bottom right corner of the website and select the corresponding version.</p>
+</blockquote>
+</section>
+<section id="setup-for-windows-users" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="setup-for-windows-users"><span class="header-section-number">2</span> Setup for Windows users</h2>
+<p>Using a Windows computer for bioinformatic work has sadly not been ideal most of the time, but large advanced in recent years have made this quite feasible through the Windows 10 <em>Linux subsystem</em>. This is the only setup for Windows users that we allow for participants of this course, as all the material has been created and tested to work on Unix-based systems.</p>
+<p>Using the Linux subsystem will give you access to a full command-line bash shell based on Linux on your Windows 10 PC. For the difference between the Linux Bash Shell and the PowerShell on Windows 10, see <em>e.g.</em> <a href="https://searchitoperations.techtarget.com/tip/On-Windows-PowerShell-vs-Bash-comparison-gets-interesting">this article</a>.</p>
+<p>Install Bash on Windows 10, follow the instructions at <em>e.g.</em> one of these resources:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Installing the Windows Subsystem and the Linux Bash</a></li>
+<li><a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">Installing and using Linux Bash on Windows</a></li>
+<li><a href="https://itsfoss.com/install-bash-on-windows/">Installing Linux Bash on Windows</a></li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Note</strong> <br> If you run into error messages when trying to download files through the Linux shell (<em>e.g.</em> <code>curl:(6) Could not resolve host</code>) then try adding the Google name server to the internet configuration by running <code>sudo nano /etc/resolv.conf</code> then add <code>nameserver 8.8.8.8</code> to the bottom of the file and save it.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Important!</strong> <br> Whenever a setup instruction specifies Mac or Linux (<em>i.e.</em> only those two, with no alternative for Windows), <strong>please follow the Linux instructions.</strong></p>
+</blockquote>
+<p>Open a bash shell Linux terminal and clone the GitHub repository containing all files you will need for completing the tutorials as follows. First, <code>cd</code> into a directory on your computer (or create one) where it makes sense to download the course directory.</p>
+<blockquote class="blockquote">
+<p><strong>Tip</strong> <br> You can find the directory where the Linux distribution is storing all its files by typing <code>explorer.exe .</code>. This will launch the Windows File Explorer showing the current Linux directory. Alternatively, you can find the Windows C drive from within the bash shell Linux terminal by navigating to <code>/mnt/c/</code>.</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/your/directory</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/NBISweden/workshop-reproducible-research.git</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop-reproducible-research</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="installing-git" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="installing-git"><span class="header-section-number">3</span> Installing Git</h2>
+<p>Chances are that you already have git installed on your computer. You can check by running <em>e.g.</em> <code>git --version</code>. If you don’t have git, install it following the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">here</a>. If you have a very old version of git you might want to update to a later version. If you’re on a Mac you can also install it using <a href="https://brew.sh/">Homebrew</a> and simple <code>brew install git</code>.</p>
+<section id="configure-git" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="configure-git"><span class="header-section-number">3.1</span> Configure git</h3>
+<p>If it is the first time you use git on your computer, you may want to configure it so that it is aware of your username and email. These should match those that you have registered on GitHub. This will make it easier when you want to sync local changes with your remote GitHub repository.</p>
+<pre><code>git config --global user.name "Mona Lisa"
+git config --global user.email "mona_lisa@gmail.com"</code></pre>
+<blockquote class="blockquote">
+<p><strong>Tip</strong> <br> If you have several accounts (<em>e.g.</em> both a GitHub and Bitbucket account), and thereby several different usernames, you can configure git on a per-repository level. Change directory into the relevant local git repository and run <code>git config user.name "Mona Lisa"</code>. This will set the default username for that repository only.</p>
+</blockquote>
+<p>You will also need to configure the default branch name to be <code>main</code> instead of <code>master</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch <span class="st">"main"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The short version of why you need to do this is that GitHub uses <code>main</code> as the default branch while Git itself is still using <code>master</code>; please read the box below for more information.</p>
+<blockquote class="blockquote">
+<p><strong>The default branch name</strong> <br> The default branch name for Git and many of the online resources for hosting Git repositories has traditionally been <code>master</code>, which historically comes from the “master/slave” repositories of <a href="https://mail.gnome.org/archives/desktop-devel-list/2019-May/msg00066.html">BitKeeper</a>. This has been heavily discussed and in 2020 the decision was made by many (<a href="https://sfconservancy.org/news/2020/jun/23/gitbranchname/">including GitHub</a>) to start using <code>main</code> instead. Any repository created with GitHub uses this new naming scheme since October of 2020, and Git itself is currently discussing implementing a similar change. Git did, however, introduce the ability to set the default branch name when using <code>git init</code> in <a href="https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch">version 2.28</a>, instead of using a hard-coded <code>master</code>. We at NBIS want to be a part of this change, so we have chosen to use <code>main</code> for this course.</p>
+</blockquote>
+</section>
+<section id="github-setup" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="github-setup"><span class="header-section-number">3.2</span> GitHub setup</h3>
+<p><a href="https://github.com">GitHub</a> is one of several online hosting platforms for Git repositories. We’ll go through the details regarding how Git and GitHub are connected in the course itself, so for now we’ll stick to setting up your account and credentials.</p>
+<p>If you have not done so already, go to <a href="https://github.com/join">github.com</a> and create an account. You can also create an account on another online hosting service for version control, <em>e.g.</em> <a href="https://bitbucket.org">Bitbucket</a> or <a href="https://about.gitlab.com/">GitLab</a>. The exercises in this course are written with examples from GitHub (as that is the most popular platform with the most extensive features), but the same thing can be done on alternative services, although the exact menu structure and link placements differ.</p>
+<p>Any upload to and from GitHub requires you to authenticate yourself. GitHub used to allow authentication with your account and password, but this is no longer the case - using SSH keys is required instead. Knowing exactly what these are is not necessary to get them working, but we encourage you to read the box below to learn more about them! GitHub has excellent, platform-specific instructions both on how to <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">generate</a> and <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">add</a> SSH keys to your account, so please follow those instructions.</p>
+<blockquote class="blockquote">
+<p><strong>SSH keys and authentication</strong> <br> Using SSH (Secure Shell) for authentication basically entails setting up a pair of keys: one private and one public. You keep the private key on your local computer and give the public key to anywhere you want to be able to connect to, <em>e.g.</em> GitHub. The public key can be used to encrypt messages that <em>only</em> the corresponding private key can decrypt. A simplified description of how SSH authentication works goes like this:</p>
+<ol type="1">
+<li>The client (<em>i.e.</em> the local computer) sends the ID of the SSH key pair it would like to use for authentication to the server (<em>e.g.</em> GitHub)</li>
+<li>If that ID is found, the server generates a random number and encrypts this with the public key and sends it back to the client</li>
+<li>The client decrypts the random number with the private key and sends it back to the server</li>
+</ol>
+<p>Notice that the private key always remains on the client’s side and is never transferred over the connection; the ability to decrypt messages encrypted with the public key is enough to ascertain the client’s authenticity. This is in contrast with using passwords, which are themselves sent across a connection (albeit encrypted). It is also important to note that even though the keys come in pairs it is impossible to derive the private key from the public key. If you want to read more details about how SSH authentication work you can check out <a href="https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process">this website</a>, which has more in-depth information than we provide here.</p>
+</blockquote>
+</section>
+</section>
+<section id="installing-conda" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="installing-conda"><span class="header-section-number">4</span> Installing Conda</h2>
+<p>Conda is installed with a <a href="https://github.com/conda-forge/miniforge">Miniforge</a> installer specific for your operating system:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Miniforge for 64-bit Mac</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh <span class="at">-O</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniforge3-MacOSX-x86_64.sh</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Miniforge3-MacOSX-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Miniforge for 64-bit Mac (Apple chip)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span>  https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh <span class="at">-O</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniforge3-MacOSX-arm64.sh</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Miniforge3-MacOSX-arm64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Miniforge for 64-bit Linux</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh <span class="at">-O</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniforge3-Linux-x86_64.sh</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Miniforge3-Linux-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The installer will ask you questions during the installation:</p>
+<ul>
+<li>Do you accept the license terms? (Yes)</li>
+<li>Do you accept the installation path or do you want to choose a different one? (Probably yes)</li>
+<li>Do you want the installer to initialize Miniforge (Yes)</li>
+</ul>
+<p>Restart your shell so that the settings in <code>~/.bashrc</code> or <code>~/.bash_profile</code> can take effect. You can verify that the installation worked by running:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="if-you-already-have-conda-installed" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="if-you-already-have-conda-installed"><span class="header-section-number">4.1</span> If you already have Conda installed</h3>
+<p>If you already have installed Conda you can make sure you’re using the latest version by running <code>conda update -n base conda</code> and skip the installation instructions below.</p>
+</section>
+<section id="configuring-conda" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="configuring-conda"><span class="header-section-number">4.2</span> Configuring Conda</h3>
+<p>As a last step we will set up the default channels (from where packages will be searched for and downloaded if no channel is specified):</p>
+<pre><code>conda config --add channels bioconda
+conda config --add channels conda-forge</code></pre>
+<p>And we will also set so called ‘strict’ channel priority, which ensures higher stability and better performance (see details about this setting by running the following:</p>
+<pre><code>conda config --set channel_priority strict</code></pre>
+<blockquote class="blockquote">
+<p><strong>Important!</strong> <br> The Conda docs specify a couple of things to keep in mind when using Conda. First of all, <code>conda</code> should be installed in the <code>base</code> environment and no other packages should be installed into <code>base</code>. Furthermore, mixing of the <code>conda-forge</code> and <code>defaults</code> channels should be avoided as the default Anaconda channels are incompatible with <code>conda-forge</code>. Since we are installing from <code>miniforge</code> we get the <code>conda-forge</code> defaults without having to do anything.</p>
+</blockquote>
+</section>
+<section id="conda-on-new-macs" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="conda-on-new-macs"><span class="header-section-number">4.3</span> Conda on new Macs</h3>
+<p>If you have one of the newer Macs with Apple chips (the M-series) you may run into some problems with certain Conda packages that have not yet been built for the ARM64 architecture. The <a href="https://support.apple.com/en-us/HT211861">Rosetta</a> software allows ARM64 Macs to use software built for the old AMD64 architecture, which means you can always fall back on creating AMD/Intel-based environments and use them in conjunction with Rosetta. This is how you do it:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">CONDA_SUBDIR</span><span class="op">=</span>osx-64 <span class="op">&lt;</span>conda-command<span class="op">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate <span class="op">&lt;</span>env<span class="op">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--env</span> <span class="at">--set</span> subdir osx-64</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first command creates the Intel-based environment, while the last one makes sure that subsequent commands are also using the Intel architecture. If you don’t want to remember and do this manually each time you want to use AMD64/Rosetta you can check out <a href="https://github.com/fasterius/dotfiles/blob/main/scripts/intel-conda-env.sh">this bash script</a>.</p>
+</section>
+</section>
+<section id="installing-snakemake" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="installing-snakemake"><span class="header-section-number">5</span> Installing Snakemake</h2>
+<p>We will use Conda environments for the set up of this tutorial, but don’t worry if you don’t understand exactly what everything does - you’ll learn all the details at the course. First make sure you’re currently situated inside the tutorials directory (<code>workshop-reproducible-research/tutorials</code>) and then create the Conda environment like so:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> snakemake/environment.yml <span class="at">-n</span> snakemake-env</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate snakemake-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong>ARM64 users:</strong> <br> Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda/Conda-on-new-macs">instructions above</a>.</p>
+</blockquote>
+<p>Check that Snakemake is installed correctly, for example by executing <code>snakemake --help</code>. This should output a list of available Snakemake settings. If you get <code>bash: snakemake: command not found</code> then you need to go back and ensure that the Conda steps were successful. Once you’ve successfully completed the above steps you can deactivate the environment using <code>conda deactivate</code> and continue with the setup for the other tools.</p>
+</section>
+<section id="installing-nextflow" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="installing-nextflow"><span class="header-section-number">6</span> Installing Nextflow</h2>
+<p>The easiest way to install Nextflow is the official one, which is to just run the following code:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> https://get.nextflow.io <span class="kw">|</span> <span class="fu">bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will give you the <code>nextflow</code> file in your current directory - move this file to a directory in your <code>PATH</code>, <em>e.g.</em> <code>/usr/bin/</code>.</p>
+<p>If you’re getting Java-related errors, you can either try to <a href="https://www.nextflow.io/docs/latest/getstarted.html#requirements">update your Java installation</a> (Nextflow requires Java 11 or later) or install Nextflow using conda. If you want to use Conda, navigate to <code>workshop-reproducible-research/tutorials</code> and create the environment:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> nextflow/environment.yml <span class="at">-n</span> nextflow-env</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate nextflow-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong>ARM64 users:</strong> <br> Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda/Conda-on-new-macs">instructions above</a>.</p>
+</blockquote>
+<p>Check that Nextflow was installed correctly by running <code>nextflow -version</code>. If you successfully installed Nextflow using Conda you can now deactivate the environment using <code>conda deactivate</code> and continue with the other setups, as needed.</p>
+</section>
+<section id="installing-quarto" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="installing-quarto"><span class="header-section-number">7</span> Installing Quarto</h2>
+<p>Installing Quarto is easiest by going to the <a href="https://quarto.org/docs/get-started/">official website</a> and downloading the OS-appropriate package and following the installation instructions. You also need to install a LaTeX distribution to be able to render Quarto documents to PDF, which can be done using Quarto itself:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> install tinytex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>While we’re not installing Quarto <em>itself</em> using Conda, we <em>will</em> install some software packages that are used in the Quarto tutorial using Conda: make sure your working directory is in the tutorials directory (<code>workshop-reproducible-research/tutorials</code>) and install the necessary packages defined in the <code>environment.yml</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> quarto/environment.yml <span class="at">-n</span> quarto-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong>ARM64 users:</strong> <br> Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda/Conda-on-new-macs">instructions above</a>.</p>
+</blockquote>
+</section>
+<section id="installing-jupyter" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="installing-jupyter"><span class="header-section-number">8</span> Installing Jupyter</h2>
+<p>Let’s continue using Conda for installing software, since it’s so convenient to do so! Move into the tutorials directory (<code>workshop-reproducible-research/tutorials</code>), create a Conda environment from the <code>jupyter/environment.yml</code> file and test the installation of Jupyter, like so:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> jupyter/environment.yml <span class="at">-n</span> jupyter-env</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate jupyter-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once you’ve successfully completed the above steps you can deactivate the environment using <code>conda deactivate</code> and continue with the setup for the other tools.</p>
+</section>
+<section id="installing-docker" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="installing-docker"><span class="header-section-number">9</span> Installing Docker</h2>
+<p>Installing Docker (specifically Docker Desktop) is quite straightforward on Mac, Windows and Linux distributions. Note that Docker runs as root, which means that you have to have <code>sudo</code> privileges on your computer in order to install or run Docker. When you have finished installing docker, regardless of which OS you are on, please type <code>docker --version</code> to verify that the installation was successful.</p>
+<blockquote class="blockquote">
+<p><strong>Docker for older versions of OSX/Windows</strong> <br> The latest version of Docker may not work if you have an old version of either OSX or Windows. You can find older Docker versions that may be compatible for you if you go to <a href="https://docs.docker.com/desktop/">https://docs.docker.com/desktop/</a> and click “Previous versions” in the left side menu.</p>
+</blockquote>
+<section id="macos" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="macos"><span class="header-section-number">9.1</span> MacOS</h3>
+<p>Go to <a href="https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac">docker.com</a> and select the download option that is suitable for your computer’s architecture (<em>i.e.</em> if you have an Intel chip or a newer Apple M1 chip). This will download a <code>dmg</code> file - click on it when it’s done to start the installation. This will open up a window where you can drag the Docker.app to Applications. Close the window and click the Docker app from the Applications menu. Now it’s basically just to click “next” a couple of times and we should be good to go. You can find the Docker icon in the menu bar in the upper right part of the screen.</p>
+</section>
+<section id="linux" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="linux"><span class="header-section-number">9.2</span> Linux</h3>
+<p>Go to the <a href="https://docs.docker.com/desktop/install/linux-install/">linux-install</a> section of the Docker documentation and make sure that your computer meets the system requirements. There you can also find instructions for different Linux distributions in the left sidebar under <em>Installation per Linux distro</em>.</p>
+</section>
+<section id="windows" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="windows"><span class="header-section-number">9.3</span> Windows</h3>
+<p>In order to run Docker on Windows your computer must support <em>Hardware Virtualisation Technology</em> and virtualisation must be enabled. This is typically done in BIOS. Setting this is outside the scope of this tutorial, so we’ll simply go ahead as if though it’s enabled and hope that it works.</p>
+<p>On Windows 10 we will install Docker for Windows, which is available at <a href="https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows">docker.com</a>. Click the link <em>Download from Docker Hub</em>, and select <em>Get Docker</em>. Once the download is complete, execute the file and follow the <a href="https://docs.docker.com/docker-for-windows/install/#install-docker-desktop-on-windows">instructions</a>. You can now start Docker from the Start menu. You can search for it if you cannot find it; the Docker whale icon should appear in the task bar.</p>
+<p>You will probably need to enable integration with the Linux subsystem, if you haven’t done so during the installation of Docker Desktop. Right-click on the Docker whale icon in the task bar and select <em>Settings</em>. Choose <em>Resources</em> and select <em>WPS integration</em>. Enable integration with the Linux subsystem and click <em>Apply &amp; Restart</em>; also restart the Linux subsystem.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Published with <a href="https://quarto.org/">Quarto</a> v1.4.549
+</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
