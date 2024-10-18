@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Controlling your environment with Containers</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background-image: url(../assets/images/banner.webp);
+background-size: cover;
+      }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono&amp;family=Nunito:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;display=swap" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/logos/nbis-scilifelab.png" alt="logo" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_contents.html"> 
+<span class="menu-text">Contents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_precourse.html"> 
+<span class="menu-text">Pre-course</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_info.html"> 
+<span class="menu-text">Info</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/NBISweden/workshop-reproducible-research/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Controlling your environment with Containers</h1>
+            <p class="subtitle lead">How to keep keep track of both your environment and operating system</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">18-Oct-2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#the-basics" id="toc-the-basics" class="nav-link" data-scroll-target="#the-basics"><span class="header-section-number">2</span> The basics</a>
+  <ul>
+  <li><a href="#downloading-images" id="toc-downloading-images" class="nav-link" data-scroll-target="#downloading-images"><span class="header-section-number">2.1</span> Downloading images</a></li>
+  <li><a href="#running-containers" id="toc-running-containers" class="nav-link" data-scroll-target="#running-containers"><span class="header-section-number">2.2</span> Running containers</a></li>
+  <li><a href="#running-interactively" id="toc-running-interactively" class="nav-link" data-scroll-target="#running-interactively"><span class="header-section-number">2.3</span> Running interactively</a></li>
+  <li><a href="#containers-inside-scripts" id="toc-containers-inside-scripts" class="nav-link" data-scroll-target="#containers-inside-scripts"><span class="header-section-number">2.4</span> Containers inside scripts</a></li>
+  </ul></li>
+  <li><a href="#building-images" id="toc-building-images" class="nav-link" data-scroll-target="#building-images"><span class="header-section-number">3</span> Building images</a>
+  <ul>
+  <li><a href="#understanding-dockerfiles" id="toc-understanding-dockerfiles" class="nav-link" data-scroll-target="#understanding-dockerfiles"><span class="header-section-number">3.1</span> Understanding Dockerfiles</a></li>
+  <li><a href="#building-from-dockerfiles" id="toc-building-from-dockerfiles" class="nav-link" data-scroll-target="#building-from-dockerfiles"><span class="header-section-number">3.2</span> Building from Dockerfiles</a></li>
+  <li><a href="#creating-your-own-dockerfile" id="toc-creating-your-own-dockerfile" class="nav-link" data-scroll-target="#creating-your-own-dockerfile"><span class="header-section-number">3.3</span> Creating your own Dockerfile</a></li>
+  </ul></li>
+  <li><a href="#managing-containers" id="toc-managing-containers" class="nav-link" data-scroll-target="#managing-containers"><span class="header-section-number">4</span> Managing containers</a>
+  <ul>
+  <li><a href="#bind-mounts" id="toc-bind-mounts" class="nav-link" data-scroll-target="#bind-mounts"><span class="header-section-number">4.1</span> Bind mounts</a></li>
+  </ul></li>
+  <li><a href="#sharing-images" id="toc-sharing-images" class="nav-link" data-scroll-target="#sharing-images"><span class="header-section-number">5</span> Sharing images</a></li>
+  <li><a href="#packaging-the-case-study" id="toc-packaging-the-case-study" class="nav-link" data-scroll-target="#packaging-the-case-study"><span class="header-section-number">6</span> Packaging the case study</a></li>
+  <li><a href="#apptainer" id="toc-apptainer" class="nav-link" data-scroll-target="#apptainer"><span class="header-section-number">7</span> Apptainer</a>
+  <ul>
+  <li><a href="#apptainer-in-docker" id="toc-apptainer-in-docker" class="nav-link" data-scroll-target="#apptainer-in-docker"><span class="header-section-number">7.1</span> Apptainer-in-Docker</a></li>
+  <li><a href="#running-apptainer" id="toc-running-apptainer" class="nav-link" data-scroll-target="#running-apptainer"><span class="header-section-number">7.2</span> Running Apptainer</a></li>
+  </ul></li>
+  <li><a href="#extra-material" id="toc-extra-material" class="nav-link" data-scroll-target="#extra-material"><span class="header-section-number">8</span> Extra material</a>
+  <ul>
+  <li><a href="#building-for-multiple-platforms" id="toc-building-for-multiple-platforms" class="nav-link" data-scroll-target="#building-for-multiple-platforms"><span class="header-section-number">8.1</span> Building for multiple platforms</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>Container-based technologies are designed to make it easier to create, deploy, and run applications by isolating them in self-contained software units (hence their name). The idea is to package software and/or code together with everything it needs (other packages it depends, various environment settings, <em>etc.</em>) into one unit, <em>i.e.</em> a container. This way we can ensure that the software or code functions in exactly the same way regardless of where it’s executed. Containers are in many ways similar to virtual machines but more lightweight. Rather than starting up a whole new operating system, containers can use the same kernel (usually Linux) as the system that they’re running on. This makes them much faster and smaller compared to virtual machines. While this might sound a bit technical, actually using containers is quite smooth and very powerful.</p>
+<p>Containers have also proven to be a very good solution for packaging, running and distributing scientific data analyses. Some applications of containers relevant for reproducible research are:</p>
+<ul>
+<li>When publishing, package your analyses in a container image and let it accompany the article. This way interested readers can reproduce your analysis at the push of a button.</li>
+<li>Packaging your analysis in a container enables you to develop on <em>e.g.</em> your laptop and seamlessly move to cluster or cloud to run the actual analysis.</li>
+<li>Say that you are collaborating on a project and you are using Mac while your collaborator is using Windows. You can then set up a container image specific for your project to ensure that you are working in an identical environment.</li>
+</ul>
+<p>One of the largest and most widely used container-based technologies is <em>Docker</em>. Just as with Git, Docker was designed for software development but is rapidly becoming widely used in scientific research. Another container-based technology is <em>Apptainer</em> (and the related <em>Singularity</em>), which was developed to work well in computer cluster environments such as Uppmax. We will cover both Docker and Apptainer in this course, but the focus will be be on the former (since that is the most widely used and runs on all three operating systems).</p>
+<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="pre-course-setup">setup</a> for instructions on how to install Docker if you haven’t done so already, then open up a terminal and go to <code>workshop-reproducible-research/tutorials/containers</code>.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Dockage and storage">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dockage and storage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Docker images tend to take up quite a lot of space. In order to do all the exercises in this tutorial you need to have ~10 GB available.</p>
+</div>
+</div>
+</section>
+<section id="the-basics" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="the-basics"><span class="header-section-number">2</span> The basics</h2>
+<p>We’re almost ready to start, just one last note on nomenclature. You might have noticed that we sometimes refer to “Docker images” and sometimes to “Docker containers”. We use images to start containers, so containers are simply an instances of an image. You can have an image containing, say, a certain Linux distribution, and then start multiple containers running that same OS.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Root privileges are required">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Root privileges are required
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you don’t have root privileges you have to prepend all Docker commands with <code>sudo</code>.</p>
+</div>
+</div>
+<section id="downloading-images" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="downloading-images"><span class="header-section-number">2.1</span> Downloading images</h3>
+<p>Docker containers typically run Linux, so let’s start by downloading an image containing Ubuntu (a popular Linux distribution that is based on only open-source tools) through the command line.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull ubuntu:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You will notice that it downloads different layers with weird hashes as names. This represents a very fundamental property of Docker images that we’ll get back to in just a little while. The process should end with something along the lines of:</p>
+<pre class="no-highlight"><code>Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest</code></pre>
+<p>Let’s take a look at our new and growing collection of Docker images:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> image ls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The Ubuntu image should show up in this list, with something looking like this:</p>
+<pre><code>REPOSITORY       TAG              IMAGE ID            CREATED             SIZE
+ubuntu           latest           d70eaf7277ea        3 weeks ago         72.9MB</code></pre>
+</section>
+<section id="running-containers" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="running-containers"><span class="header-section-number">2.2</span> Running containers</h3>
+<p>We can now start a container from the image we just downloaded. We can refer to the image either by “REPOSITORY:TAG” (“latest” is the default so we can omit it) or “IMAGE ID”. The syntax for <code>docker run</code> is <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code>. To see the available options run <code>docker run --help</code>. The <code>COMMAND</code> part is any command that you want to run inside the container, it can be a script that you have written yourself, a command line tool or a complete workflow. The <code>ARG</code> part is where you put optional arguments that the command will use.</p>
+<p>Let’s run <code>uname -a</code> to get some info about the operating system. In this case, <code>uname</code> is the <code>COMMAND</code> and <code>-a</code> the <code>ARG</code>. This command will display some general info about your system, and the <code>-a</code> argument tells <code>uname</code> to display all possible information.</p>
+<p>First run it on your own system (use <code>systeminfo</code> if you are on Windows):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uname</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should print something like this to your command line:</p>
+<pre class="no-highlight"><code>Darwin liv433l.lan 15.6.0 Darwin Kernel Version 15.6.0: Mon Oct  2 22:20:08 PDT 2017; root:xnu-3248.71.4~1/RELEASE_X86_64 x86_64</code></pre>
+<p>Seems like I’m running the Darwin version of MacOS. Then run it in the Ubuntu Docker container:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run ubuntu uname <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here I get the following result:</p>
+<pre class="no-highlight"><code>Linux 24d063b5d877 5.4.39-linuxkit #1 SMP Fri May 8 23:03:06 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</code></pre>
+<p>And now I’m running on Linux! What happens is that we use the downloaded ubuntu image to run a container that has <code>Ubuntu</code> as the operating system, and we instruct Docker to execute <code>uname -a</code> to print the system info within that container. The output from the command is printed to the terminal.</p>
+<p>Try the same thing with <code>whoami</code> instead of <code>uname -a</code>.</p>
+</section>
+<section id="running-interactively" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="running-interactively"><span class="header-section-number">2.3</span> Running interactively</h3>
+<p>So, seems we can execute arbitrary commands on Linux. This looks useful, but maybe a bit limited. We can also get an interactive terminal with the flags <code>-it</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> ubuntu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Your prompt should now look similar to:</p>
+<pre class="no-highlight"><code>root@1f339e929fa9:/#</code></pre>
+<p>You are now using a terminal inside a container running Ubuntu. Here you can do whatever; install, run, remove stuff. Anything you do will be isolated within the container and never affect your host system.</p>
+<p>Now exit the container with <code>exit</code>.</p>
+</section>
+<section id="containers-inside-scripts" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="containers-inside-scripts"><span class="header-section-number">2.4</span> Containers inside scripts</h3>
+<p>Okay, so Docker lets us work in any OS in a quite convenient way. That would probably be useful on its own, but Docker is much more powerful than that. For example, let’s look at the <code>shell</code> part of the <code>index_genome</code> rule in the Snakemake workflow for the MRSA case study:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>shell:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">    bowtie2-build tempfile results/bowtie2/{wildcards.genome_id} &gt; {log}</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You may have seen that one can use containers through both Snakemake and Nextflow if you’ve gone through their tutorial’s extra material, but we can also use containers directly inside scripts in a very simple way. Let’s imagine we want to run the above command using containers instead. How would that look? It’s quite simple, really: first we find a container image that has <code>bowtie2</code> installed, and then prepend the command with <code>docker run &lt;image&gt;</code>.</p>
+<p>First of all we need to download the genome to index though, so run:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> NCTC8325.fa.gz ftp://ftp.ensemblgenomes.org/pub/bacteria/release-37/fasta/bacteria_18_collection/staphylococcus_aureus_subsp_aureus_nctc_8325/dna//Staphylococcus_aureus_subsp_aureus_nctc_8325.ASM1342v1.dna_rm.toplevel.fa.gz</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> NCTC8325.fa.gz <span class="op">&gt;</span> tempfile</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To download and prepare the input for Bowtie2.</p>
+<p>Now try running the following Bash code:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/analysis quay.io/biocontainers/bowtie2:2.5.1--py39h3321a2d_0 bowtie2-build /analysis/tempfile /analysis/NCTC8325</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Docker will automatically download the container image for Bowtie2 version 2.5.1 from the remote repository <code>https://quay.io/repository/biocontainers/bowtie2</code> and subsequently run the command! This is the <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code> syntax just like before. In this case <code>quay.io/biocontainers/bowtie2:2.5.1--py39h3321a2d_0</code> is the IMAGE but instead of first downloading and then running it we point to its remote location directly, which will cause Docker to download it on the fly. The <code>bowtie2-build</code> part is the COMMAND followed by the ARG (the input tempfile and the output index)</p>
+<p>The <code>-v $(pwd):/analysis</code> part is the OPTIONS which we use to mount the current directory inside the container in order to make the <code>tempfile</code> input available to Bowtie2. More on these so-called “Bind mounts” in Section 4 of this tutorial.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How to use <code>docker pull</code> for downloading remotely stored images</li>
+<li>How to use <code>docker image ls</code> for getting information about the images we have on our system.</li>
+<li>How to use <code>docker run</code> for starting a container from an image.</li>
+<li>How to use the <code>-it</code> flag for running in interactive mode.</li>
+<li>How to use Docker inside scripts.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="building-images" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="building-images"><span class="header-section-number">3</span> Building images</h2>
+<p>In the previous section we downloaded a Docker image of Ubuntu and noticed that it was based on layers, each with a unique hash as id. An image in Docker is based on a number of read-only layers, where each layer contains the differences to the previous layers. If you’ve done the <a href="git-1-introduction">Git tutorial</a> this might remind you of how a Git commit contains the difference to the previous commit. The great thing about this is that we can start from one base layer, say containing an operating system and some utility programs, and then generate many new images based on this, say 10 different project-specific images. This dramatically reduces the storage space requirements. For example, Bioconda (see the <a href="conda-1-introduction">Conda tutorial</a>) has one base image and then one individual layer for each of the more than 3000 packages available in Bioconda.</p>
+<p>Docker provides a convenient way to describe how to go from a base image to the image we want by using a “Dockerfile”. This is a simple text file containing the instructions for how to generate each layer. Docker images are typically quite large, often several GBs, while Dockerfiles are small and serve as blueprints for the images. It is therefore good practice to have your Dockerfile in your project Git repository, since it allows other users to exactly replicate your project environment.</p>
+<p>We will be looking at a Dockerfile called <code>Dockerfile_slim</code> that is located in your <code>containers</code> directory (where you should hopefully be standing already). We will now go through that file and discuss the different steps and what they do. After that we’ll build the image and test it out. Lastly, we’ll start from that image and make a new one to reproduce the results from the <a href="conda-3-projects">Conda tutorial</a>.</p>
+<section id="understanding-dockerfiles" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="understanding-dockerfiles"><span class="header-section-number">3.1</span> Understanding Dockerfiles</h3>
+<p>Here are the first few lines of <code>Dockerfile_slim</code>. Each line in the Dockerfile will typically result in one layer in the resulting image. The format for Dockerfiles is <code>INSTRUCTION arguments</code>. A full specification of the format, together with best practices, can be found <a href="https://docs.docker.com/engine/reference/builder/">here</a>.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> condaforge/miniforge3</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LABEL</span> description = <span class="st">"Minimal image for the NBIS reproducible research course."</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">MAINTAINER</span> <span class="st">"John Sundh"</span> john.sundh@scilifelab.se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we use the instructions <code>FROM</code>, <code>LABEL</code> and <code>MAINTAINER</code>. While <code>LABEL</code> and <code>MAINTAINER</code> is just meta-data that can be used for organizing your various Docker components the important one is <code>FROM</code>, which specifies the base image we want to start from. Because we want to use <code>conda</code> to install packages we will start from an image from the conda-forge community that has <code>conda</code> pre-installed. This image was in turn built using a Dockerfile as a blueprint and then uploaded to <a href="https://hub.docker.com/r/condaforge/miniforge3">Dockerhub</a>. The conda-forge community keeps the Dockerfile in a git repository and you can view the file <a href="https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile">here</a>. You will see that it starts from an official Ubuntu image (check the first line with the <code>FROM</code> instruction), followed by code to install various packages including conda.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="There are many roads to Rome">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+There are many roads to Rome
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When it comes to choosing the best image to start from there are multiple routes you could take. Say you want to run RStudio in a Conda environment through a Jupyter notebook. You could then start from one of the <a href="https://github.com/rocker-org/rocker">rocker images</a> for R, a <a href="https://hub.docker.com/r/condaforge/miniforge3">Condaforge image</a>, or a <a href="https://hub.docker.com/r/jupyter/">Jupyter image</a>. Or you just start from one of the low-level official images and set up everything from scratch.</p>
+</div>
+</div>
+<p>Let’s take a look at the next section of <code>Dockerfile_slim</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use bash as shell</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"--login"</span>, <span class="st">"-c"</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set workdir</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /course</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set time zone</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> TZ=<span class="st">"Europe/Stockholm"</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>SHELL</code> simply sets which shell to use and <code>WORKDIR</code> determines the directory the container should start in. The <code>ENV</code> instruction is used to set environmental variables and here we use it to set the time zone by declaring a <code>TZ</code> variable. The <code>DEBIAN_FRONTEND=noninteractive</code> line means that we force the subsequent installation to not prompt us to set the time zone manually.</p>
+<p>The next few lines introduce the important <code>RUN</code> instruction, which is used for executing shell commands:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install package for setting time zone</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> tzdata <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> clean</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Conda</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">conda</span> init bash <span class="kw">&amp;&amp;</span> <span class="ex">conda</span> config <span class="at">--set</span> channel_priority strict <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">conda</span> config <span class="at">--append</span> channels bioconda <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">conda</span> config <span class="at">--append</span> channels r <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">conda</span> config <span class="at">--set</span> subdir linux-64</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first RUN command installs the <code>tzdata</code> package for managing local time settings in the container. This may not always be required for your Dockerfile but it’s added here because some R packages used in the course require it.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While installing things with <code>apt-get</code> inside Dockerfiles is relatively common practice, it’s important to note that this <em>may</em> affect reproducibility, since it’s not common to specify an exact version. The packages installed in this manner are, however, usually not important for the actual analyses performed, but rather help in the building of the container image itself. While not critical, it’s important to note this from a reproducibility perspective.</p>
+</div>
+</div>
+<p>Next, we run <code>conda init bash</code> to initialize the bash shell inside the image, meaning we can use <code>conda activate</code> in containers that run from the image. In the same <code>RUN</code> statement we also configure the strict channel priority and add appropriate channels with <code>conda config</code>. You’ll probably recognize this from the <a href="../course-information/pre-course-setup">pre-course-setup</a>. The last part sets the somewhat obscure <code>subdir</code> config parameter pointing to the <code>linux-64</code> architecture of conda channels.</p>
+<p>As a general rule, you want each layer in an image to be a “logical unit”. For example, if you want to install a program the <code>RUN</code> command should both retrieve the program, install it and perform any necessary clean up. This is due to how layers work and how Docker decides what needs to be rerun between builds. More on this later.</p>
+<p>Next up is:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open port for running Jupyter Notebook</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">EXPOSE</span> 8888</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Start Bash shell by default</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> <span class="ex">/bin/bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>EXPOSE</code> opens up the port 8888, so that we can later run a Jupyter Notebook server on that port. <code>CMD</code> is an interesting instruction. It sets what a container should run when nothing else is specified, <em>i.e.</em> if you run <code>docker run [OPTIONS] [IMAGE]</code> without the additional <code>[COMMAND] [ARG]</code>. It can be used for example for printing some information on how to use the image or, as here, start a Bash shell for the user. If the purpose of your image is to accompany a publication then <code>CMD</code> could be to run the workflow that generates the paper figures from raw data, <em>e.g.</em> <code>CMD snakemake -s Snakefile -c 1 generate_figures</code>.</p>
+</section>
+<section id="building-from-dockerfiles" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="building-from-dockerfiles"><span class="header-section-number">3.2</span> Building from Dockerfiles</h3>
+<p>Now we understand how a Dockerfile works. Constructing the image itself from the Dockerfile can be done as follows - try it out:</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Image platforms on newer Macs">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Image platforms on newer Macs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your computer is a MAC with the M1 chip, you may have to add <code>--platform linux/x86_64</code> to the <code>docker build</code> command.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile_slim <span class="at">-t</span> my_docker_image .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should result in something similar to this:</p>
+<pre><code> [+] Building 2.2s (7/7) FINISHED
+ =&gt; [internal] load build definition from Dockerfile_slim                                                                                                                                             0.0s
+ =&gt; =&gt; transferring dockerfile: 667B                                                                                                                                                                  0.0s
+ =&gt; [internal] load .dockerignore                                                                                                                                                                     0.0s
+ =&gt; =&gt; transferring context: 2B                                                                                                                                                                       0.0s
+ =&gt; [internal] load metadata for docker.io/condaforge/miniforge3:latest                                                                                                                               0.0s
+ =&gt; [1/3] FROM docker.io/condaforge/miniforge3                                                                                                                                                        0.0s
+ =&gt; CACHED [2/3] WORKDIR /course                                                                                                                                                                      0.0s
+ =&gt; [3/3] RUN conda init bash &amp;&amp; conda config --set channel_priority strict &amp;&amp;     conda config --append channels bioconda &amp;&amp;     conda config --append channels r &amp;&amp;     conda config --set subdir   2.1s
+ =&gt; exporting to image                                                                                                                                                                                0.0s
+ =&gt; =&gt; exporting layers                                                                                                                                                                               0.0s
+ =&gt; =&gt; writing image sha256:53e6efeaa063eadf44c509c770d887af5e222151f08312e741aecc687e6e8981                                                                                                          0.0s
+ =&gt; =&gt; naming to docker.io/library/my_docker_image</code></pre>
+<p>Exactly how the output looks depends on which version of Docker you are using. The <code>-f</code> flag sets which Dockerfile to use and <code>-t</code> tags the image with a name. This name is how you will refer to the image later. Lastly, the <code>.</code> is the path to where the image should be build (<code>.</code> means the current directory). This had no real impact in this case, but matters if you want to import files. Validate with <code>docker image ls</code> that you can see your new image.</p>
+</section>
+<section id="creating-your-own-dockerfile" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="creating-your-own-dockerfile"><span class="header-section-number">3.3</span> Creating your own Dockerfile</h3>
+<p>Now it’s time to make your own Dockerfile to reproduce the results from the <a href="conda-3-projects">Conda tutorial</a>. If you haven’t done the tutorial, it boils down to creating a Conda environment file, setting up that environment, downloading three RNA-seq data files, and running FastQC on those files. We will later package and run the whole RNA-seq workflow in a Docker container, but for now we keep it simple to reduce the size and time required.</p>
+<p>The Conda tutorial uses a shell script, <code>run_qc.sh</code>, for downloading and running the analysis. A copy of this file should also be available in your current directory. If we want to use the same script we need to include it in the image. A basic outline of what we need to do is:</p>
+<ol type="1">
+<li>Create a file called <code>Dockerfile_conda</code></li>
+<li>Start the image from the <code>my_docker_image</code> we just built</li>
+<li>Install the package <code>fastqc</code> which is required for the analysis.</li>
+<li>Add the <code>run_qc.sh</code> script to the image</li>
+<li>Set the default command of the image to run the <code>run_qc.sh</code> script.</li>
+</ol>
+<p>We’ll now go through these steps in more detail. Try to add the corresponding code to <code>Dockerfile_conda</code> on your own, and if you get stuck you can click to reveal the solution below under “Click to show solution”.</p>
+<p><strong>Set image starting point</strong></p>
+<p>To set the starting point of the new image, use the <code>FROM</code> instruction and point to <code>my_docker_image</code> that we built in the previous <em>Building from Dockerfiles</em> step.</p>
+<p><strong>Install packages</strong></p>
+<p>Use the <code>RUN</code> instruction to install the package <code>fastqc=0.11.9</code> with conda. Here there are several options available. For instance we could add an environment file <em>e.g.</em> <code>environment.yml</code> from the Conda tutorial and use <code>conda env create</code> to create an environment from that file. Or we could create an environment directly with <code>conda create</code>. We’ll try this later option here, so add a line that will create an environment named <code>project_mrsa</code> containing the <code>fastqc</code> package, and also clean up packages and cache after installation. Use the <code>-y</code> flag to <code>conda create</code> to avoid the prompt that expects an interaction from the user.</p>
+<p>In order to have the <code>project_mrsa</code> environment activated upon start-up we need to add two more lines to the Dockerfile. First we need to use a <code>RUN</code> instruction to run <code>echo "source activate project_mrsa" &gt;&gt; ~/.bashrc</code>, and then we need to use the <code>ENV</code> instruction to set the <code>$PATH</code> variable inside the image to <code>/opt/conda/envs/project_mrsa/bin:$PATH</code>.</p>
+<p><strong>Add the analysis script</strong></p>
+<p>Use the <code>COPY</code> instruction to Add <code>run_qc.sh</code> to the image. The syntax is <code>COPY SOURCE TARGET</code>. In this case <code>SOURCE</code> is the <code>run_qc.sh</code> script and <code>TARGET</code> is a path inside the image, for simplicity it can be specified with <code>./</code>.</p>
+<p><strong>Set default command</strong></p>
+<p>Use the <code>CMD</code> instruction to set the default command for the image to <code>bash run_qc.sh</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Click to show">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Click to show
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb20"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> my_docker_image</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">conda</span> create <span class="at">-y</span> <span class="at">-n</span> project_mrsa <span class="at">-c</span> bioconda fastqc=0.11.9 <span class="kw">&amp;&amp;</span> <span class="ex">conda</span> clean <span class="at">-a</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="bu">echo</span> <span class="st">"source activate project_mrsa"</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> PATH=/opt/conda/envs/project_mrsa/bin:$PATH</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> run_qc.sh .</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> <span class="fu">bash</span> run_qc.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Build the image and tag it <code>my_docker_conda</code> (remember to add <code>--platform linux/x86_64</code> to the build command if you are using a Mac with the Apple chip).</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> my_docker_conda <span class="at">-f</span> Dockerfile_conda .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Verify that the image was built using <code>docker image ls</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How the keywords <code>FROM</code>, <code>LABEL</code>, <code>MAINTAINER</code>, <code>RUN</code>, <code>ENV</code>, <code>SHELL</code>, <code>WORKDIR</code>, and <code>CMD</code> can be used when writing a Dockerfile.</li>
+<li>How to use <code>docker build</code> to construct and tag an image from a Dockerfile.</li>
+<li>How to create your own Dockerfile.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="managing-containers" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="managing-containers"><span class="header-section-number">4</span> Managing containers</h2>
+<p>When you start a container with <code>docker run</code> it is given an unique id that you can use for interacting with the container. Let’s try to run a container from the image we just created:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run my_docker_conda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If everything worked <code>run_qc.sh</code> is executed and will first download and then analyse the three samples. Once it’s finished you can list all containers, including those that have exited.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container ls <span class="at">--all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should show information about the container that we just ran. Similar to:</p>
+<pre><code>CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS          PORTS      NAMES
+b6f7790462c4   my_docker_conda   "tini -- /bin/bash -…"  3 minutes ago   Up 24 seconds   8888/tcp   sad_maxwell</code></pre>
+<p>If we run <code>docker run</code> without any flags, your local terminal is attached to the container. This enables you to see the output of <code>run_qc.sh</code>, but also disables you from doing anything else in the meantime. We can start a container in detached mode with the <code>-d</code> flag. Try this out and run <code>docker container ls</code> to validate that the container is running.</p>
+<p>By default, Docker keeps containers after they have exited. This can be convenient for debugging or if you want to look at logs, but it also consumes huge amounts of disk space. It’s therefore a good idea to always run with <code>--rm</code>, which will remove the container once it has exited.</p>
+<p>If we want to enter a running container, there are two related commands we can use, <code>docker attach</code> and <code>docker exec</code>. <code>docker attach</code> will attach local standard input, output, and error streams to a running container. This can be useful if your terminal closed down for some reason or if you started a terminal in detached mode and changed your mind. <code>docker exec</code> can be used to execute any command in a running container. It’s typically used to peak in at what is happening by opening up a new shell. Here we start the container in detached mode and then start a new interactive shell so that we can see what happens. If you use <code>ls</code> inside the container you can see how the script generates file in the <code>data</code> and <code>results</code> directories. Note that you will be thrown out when the container exits, so you have to be quick.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">--rm</span> <span class="at">--name</span> my_container my_docker_conda</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> my_container /bin/bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="bind-mounts" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="bind-mounts"><span class="header-section-number">4.1</span> Bind mounts</h3>
+<p>There are obviously some advantages to isolating and running your data analysis in containers, but at some point you need to be able to interact with the rest of the host system (<em>e.g.</em> your laptop) to actually deliver the results. This is done via bind mounts. When you use a bind mount, a file or directory on the <em>host machine</em> is mounted into a container. That way, when the container generates a file in such a directory it will appear in the mounted directory on your host system.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Docker also has a more advanced way of data storage called <a href="https://docs.docker.com/storage/volumes/">volumes</a>. Volumes provide added flexibility and are independent of the host machine’s file system having a specific directory structure available. They are particularly useful when you want to share data <em>between</em> containers.</p>
+</div>
+</div>
+<p>Say that we are interested in getting the resulting html reports from FastQC in our container. We can do this by mounting a directory called, say, <code>fastqc_results</code> in your current directory to the <code>/course/results/fastqc</code> directory in the container. Try this out by running:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/fastqc_results:/course/results/fastqc my_docker_conda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here the <code>-v</code> flag to docker run specifies the bind mount in the form of <code>directory/on/your/computer:/directory/inside/container</code>. <code>$(pwd)</code> simply evaluates to the working directory on your computer.</p>
+<p>Once the container finishes validate that it worked by opening one of the html reports under <code>fastqc_results/</code>.</p>
+<p>We can also use bind mounts for getting files into the container rather than out. We’ve mainly been discussing Docker in the context of packaging an analysis pipeline to allow someone else to reproduce its outcome. Another application is as a kind of very powerful environment manager, similarly to how we’ve used Conda before. If you’ve organized your work into projects, then you can mount the whole project directory in a container and use the container as the terminal for running stuff while still using your normal OS for editing files and so on. Let’s try this out by mounting our current directory and start an interactive terminal. Note that this will override the <code>CMD</code> command, so we won’t start the analysis automatically when we start the container.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/course/ my_docker_conda /bin/bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you run <code>ls</code> you will see that all the files in the <code>container/</code> directory are there.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How to use <code>docker run</code> for starting a container and how the flags <code>-d</code> and <code>--rm</code> work.</li>
+<li>How to use <code>docker container ls</code> for displaying information about the containers.</li>
+<li>How to use <code>docker attach</code> and <code>docker exec</code> to interact with running containers.</li>
+<li>How to use bind mounts to share data between the container and the host system.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="sharing-images" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="sharing-images"><span class="header-section-number">5</span> Sharing images</h2>
+<p>There would be little point in going through all the trouble of making your analyses reproducible if you can’t distribute them to others. Luckily, sharing Docker containers is extremely easy, and can be done in several ways. One of the more common ways to share Docker images is through container <em>registries</em> and <em>repositories</em>.</p>
+<p>For example, a Docker registry is a service that stores Docker images, which could be hosted by a third party, publicly or privately. One of the most common registries is <a href="https://docs.docker.com/docker-hub/">Docker Hub</a>, which is a registry hosted by Docker itself. A repository, on the other hand, is a collection of container images with the same name but different tags (<em>i.e.</em> versions), for example <code>ubuntu:latest</code> or <code>ubuntu:20.04</code>. Repositories are stored in registries.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember that we now have some clashing nomenclature between Git repositories (which we covered in the Git tutorial) and container repositories, so be aware of which one you’re talking about!</p>
+</div>
+</div>
+<p>There are many registries out there, but here are some that might be of interest to you who are taking this course:</p>
+<ul>
+<li><a href="https://docs.docker.com/docker-hub/">Docker Hub</a></li>
+<li><a href="https://ghcr.io">GitHub Container Registry</a></li>
+<li><a href="https://quay.io/">Quay</a></li>
+<li><a href="https://biocontainers.pro/#/registry">Biocontainers</a></li>
+<li><a href="https://www.rocker-project.org/images/">Rocker</a></li>
+<li><a href="https://jupyter-docker-stacks.readthedocs.io/en/latest">Jupyter containers</a></li>
+</ul>
+<p>The most common registry is probably Docker Hub, which lets you host unlimited public images and one private image for free (after which they charge a small fee). The GitHub Container Registry is also quite handy if you’re already using GitHub. Let’s see how it’s done using Docker Hub!</p>
+<ol type="1">
+<li><p>Register for an account on <a href="https://hub.docker.com">Docker Hub</a>.</p></li>
+<li><p>Use <code>docker login -u your_dockerhub_id</code> to login to the Docker Hub registry. Or use the <strong>Sign in</strong> button in Docker Desktop.</p></li>
+<li><p>When you build an image, tag it with <code>-t your_dockerhub_id/image_name</code>, rather than just <code>image_name</code>.</p></li>
+<li><p>Once the image has been built, upload it to Docker Hub with <code>docker push your_dockerhub_id/image_name</code>.</p></li>
+<li><p>If another user runs <code>docker run your_dockerhub_id/image_name</code> the image will automatically be retrieved from Docker Hub. You can use <code>docker pull</code> for downloading without running.</p></li>
+</ol>
+<p>If you want to refer to a Docker image in for example a publication, it’s very important that it’s the correct version of the image. This is handled via the ‘tags’ (<em>e.g.</em> <code>docker build -t your_dockerhub_id/image_name:tag_name</code>) that we introduced in <a href="containers-2-the-basics">Containers 2: The basics</a> and used when building images in <a href="containers-3-building-images">Containers 3: Building images</a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On Docker Hub it is also possible to link to your Bitbucket or GitHub account and select repositories from which you want to automatically build and distribute Docker images. The Docker Hub servers will then build an image from the Dockerfile in your Git repository and make it available for download using <code>docker pull</code>. That way, you don’t have to bother manually building and pushing using <code>docker push</code>. The GitHub repository for this course is linked to Docker Hub and the Docker images are built automatically from <code>Dockerfile</code> and <code>Dockerfile_slim</code>, triggered by changes made to the GitHub repository. You can take a look at the course on Docker Hub <a href="https://hub.docker.com/r/nbisweden/workshop-reproducible-research">here</a>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How container registries and repositories work</li>
+<li>How to use Docker Hub to share Docker images</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="packaging-the-case-study" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="packaging-the-case-study"><span class="header-section-number">6</span> Packaging the case study</h2>
+<p>During these tutorials we have been working on a case study about the multi-resistant bacteria MRSA. Here we will build and run a Docker container that contains all the work we’ve done so far.</p>
+<ul>
+<li>We’ve <a href="git-7-working-remotely">set up a GitHub repository</a> for version control and for hosting our project.</li>
+<li>We’ve defined a <a href="conda-3-projects">Conda environment</a> that specifies the packages we’re depending on in the project.</li>
+<li>We’ve constructed a <a href="snakemake-10-generalizing-workflows">Snakemake workflow</a> that performs the data analysis and keeps track of files and parameters.</li>
+<li>We’ve written a <a href="quarto-1-introduction">Quarto document</a> that takes the results from the Snakemake workflow and summarizes them in a report.</li>
+</ul>
+<p>The <code>workshop-reproducible-research/tutorials/containers</code> directory contains the final versions of all the files we’ve generated in the other tutorials: <code>environment.yml</code>, <code>Snakefile</code>, <code>config.yml</code> and <code>code/supplementary_material.qmd</code>. The only difference compared to the other tutorials is that we have also included the rendering of the Supplementary Material HTML file into the Snakemake workflow as the rule <code>make_supplementary</code>. Running all of these steps will take some time to execute (around 20 minutes or so), in particular if you’re on a slow internet connection.</p>
+<p>Now take a look at <code>Dockerfile</code>. Everything should look quite familiar to you, since it’s basically the same steps as in the image we constructed in the <a href="containers-3-building-images">Building images</a> section, although with some small modifications. The main difference is that we add the project files needed for executing the workflow (mentioned in the previous paragraph), and install the conda packages using <code>environment.yml</code>. If you look at the <code>CMD</code> command you can see that it will run the whole Snakemake workflow by default.</p>
+<p>Now run <code>docker build</code> as before, tag the image with <code>my_docker_project</code> (remember the <code>--platform linux/x86_64</code> flag if you’re on a new Mac with the Apple chip):</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> my_docker_project <span class="at">-f</span> Dockerfile .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Go get a coffee while the image builds (or you could use <code>docker pull nbisweden/workshop-reproducible-research</code> which will download the same image).</p>
+<p>Validate with <code>docker image ls</code>. Now all that remains is to run the whole thing with <code>docker run</code>. We just want to get the results, so mount the directory <code>/course/results/</code> to, say, <code>results/</code> in your current directory. Click below to see how to write the command.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Click to show">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Click to show
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If building your own image:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/results:/course/results my_docker_project</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you pulled the image from DockerHub:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/results:/course/results nbisweden/workshop-reproducible-research</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Well done! You now have an image that allows anyone to exactly reproduce your analysis workflow (if you first <code>docker push</code> to Dockerhub that is).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you’ve done the <a href="jupyter-1-introduction">Jupyter tutorial</a>, you know that Jupyter Notebook runs as a web server. This makes it very well suited for running in a Docker container, since we can just expose the port Jupyter Notebook uses and redirect it to one of our own. You can then work with the notebooks in your browser just as you’ve done before, while it’s actually running in the container. This means you could package your data, scripts and environment in a Docker image that also runs a Jupyter Notebook server. If you make this image available, say on Dockerhub, other researchers could then download it and interact with your data/code via the fancy interactive Jupyter notebooks that you have prepared for them. We haven’t made any fancy notebooks for you, but we <em>have</em> set up a Jupyter Notebook server. Try it out if you want to (replace the image name with your version if you’ve built it yourself):</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> nbisweden/workshop-reproducible-research jupyter notebook <span class="at">-allow-root</span> <span class="at">--no-browser</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="apptainer" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="apptainer"><span class="header-section-number">7</span> Apptainer</h2>
+<p>Apptainer is a container software alternative to Docker. It was originally developed as <em>Singularity</em> by researchers at Lawrence Berkeley National Laboratory (read more about this below) with focus on security, scientific software, and HPC clusters. One of the ways in which Apptainer is more suitable for HPC is that it very actively restricts permissions so that you do not gain access to additional resources while inside the container. Apptainer also, unlike Docker, stores images as single files using the <em>Singularity Image Format</em> (SIF). A SIF file is self-contained and can be moved around and shared like any other file, which also makes it easy to work with on an HPC cluster.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Apptainer and Singularity">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Apptainer and Singularity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The open source Singularity project was renamed to <em>Apptainer</em> in 2021. The company <em>Sylabs</em> still keeps their commercial branch of the project under the Singularity name, and offer a free ‘Community Edition’ version. The name change was done in order to clarify the distinction between the open source project and the various commercial versions. At the moment there is virtually no difference to you as a user whether you use Singularity or Apptainer, but eventually it’s very likely that the two will diverge.</p>
+</div>
+</div>
+<p>While it is possible to define and build Apptainer images from scratch, in a manner similar to what you’ve already learned for Docker, this is not something we will cover here (but feel free to read more about this in <em>e.g.</em> the <a href="https://apptainer.org/docs/user/main/index.html">Apptainer docs</a>.</p>
+<p>The reasons for not covering Apptainer more in-depth are varied, but it basically boils down to it being more or less Linux-only, unless you use Virtual Machines (VMs). Even with this you’ll run into issues of incompatibility of various kinds, and these issues are further compounded if you’re on one of the new ARM64-Macs. You also need <code>root</code> (admin) access in order to actually <em>build</em> Apptainer images regardless of platform, meaning that you can’t build them on <em>e.g.</em> Uppmax, even though Apptainer is already installed there. You can, however, use the <code>--remote</code> flag, which runs the build on Apptainer’s own servers. This doesn’t work in practice a lot of the time, though, since most scientist will work in private Git repositories so that their research and code is not available to anybody, and the <code>--remote</code> flag requires that <em>e.g.</em> the <code>environment.yml</code> file is publicly available.</p>
+<p>There are very good reasons to use Apptainer, however, the major one being that you aren’t allowed to use Docker on most HPC systems! One of the nicer features of Apptainer is that it can convert Docker images directly for use within Apptainer, which is highly useful for the cases when you already built your Docker image or if you’re using a remotely available image stored on <em>e.g.</em> DockerHub. For a lot of scientific work based in R and/or Python, however, it is most often the case that you build your own images, since you have a complex dependency tree of software packages not readily available in existing images. So, we now have another problem for building our own images:</p>
+<ol type="1">
+<li>Only Apptainer is allowed on HPC systems, but you can’t build images there due to not having <code>root</code> access.</li>
+<li>You can build Apptainer images locally and transfer them to HPCs, but this is problematic unless you’re running Linux natively.</li>
+</ol>
+<p>Seems like a “catch 22”-problem, right? There are certainly workarounds (some of which we have already mentioned) but most are roundabout or difficult to get working for all use-cases. Funnily enough, there’s a simple solution: run Apptainer locally from inside a Docker container! Conceptually very meta, yes, but works very well in practice. What we are basically advocating for is that you stick with Docker for most of your container-based work, but convert your Docker images using Apptainer-in-Docker whenever you need to work on an HPC. This is of course not applicable to Linux users or those of you who are fine with working through using VMs and managing any issues that arise from doing that.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Summary">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apptainer is a great piece of software that is easiest to use if you’re working on a Linux environment. Docker is, however, easier to use from a cross-platform standpoint and covers all use-cases except running on HPCs. Running on HPCs can be done by converting existing Docker images at runtime, while building images for use on HPCs can be done using local Docker images and Apptainer-in-Docker.</p>
+</div>
+</div>
+<section id="apptainer-in-docker" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="apptainer-in-docker"><span class="header-section-number">7.1</span> Apptainer-in-Docker</h3>
+<p>By creating a bare-bones, Linux-based Docker image with Apptainer you can build Apptainer images locally on non-Linux operating systems. There is already a good image setup for just this, and it is defined in this <a href="https://github.com/kaczmarj/apptainer-in-docker">GitHub repository</a>. Looking at the instructions there we can see that we need to do the following:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="dt">\</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--rm</span> <span class="dt">\</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-v</span> /var/run/docker.sock:/var/run/docker.sock <span class="dt">\</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/work <span class="dt">\</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    kaczmarj/apptainer <span class="dt">\</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    build <span class="op">&lt;</span>IMAGE<span class="op">&gt;</span>.sif docker-daemon://<span class="op">&lt;</span>IMAGE<span class="op">&gt;</span>:<span class="op">&lt;</span>TAG<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You already know about <code>docker run</code>, the <code>--rm</code> flag and bind mounts using <code>-v</code>. The <code>/var/run/docker.sock</code> part is the Unix socket that the Docker daemon listens to by default, meaning that it is needed for us to be able to specify the location of the Docker container we want to convert to a SIF file. The <code>kaczmarj/apptainer</code> part after the bind mounts is the image location hosted at <a href="https://hub.docker.com/r/kaczmarj/apptainer">DockerHub</a>, while the last line is the Apptainer command that actually does the conversion. All we need to do is to replace the <code>&lt;IMAGE&gt;</code> part with the Docker image we want to convert, <em>e.g.</em> <code>my_docker_image</code>.</p>
+<ul>
+<li>Replace <code>&lt;IMAGE&gt;</code> and <code>&lt;TAG&gt;</code> with one of your locally available Docker images and one of its tags and run the command - remember that you can use <code>docker image ls</code> to check what images you have available.</li>
+</ul>
+<p>In the end you’ll have a SIF file (<em>e.g.</em> <code>my_docker_image.sif</code>) that you can transfer to an HPC such as Uppmax and run whatever analyses you need. If you want to be able to do this without having to remember all the code you can check out the <a href="https://github.com/fasterius/dotfiles/blob/main/scripts/apptainer-in-docker.sh">this script</a>.</p>
+</section>
+<section id="running-apptainer" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="running-apptainer"><span class="header-section-number">7.2</span> Running Apptainer</h3>
+<p>The following exercises assume that you have a login to the Uppmax HPC cluster in Uppsala, but will also work for any other system that has Apptainer installed - like if you managed to install Apptainer on your local system or have access to some other HPC cluster. Let’s try to convert the Docker image for this course directly from DockerHub:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull mrsa_proj.sif docker://nbisweden/workshop-reproducible-research</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should result in a SIF file called <code>mrsa_proj.sif</code>.</p>
+<p>In the Docker image we included the code needed for the workflow in the <code>/course</code> directory of the image. These files are of course also available in the Apptainer image. However, a Apptainer image is read-only. This will be a problem if we try to run the workflow within the <code>/course</code> directory, since the workflow will produce files and Snakemake will create a <code>.snakemake</code> directory. Instead, we need to provide the files externally from our host system and simply use the Apptainer image as the environment to execute the workflow in (<em>i.e.</em> all the software and dependencies).</p>
+<p>In your current working directory (<code>workshop-reproducible-research/tutorials/containers/</code>) the vital MRSA project files are already available (<code>Snakefile</code>, <code>config.yml</code> and <code>code/supplementary_material.qmd</code>). Since Apptainer bind mounts the current working directory we can simply execute the workflow and generate the output files using:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> run mrsa_proj.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This executes the default run command, which is <code>snakemake -rp -c 1 --configfile config.yml</code> (as defined in the original <code>Dockerfile</code>). Once completed you should see a bunch of directories and files generated in your current working directory, including the <code>results/</code> directory containing the final HTML report.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How to build a Apptainer image using Apptainer inside Docker.</li>
+<li>How to convert Docker images to Apptainer images.</li>
+<li>How to run Apptainer images.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="extra-material" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="extra-material"><span class="header-section-number">8</span> Extra material</h2>
+<p>Containers can be large and complicated, but once you start using them regularly you’ll find that you start understand these complexities. There are lots of different things you can do with images and containers in general, especially when it comes to optimising build time or final image size. Here is some small tips and tricks that you can be inspired from!</p>
+<p>If you want to read more about containers in general you can check out these resources:</p>
+<ul>
+<li>A “Get started with Docker” at the <a href="https://docs.docker.com/get-started/">Docker website</a>.</li>
+<li>An <a href="https://arxiv.org/abs/1410.0846">early paper</a> on the subject of using Docker for reproducible research.</li>
+</ul>
+<section id="building-for-multiple-platforms" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="building-for-multiple-platforms"><span class="header-section-number">8.1</span> Building for multiple platforms</h3>
+<p>With the newer ARM64 architectures introduced by Apple one often runs into the problem of not having an architecture-native image to run with. This is sometimes okay since the <a href="https://support.apple.com/en-us/HT211861">Rosetta2</a> software can emulate the old AMD64 architecture on newer ARM64 computers, but results in a performance hit. One could just build for ARM64 using <code>--platform=linux/arm64</code> instead, but then somebody who <em>doesn’t</em> have the new architecture can’t run it. There is a way around this, however: <em>multi-platform builds</em>. We can build for multiple platforms at the same time and push those to <em>e.g.</em> DockerHub and anybody using those images will automatically pull the one appropriate for their computer. Here’s how to do it:</p>
+<ul>
+<li>Start by checking the available builders using <code>docker buildx ls</code>.</li>
+</ul>
+<p>You should only see the default builder, which does not have access to multi-platform builds. Let’s create a new builder that <em>does</em> have access to it:</p>
+<ul>
+<li><p>Run the following: <code>docker buildx create --name mybuilder --driver   docker-container --bootstrap</code>.</p></li>
+<li><p>Switch to using the new builder with <code>docker buildx use mybuilder</code> and check that it worked with <code>docker buildx ls</code>.</p></li>
+</ul>
+<p>All that’s needed now is to build and push the images! The following command assumes that you have an account with <code>&lt;username&gt;</code> at DockerHub and you’re pushing the <code>&lt;image&gt;</code> image:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> buildx build <span class="at">--platform</span> linux/amd64,linux/arm64 <span class="at">-t</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:latest <span class="at">--push</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Execute the above command with your username and your image.</li>
+</ul>
+<p>That’s it! Now anybody who does <em>e.g.</em> <code>docker pull &lt;username&gt;/&lt;image&gt;</code> will get an image appropriate for their architecture whether they are on AMD64 or ARM64!</p>
+<div class="callout callout-style-default callout-note callout-titled" title="An alias to `buildx`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+An alias to <code>buildx</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can type <code>docker buildx install</code> to make the <code>docker build</code> into an alias for <code>docker buildx</code>, allowing you to run multi-platform builds using <code>docker build</code>. Use <code>docker buildx uninstall</code> to remove this alias.</p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Published with <a href="https://quarto.org/">Quarto</a> v1.4.549
+</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

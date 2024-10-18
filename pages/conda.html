@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Controlling your environment with Conda</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background-image: url(../assets/images/banner.webp);
+background-size: cover;
+      }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono&amp;family=Nunito:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;display=swap" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/logos/nbis-scilifelab.png" alt="logo" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_contents.html"> 
+<span class="menu-text">Contents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_precourse.html"> 
+<span class="menu-text">Pre-course</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../home_info.html"> 
+<span class="menu-text">Info</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/NBISweden/workshop-reproducible-research/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Controlling your environment with Conda</h1>
+            <p class="subtitle lead">How to keep track of your software packages and their versions</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">18-Oct-2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#the-basics" id="toc-the-basics" class="nav-link" data-scroll-target="#the-basics"><span class="header-section-number">2</span> The basics</a>
+  <ul>
+  <li><a href="#creating-conda-environments" id="toc-creating-conda-environments" class="nav-link" data-scroll-target="#creating-conda-environments"><span class="header-section-number">2.1</span> Creating Conda environments</a></li>
+  <li><a href="#adding-more-packages" id="toc-adding-more-packages" class="nav-link" data-scroll-target="#adding-more-packages"><span class="header-section-number">2.2</span> Adding more packages</a></li>
+  <li><a href="#removing-packages" id="toc-removing-packages" class="nav-link" data-scroll-target="#removing-packages"><span class="header-section-number">2.3</span> Removing packages</a></li>
+  </ul></li>
+  <li><a href="#working-with-environments" id="toc-working-with-environments" class="nav-link" data-scroll-target="#working-with-environments"><span class="header-section-number">3</span> Working with environments</a>
+  <ul>
+  <li><a href="#working-with-environments-1" id="toc-working-with-environments-1" class="nav-link" data-scroll-target="#working-with-environments-1"><span class="header-section-number">3.1</span> Working with environments</a></li>
+  <li><a href="#keeping-track-of-dependencies" id="toc-keeping-track-of-dependencies" class="nav-link" data-scroll-target="#keeping-track-of-dependencies"><span class="header-section-number">3.2</span> Keeping track of dependencies</a></li>
+  </ul></li>
+  <li><a href="#extra-material" id="toc-extra-material" class="nav-link" data-scroll-target="#extra-material"><span class="header-section-number">4</span> Extra material</a>
+  <ul>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration"><span class="header-section-number">4.1</span> Configuration</a></li>
+  <li><a href="#managing-python-versions" id="toc-managing-python-versions" class="nav-link" data-scroll-target="#managing-python-versions"><span class="header-section-number">4.2</span> Managing Python versions</a>
+  <ul class="collapse">
+  <li><a href="#your-current-python-installation" id="toc-your-current-python-installation" class="nav-link" data-scroll-target="#your-current-python-installation"><span class="header-section-number">4.2.1</span> Your current Python installation</a></li>
+  <li><a href="#different-python-versions" id="toc-different-python-versions" class="nav-link" data-scroll-target="#different-python-versions"><span class="header-section-number">4.2.2</span> Different Python versions</a></li>
+  </ul></li>
+  <li><a href="#decorating-your-prompt" id="toc-decorating-your-prompt" class="nav-link" data-scroll-target="#decorating-your-prompt"><span class="header-section-number">4.3</span> Decorating your prompt</a></li>
+  <li><a href="#bash-aliases-for-conda" id="toc-bash-aliases-for-conda" class="nav-link" data-scroll-target="#bash-aliases-for-conda"><span class="header-section-number">4.4</span> Bash aliases for conda</a></li>
+  <li><a href="#rolling-back-to-an-earlier-version-of-the-environment" id="toc-rolling-back-to-an-earlier-version-of-the-environment" class="nav-link" data-scroll-target="#rolling-back-to-an-earlier-version-of-the-environment"><span class="header-section-number">4.5</span> Rolling back to an earlier version of the environment</a></li>
+  <li><a href="#mamba-the-drop-in-conda-replacement" id="toc-mamba-the-drop-in-conda-replacement" class="nav-link" data-scroll-target="#mamba-the-drop-in-conda-replacement"><span class="header-section-number">4.6</span> Mamba, the drop-in Conda replacement</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>Conda is a package and environment manager. As a package manager it enables you to install a wide range of software and tools using one simple command: <code>conda install</code>. As an environment manager it allows you to create and manage multiple different environments, each with their own set of packages.</p>
+<p>What are the benefits of using an environment manager? Some examples include the ability to easily run different versions of the same package, have different cross-package dependencies that are otherwise incompatible with each other and, last but not least, easy installation of all the software needed for an analysis.</p>
+<p>Environments are of particular relevance when making bioinformatics projects reproducible. Full reproducibility requires the ability to recreate the system that was originally used to generate the results. This can, to a large extent, be accomplished by using Conda to make a project environment with specific versions of the packages that are needed in the project. You can read more about Conda <a href="https://conda.io/projects/conda/en/latest/user-guide/concepts/index.html">here</a>.</p>
+<p>A Conda <em>package</em> is a compressed tarball (system-level libraries, Python or other modules, executable programs or other components). Conda keeps track of the dependencies between packages and platforms - this means that when installing a given package, all necessary dependencies will also be installed.</p>
+<p>Conda packages are typically hosted and downloaded from remote so-called <em>channels</em>. Some widely used channels for general-purpose and bioinformatics packages are <a href="https://conda-forge.org/">conda-forge</a> and <a href="https://bioconda.github.io/">Bioconda</a>, respectively. Both of these are community-driven projects, so if you’re missing some package you can contribute to the channel by adding the package to it. When installing a Conda package you specify the package name, version (optional) and channel to download from.</p>
+<p>A Conda <em>environment</em> is essentially a directory that is added to your PATH and that contains a specific collection of packages that you have installed. Packages are symlinked between environments to avoid unnecessary duplication.</p>
+<div class="callout-">
+<p><strong>Different Conda flavours</strong> You may come across several flavours of Conda. There’s <em>Miniconda</em>, which is the installer for Conda. The second is <em>Anaconda</em>, which is a distribution of not only Conda, but also over 150 scientific Python packages curated by the company by the same name (Anaconda). It’s generally better to stick with the Miniconda installation rather than installing 3 GB worth of packages you may not even use. Then, lastly, there’s the <em>Miniforge</em> flavour that we’re using here, which is a community-driven version of Conda that’s highly popular within the scientific community.</p>
+<p>The difference between Miniconda and Miniforge is that the former points to points to the <code>default</code> channel by default (which requires an Anaconda license for commercial purposes), while the latter points to the community-maintained <code>conda-forge</code> channel by default. While Conda is created and owned by Anaconda the company, Conda itself is open source - it’s the <code>default</code> channel that is proprietary. The <code>conda-forge</code> and <code>bioconda</code> channels (two of the largest channels outside of <code>default</code>) are community-driven. Confusing? Yes. If you want this information more in-depth you can read this <a href="https://www.anaconda.com/blog/is-conda-free">blog post by Anaconda</a>.</p>
+</div>
+</section>
+<section id="the-basics" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="the-basics"><span class="header-section-number">2</span> The basics</h2>
+<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="pre-course-setup">setup</a> for instructions on how to set it up if, you haven’t done so already. Then open up a terminal and go to <code>workshop-reproducible-research/tutorials/conda</code>. Instructions below assume that you are standing in <code>workshop-reproducible-research/tutorials/conda/</code> unless otherwise specified (<em>e.g.</em> if it says “create a file”, it means save it in <code>workshop-reproducible-research/tutorials/conda/</code>).</p>
+<p>Let’s assume that you are just about to start a new exciting research project called <em>Project A</em>.</p>
+<section id="creating-conda-environments" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="creating-conda-environments"><span class="header-section-number">2.1</span> Creating Conda environments</h3>
+<ul>
+<li>Let’s make our first Conda environment:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project_a <span class="at">-c</span> bioconda fastqc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will create an environment called <code>project_a</code>, containing FastQC from the Bioconda channel. Conda will list the packages that will be installed and ask for your confirmation.</p>
+<ul>
+<li>Once it is done, you can activate the environment:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project_a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>By default, Conda will add information to your prompt telling you which environment that is active.</p>
+<ul>
+<li>To see all your environments you can run:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info <span class="at">--envs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The active environment will be marked with an asterisk.</p>
+<ul>
+<li>To see the installed packages and their versions in the active environment, run:</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>To save the installed packages to a file, run:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--from-history</span> <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Where <code>--from-history</code> only reports the packages requested to be installed and not additional dependencies. A caveat is that if no version was originally specified, then it is not included in the export file either.</p>
+<ul>
+<li>Now, deactivate the environment by running <code>conda deactivate</code>.</li>
+<li>List all environments again. Which environment is now marked as active?</li>
+<li>Try to run FastQC:</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Did it work? Activate your <code>project_a</code> environment and run the <code>fastqc --version</code> command again. Does it work now?</li>
+</ul>
+<p>Hopefully the FastQC software was not found in your base environment (unless you had installed it previously), but worked once your environment was activated.</p>
+</section>
+<section id="adding-more-packages" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="adding-more-packages"><span class="header-section-number">2.2</span> Adding more packages</h3>
+<ul>
+<li>Now, let’s add another package (<em>MultiQC</em>) to our environment using <code>conda install</code>. Make sure that <code>project_a</code> is the active environment first.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> bioconda multiqc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>If we don’t specify the package version, the latest available version will be installed. What version of MultiQC got installed?</li>
+<li>Run the following to see what versions are available:</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> search <span class="at">-c</span> bioconda multiqc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Now try to install a different version of MultiQC, <em>e.g.</em>:</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> bioconda multiqc=1.13</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Read the information that Conda displays in the terminal. It probably asks if you want to downgrade the initial MultiQC installation to the one specified here (<code>1.13</code> in the example). You can only have one version of a given package in a given environment.</p>
+<p>Let’s assume that you will have sequencing data in your Project A, and want to use the latest BBMap software to align your reads.</p>
+<ul>
+<li>Find out what versions of BBMap are available in the Bioconda channel using <code>conda search -c bioconda bbmap</code>.</li>
+<li>Now install the <em>latest</em> available version of BBMap in your <code>project_a</code> environment.</li>
+</ul>
+<p>Let’s further assume that you have an old project (called <em>Project Old</em>) where you know you used BBMap <code>37.10</code>. You just got back reviewer comments and they want you to include some alignment statistics. Unfortunately, you haven’t saved that information so you will have to rerun the alignment. Now, it is essential that you use the same version of BBMap that your results are based on, otherwise the alignment statistics will be misleading. Using Conda environments this becomes simple. You can just have a separate environment for your old project where you have an old version of BBMap without interfering with your new Project A where you want the latest version.</p>
+<ul>
+<li>Make a new environment for your old project:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project_old <span class="at">-c</span> bioconda bbmap=37.10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>List your environments (do you remember the command?).</li>
+<li>Activate <code>project_old</code> and check the BBMap version (<code>bbmap.sh --version</code>).</li>
+<li>Activate <code>project_a</code> again and check the BBMap version.</li>
+</ul>
+</section>
+<section id="removing-packages" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="removing-packages"><span class="header-section-number">2.3</span> Removing packages</h3>
+<p>Now let’s try to remove an installed package from the active environment:</p>
+<pre><code>conda remove multiqc</code></pre>
+<ul>
+<li>Run <code>conda deactivate</code> to exit your active environment.</li>
+<li>Now, let’s remove an environment:</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env remove <span class="at">-n</span> project_old</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After making a few different environments and installing a bunch of packages, Conda can take up some disk space. You can remove unnecessary files with the command:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> clean <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will remove package tar-balls that are left from package installations, unused packages (<em>i.e.</em> those not present in any environments), and cached data.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How to use <code>conda install</code> for installing packages on the fly.</li>
+<li>How to create, activate and change between environments.</li>
+<li>How to remove packages or environments and clean up.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-environments" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="working-with-environments"><span class="header-section-number">3</span> Working with environments</h2>
+<p>We have up until now specified which Conda packages to install directly on the command line using the <code>conda create</code> and <code>conda install</code> commands. For working in projects this is not the recommended way. Instead, for increased control and reproducibility, it is better to use an <em>environment file</em> (in <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>) that specifies the packages, versions and channels needed to create the environment for a project.</p>
+<p>Throughout these tutorials we will use a case study where we analyse an RNA-seq experiment with the multi-resistant bacteria MRSA (see <a href="introduction">intro</a>). You will now start to make a Conda YAML file for this MRSA project. The file will contain a list of the software and versions needed to execute the analysis code.</p>
+<p>In this Conda tutorial, all code for the analysis is available in the script <code>code/run_qc.sh</code>. This code will download the raw FASTQ-files and subsequently run quality control on these using the FastQC software.</p>
+<section id="working-with-environments-1" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="working-with-environments-1"><span class="header-section-number">3.1</span> Working with environments</h3>
+<p>We will start by making a Conda YAML-file that contains the required packages to perform these two steps. Later in the course, you will update the Conda YAML-file with more packages, as the analysis workflow is expanded.</p>
+<ul>
+<li>Let’s get going! Make a YAML file called <code>environment.yml</code> looking like this, and save it in the current directory (which should be <code>workshop-reproducible-research/tutorials/conda</code>):</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">channels</span><span class="kw">:</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> conda-forge</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> bioconda</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dependencies</span><span class="kw">:</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> fastqc=0.12.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Now, make a new Conda environment from the YAML file (note that here the command is <code>conda env create</code> as opposed to <code>conda create</code> that we used before):</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> project_mrsa <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can also specify exactly which channel a package should come from inside the environment file, using the <code>channel::package=version</code> syntax.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Instead of the <code>-n</code> flag you can use the <code>-p</code> flag to set the full path to where the Conda environment should be installed. In that way you can contain the Conda environment inside the project directory, which does make sense from a reproducibility perspective, and makes it easier to keep track of what environment belongs to what project. If you don’t specify <code>-p</code> the environment will be installed in the <code>envs/</code> directory inside your Conda installation path.</p>
+</div>
+</div>
+<ul>
+<li><p>Activate the environment!</p></li>
+<li><p>Now we can run the code for the MRSA project found in <code>code/run_qc.sh</code>, either by running <code>bash code/run_qc.sh</code> or by opening the <code>run_qc.sh</code> file and executing each line in the terminal one by one. Do this!</p></li>
+</ul>
+<p>This should download the project FASTQ files and run FastQC on them (as mentioned above).</p>
+<ul>
+<li>Check your directory contents (<code>ls -Rlh</code>, or in your file browser). It should now have the following structure:</li>
+</ul>
+<pre class="no-highlight"><code>   conda/
+    |
+    |- code/
+    |   |- run_qc.sh
+    |
+    |- data/
+    |   |- SRR935090.fastq.gz
+    |   |- SRR935091.fastq.gz
+    |   |- SRR935092.fastq.gz
+    |
+    |- results/
+    |   |- fastqc/
+    |       |- SRR935090_fastqc.html
+    |       |- SRR935090_fastqc.zip
+    |       |- SRR935091_fastqc.html
+    |       |- SRR935091_fastqc.zip
+    |       |- SRR935092_fastqc.html
+    |       |- SRR935092_fastqc.zip
+    |
+    |- environment.yml</code></pre>
+<p>Note that all that was needed to carry out the analysis and generate these files and results was <code>environment.yml</code> (that we used to create a Conda environment with the required packages) and the analysis code in <code>code/run_qc.sh</code>.</p>
+</section>
+<section id="keeping-track-of-dependencies" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="keeping-track-of-dependencies"><span class="header-section-number">3.2</span> Keeping track of dependencies</h3>
+<p>Projects can often be quite large and require lots of dependencies; it can feel daunting to try to capture all of that in a single Conda environment, especially when you consider potential incompatibilities that may arise. It can therefore be a good idea to start new projects with an environment file with each package you know that you will need to use, but without specifying exact versions (except for those packages where you <em>know</em> you need a specific version). This will install the latest compatible versions of all the specified software, making the start-up and installation part of new projects easier. You can then add the versions that were installed to your environment file afterwards, ensuring future reproducibility.</p>
+<p>There is one command that can make this easier: <code>conda env export</code>. This allows you to export a list of the packages you’ve already installed, including their specific versions, meaning you can easily add them after the fact to your environment file. If you use the <code>--no-builds</code> flag, you’ll get a list of the packages minus their OS-specific build specifications, which is more useful for making the environment portable across systems. This way, you can start with an environment file with just the packages you need (without version), which will install the most up-to-date version possible, and then add the resulting version back in to the environment file using the <code>export</code> command!</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quick recap">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quick recap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this section we’ve learned:</p>
+<ul>
+<li>How to define our Conda environment using a YAML-file.</li>
+<li>How to use <code>conda env create</code> to make a new environment from a YAML-file.</li>
+<li>How to use <code>conda env export</code> to get a list of installed packages.</li>
+<li>How to work in a project-like setting.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="extra-material" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="extra-material"><span class="header-section-number">4</span> Extra material</h2>
+<p>The following extra material contains some more advanced things you can do with Conda and the command line in general, which is not part of the main course materials. All the essential skills of are covered by the previous section: the material here should be considered tips and tricks from people who use Conda as part of their daily work. You thus don’t need to use these things unless you want to, and you can even skip this part of the lesson if you like!</p>
+<section id="configuration" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="configuration"><span class="header-section-number">4.1</span> Configuration</h3>
+<p>The behaviour of your Conda installation can be changed using an optional configuration file <code>.condarc</code>. On a fresh Conda install no such file is included but it’s created in your home directory as <code>~/.condarc</code> the first time you run <code>conda config</code>.</p>
+<p>You can edit the <code>.condarc</code> file either using a text editor or by way of the <code>conda config</code> command. To list all config parameters and their settings run:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--show</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Similar to Conda environment files, the configuration file is in YAML syntax. This means that the config file is structured in the form of <code>key:value</code> pairs where the <code>key</code> is the name of the config parameter (<em>e.g.</em> <code>auto_update_conda</code>) and the <code>value</code> is the parameter setting (<em>e.g.</em> <code>True</code>).</p>
+<p>Adding the name of a config parameter to <code>conda config --show</code> will show only that parameter, <em>e.g.</em> <code>conda config --show channels</code>.</p>
+<p>You can change parameters with the <code>--set</code>, <code>--add</code>, <code>--append</code> and <code>--remove</code> flags to <code>conda config</code>.</p>
+<p>If you for example want to enable the ‘Always yes’ behaviour which makes Conda automatically choose the <code>yes</code> option, such as when installing, you can run:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--set</span> always_yes True</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To see details about a config parameter you can run <code>conda config --describe parameter</code>. Try running it on the <code>channels</code> parameter:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--describe</span> channels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the beginning of this tutorial we added Conda channels to the <code>.condarc</code> file using <code>conda config --add channels</code>. To remove one of the channels from the configuration file you can run:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--remove</span> channels conda-forge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check your <code>.condarc</code> file to see the change. To add the <em>conda-forge</em> channel back to the top of the <code>channels</code> simply run:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--add</span> channels conda-forge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To completely remove a parameter and all its values run:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--remove-key</span> parameter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For a list of Conda configuration parameters see the <a href="https://docs.conda.io/projects/conda/en/latest/configuration.html">Conda configuration</a> page.</p>
+</section>
+<section id="managing-python-versions" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="managing-python-versions"><span class="header-section-number">4.2</span> Managing Python versions</h3>
+<p>With Conda environments it’s possible to keep several different versions of Python on your computer at the same time, and switching between these versions is very easy. However, a single Conda environment can only contain one version of Python.</p>
+<section id="your-current-python-installation" class="level4" data-number="4.2.1">
+<h4 data-number="4.2.1" class="anchored" data-anchor-id="your-current-python-installation"><span class="header-section-number">4.2.1</span> Your current Python installation</h4>
+<p>The <code>base</code> environment has its own version of Python installed. When you open a terminal (after having installed Conda on your system) this base environment is activated by default (as evidenced by <code>(base)</code> prepended to your prompt). You can check what Python version is installed in this environment by running <code>python --version</code>. To see the exact path to the Python executable type <code>which python</code>.</p>
+<p>In addition to this your computer may already have Python installed in a separate (system-wide) location outside of the Conda installation. To see if that is the case type <code>conda deactivate</code> until your prompt is not prepended with a Conda environment name. Then type <code>which python</code>. If a path was printed to the terminal (<em>e.g.</em> <code>/usr/bin/python</code>) that means some Python version is already installed in that location. Check what version it is by typing <code>python --version</code>.</p>
+<p>Now activate the <code>base</code> environment again by typing <code>conda activate</code> (or the equivalent <code>conda activate base</code>) then check the Python installation path and version using <code>which</code> and <code>python --version</code> as above. See the difference? When you activate an environment your <code>$PATH</code> variable is updated so that when you call <code>python</code> (or any other program) the system first searches the directory of the currently active environment.</p>
+</section>
+<section id="different-python-versions" class="level4" data-number="4.2.2">
+<h4 data-number="4.2.2" class="anchored" data-anchor-id="different-python-versions"><span class="header-section-number">4.2.2</span> Different Python versions</h4>
+<p>When you create a new Conda environment you can choose to install a specific version of Python in that environment as well. As an example, create an environment containing Python version <code>3.5</code> by running:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> py35 python=3.5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we name the environment <code>py35</code> but you can choose whatever name you want.</p>
+<p>To activate the environment run:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate py35</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You now have a completely separate environment with its own Python version.</p>
+<p>Let’s say you instead want an environment with Python version <code>2.7</code> installed. You may for instance want to run scripts or packages that were written for Python 2.x and are thus incompatible with Python 3.x. Simply create the new Conda environment with:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> py27 python=2.7</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Activate this environment with:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate py27</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, switching between Python versions is as easy as typing <code>conda activate py35</code> / <code>conda activate py27</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you create an environment where none of the packages require Python, <em>and</em> you don’t explicitly install the <code>python</code> package then that new environment will use the Python version installed in your <code>base</code> environment.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="decorating-your-prompt" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="decorating-your-prompt"><span class="header-section-number">4.3</span> Decorating your prompt</h3>
+<p>By default, the name of the currently activated environment is added to your command line prompt. This is a good thing, as it makes it easier to keep track of what environment and packages you have access to. The way this is done in the default implementation becomes an issue when using absolute paths for environments (specifying <code>conda env create -p path/to/environment</code>, though, as the entire path will be added to the prompt. This can take up a lot of unnecessary space on your screen, but can be solved in a number of ways.</p>
+<p>The most straightforward way to solve this is to change the Conda configuration file, specifically the settings of the <code>env_prompt</code> configuration value which determines how Conda modifies your command line prompt. For more information about this setting you can run <code>conda config --describe env_prompt</code> and to see your current setting you can run <code>conda config --show env_prompt</code>.</p>
+<p>By default <code>env_prompt</code> is set to <code>({default_env})</code> which modifies your prompt with the active environment name if it was installed using the <code>-n</code> flag or if the environment folder has a parent folder named <code>envs/</code>. Otherwise the full environment path (<em>i.e.</em> the ‘prefix’) is displayed.</p>
+<p>If you instead set <code>env_prompt</code> to <code>({name})</code> Conda will modify your prompt with the folder name of the active environment. You can change the setting by running <code>conda config --set env_prompt '({name}) '</code></p>
+<p>If you wish to keep the <code>({default_env})</code> behaviour, or just don’t want to change your Conda config, an alternative is to keep Conda environment folders within a parent folder called <code>envs/</code>. This will make Conda only add the folder name of the Conda environment to your prompt when you activate it.</p>
+<p>As an example, say you have a project called <em>project_a</em> with the project path <code>~/myprojects/project_a</code>. You could then install the environment for <em>project_a</em> into a folder <code>~/myprojects/project_a/envs/project_a_environment</code>. Activating the environment by pointing Conda to it (<em>e.g.</em> <code>conda activate ~/myprojects/project_a/envs/project_a_environment</code>) will only cause your prompt to be modified with <em>project_a_environment</em>.</p>
+</section>
+<section id="bash-aliases-for-conda" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="bash-aliases-for-conda"><span class="header-section-number">4.4</span> Bash aliases for conda</h3>
+<p>Some programmers like to have aliases (<em>i.e.</em> shortcuts) for common commands. Two aliases that might be useful for you are <code>alias coac='conda activate'</code> and <code>alias code='conda deactivate'</code>. Don’t forget to add them to your <code>~/.bash_profile</code> if you want to use them!</p>
+</section>
+<section id="rolling-back-to-an-earlier-version-of-the-environment" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="rolling-back-to-an-earlier-version-of-the-environment"><span class="header-section-number">4.5</span> Rolling back to an earlier version of the environment</h3>
+<p>The history of the changes to an environment are automatically tracked. You can see revisions to an environment by using:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> list <span class="at">--revisions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Which shows each revision (numbered) and what’s installed.</p>
+<p>You can revert back to particular revision using:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">--revision</span> 5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="mamba-the-drop-in-conda-replacement" class="level3" data-number="4.6">
+<h3 data-number="4.6" class="anchored" data-anchor-id="mamba-the-drop-in-conda-replacement"><span class="header-section-number">4.6</span> Mamba, the drop-in Conda replacement</h3>
+<p>There is another piece of software that is built on top of Conda as a drop-in replacement for it: <em>Mamba</em>. The reason for Mamba’s existence is that it used to have a better solver algorithm for the dependency tree than Conda did. These days, however, this algorithm is included in Conda as the default. There is still some minor reasons you might want to use Mamba, however, the first of which being that Mamba re-implements Conda in C++, which runs slightly faster than the Python-based Conda. This only yields a minor speed increase compared to the dependency-tree algorithm, though, so don’t expect major differences in execution time between Conda and Mamba. Another reason is that Mamba colours its output, which is nice if you care about that sort of thing. If you installed Conda as described in the pre-course material you’ll, conveniently, already have installed Mamba as well!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Published with <a href="https://quarto.org/">Quarto</a> v1.4.549
+</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
