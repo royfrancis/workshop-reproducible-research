@@ -407,8 +407,7 @@
         <div class="title-parent title-two">
       <div class="title-child-text">
         <h1 class="title">Managing software environments with <br> <img src="images/conda-logo.png" style="width:50%;padding: 25px 25px 25px 25px;"></h1>
-                <p class="subtitle">Specky quarto theme</p>
-                                        <p class="date">18-Oct-2024</p>
+                                        <p class="date">24-Oct-2024</p>
               </div>
       <div class="title-child-hero">
                 <div class="title-hero">
@@ -423,7 +422,7 @@
 <section id="the-problem" class="slide level2">
 <h2>The problem</h2>
 
-<img data-src="r-reproducibility-6-638_cropped.jpg" style="width:75.0%" class="r-stretch"><div class="fragment justify-center">
+<img data-src="images/dying-script.jpg" class="r-stretch"><div class="fragment justify-center">
 <p><em>Full reproducibility requires the possibility to recreate the system that was originally used to generate the results.</em></p>
 </div>
 </section>
@@ -434,8 +433,6 @@
 </ul>
 <div data-id="flowchart1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb1-1" class="hljs-ln-code"><a></a>flowchart LR</span>
-<span id="cb1-2" class="hljs-ln-code"><a></a>    multiqc(multiqc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -458,10 +455,6 @@
 </ul>
 <div data-id="flowchart1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb2-1" class="hljs-ln-code"><a></a>flowchart LR</span>
-<span id="cb2-2" class="hljs-ln-code"><a></a>    multiqc(multiqc) -.-&gt; numpy(numpy)</span>
-<span id="cb2-3" class="hljs-ln-code"><a></a>    multiqc -.-&gt; matplotlib(matplotlib)</span>
-<span id="cb2-4" class="hljs-ln-code"><a></a>    multiqc -.-&gt; python(python)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -489,15 +482,6 @@
 </ul>
 <div data-id="flowchart1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb3-1" class="hljs-ln-code"><a></a>flowchart LR</span>
-<span id="cb3-2" class="hljs-ln-code"><a></a>    multiqc(multiqc) -.-&gt; numpy(numpy)</span>
-<span id="cb3-3" class="hljs-ln-code"><a></a>    multiqc -.-&gt; matplotlib(matplotlib)</span>
-<span id="cb3-4" class="hljs-ln-code"><a></a>    multiqc -.-&gt; python(python)</span>
-<span id="cb3-5" class="hljs-ln-code"><a></a>    matplotlib -.-&gt; python</span>
-<span id="cb3-6" class="hljs-ln-code"><a></a>    matplotlib -.-&gt; numpy</span>
-<span id="cb3-7" class="hljs-ln-code"><a></a>    matplotlib -.-&gt; fonttools(fonttools)</span>
-<span id="cb3-8" class="hljs-ln-code"><a></a>    numpy -.-&gt; python</span>
-<span id="cb3-9" class="hljs-ln-code"><a></a>    numpy -.-&gt; libcxx(libcxx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -531,19 +515,6 @@
 </ul>
 <div data-id="flowchart1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb4-1" class="hljs-ln-code"><a></a>flowchart LR</span>
-<span id="cb4-2" class="hljs-ln-code"><a></a>    subgraph environment</span>
-<span id="cb4-3" class="hljs-ln-code"><a></a>    style environment fill:#00000000, stroke-width:1px</span>
-<span id="cb4-4" class="hljs-ln-code"><a></a>    direction LR</span>
-<span id="cb4-5" class="hljs-ln-code"><a></a>    multiqc(multiqc) -.-&gt; numpy(numpy)</span>
-<span id="cb4-6" class="hljs-ln-code"><a></a>    multiqc -.-&gt; matplotlib(matplotlib)</span>
-<span id="cb4-7" class="hljs-ln-code"><a></a>    multiqc -.-&gt; python(python)</span>
-<span id="cb4-8" class="hljs-ln-code"><a></a>    matplotlib -.-&gt; python</span>
-<span id="cb4-9" class="hljs-ln-code"><a></a>    matplotlib -.-&gt; numpy</span>
-<span id="cb4-10" class="hljs-ln-code"><a></a>    matplotlib -.-&gt; fonttools(fonttools)</span>
-<span id="cb4-11" class="hljs-ln-code"><a></a>    numpy-.-&gt;python</span>
-<span id="cb4-12" class="hljs-ln-code"><a></a>    numpy -.-&gt; libcxx(libcxx)</span>
-<span id="cb4-13" class="hljs-ln-code"><a></a>    end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -574,14 +545,6 @@
 <p><span class="green">Channels</span> are remote directories containing packages</p>
 <div data-id="m1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb5-1" class="hljs-ln-code"><a></a>flowchart TD</span>
-<span id="cb5-2" class="hljs-ln-code"><a></a>    ch1[(channel1)] --- p1[package1]</span>
-<span id="cb5-3" class="hljs-ln-code"><a></a>    ch1[(channel1)] --- p2[package2]</span>
-<span id="cb5-4" class="hljs-ln-code"><a></a>    ch1[(channel1)] --- p3[package3]</span>
-<span id="cb5-5" class="hljs-ln-code"><a></a></span>
-<span id="cb5-6" class="hljs-ln-code"><a></a>    ch2[(channel2)] --- p4[package4]</span>
-<span id="cb5-7" class="hljs-ln-code"><a></a>    ch2[(channel2)] --- p5[package5]</span>
-<span id="cb5-8" class="hljs-ln-code"><a></a>    ch2[(channel2)] --- p6[package6]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -611,14 +574,6 @@
 </ul>
 <div data-id="m1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb6-1" class="hljs-ln-code"><a></a>flowchart TD</span>
-<span id="cb6-2" class="hljs-ln-code"><a></a>    ch1[(bioconda)] --- p1[bowtie2]</span>
-<span id="cb6-3" class="hljs-ln-code"><a></a>    ch1[(bioconda)] --- p2[fastqc]</span>
-<span id="cb6-4" class="hljs-ln-code"><a></a>    ch1[(bioconda)] --- p3[snakemake]</span>
-<span id="cb6-5" class="hljs-ln-code"><a></a></span>
-<span id="cb6-6" class="hljs-ln-code"><a></a>    ch2[(conda-forge)] --- p4[numpy]</span>
-<span id="cb6-7" class="hljs-ln-code"><a></a>    ch2[(conda-forge)] --- p5[jupyter]</span>
-<span id="cb6-8" class="hljs-ln-code"><a></a>    ch2[(conda-forge)] --- p6[wget]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -648,17 +603,6 @@
 </ul>
 <div data-id="m1">
 <div class="cell" data-reveal="true" data-layout-align="left">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb7-1" class="hljs-ln-code"><a></a>flowchart TD</span>
-<span id="cb7-2" class="hljs-ln-code"><a></a>    ch1[(bioconda)] --- p1[bowtie2]</span>
-<span id="cb7-3" class="hljs-ln-code"><a></a>    ch1[(bioconda)] --- p2[fastqc]</span>
-<span id="cb7-4" class="hljs-ln-code"><a></a>    ch1[(bioconda)] --- p3[snakemake]</span>
-<span id="cb7-5" class="hljs-ln-code"><a></a></span>
-<span id="cb7-6" class="hljs-ln-code"><a></a>    ch2[(conda-forge)] --- p4[numpy]</span>
-<span id="cb7-7" class="hljs-ln-code"><a></a>    ch2[(conda-forge)] --- p5[jupyter]</span>
-<span id="cb7-8" class="hljs-ln-code"><a></a>    ch2[(conda-forge)] --- p6[wget]</span>
-<span id="cb7-9" class="hljs-ln-code"><a></a></span>
-<span id="cb7-10" class="hljs-ln-code"><a></a>    p5 -.-&gt; l1([conda install -c conda-forge -c bioconda snakemake jupyter])</span>
-<span id="cb7-11" class="hljs-ln-code"><a></a>    p3 -.-&gt; l1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
@@ -685,53 +629,53 @@
 <section id="defining-and-sharing-environments" class="slide level2">
 <h2>Defining and sharing environments</h2>
 <p>Define a Conda environment in an <code>environment.yml</code> file:</p>
-<div class="sourceCode" id="cb8" data-code-line-numbers="|1-3|4-12"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a></a><span class="fu">channels</span><span class="kw">:</span></span>
-<span id="cb8-2"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> conda-forge</span></span>
-<span id="cb8-3"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> bioconda</span></span>
-<span id="cb8-4"><a></a><span class="fu">dependencies</span><span class="kw">:</span></span>
-<span id="cb8-5"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> fastqc=0.11</span></span>
-<span id="cb8-6"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> sra-tools=2.8</span></span>
-<span id="cb8-7"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> snakemake=4.3.0</span></span>
-<span id="cb8-8"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> multiqc=1.3</span></span>
-<span id="cb8-9"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> bowtie2=2.3</span></span>
-<span id="cb8-10"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> samtools=1.6</span></span>
-<span id="cb8-11"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> htseq=0.9</span></span>
-<span id="cb8-12"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> graphviz=2.38.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-code-line-numbers="|1-3|4-12"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a></a><span class="fu">channels</span><span class="kw">:</span></span>
+<span id="cb1-2"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> conda-forge</span></span>
+<span id="cb1-3"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> bioconda</span></span>
+<span id="cb1-4"><a></a><span class="fu">dependencies</span><span class="kw">:</span></span>
+<span id="cb1-5"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> fastqc=0.11</span></span>
+<span id="cb1-6"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> sra-tools=2.8</span></span>
+<span id="cb1-7"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> snakemake=4.3.0</span></span>
+<span id="cb1-8"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> multiqc=1.3</span></span>
+<span id="cb1-9"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> bowtie2=2.3</span></span>
+<span id="cb1-10"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> samtools=1.6</span></span>
+<span id="cb1-11"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> htseq=0.9</span></span>
+<span id="cb1-12"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> graphviz=2.38.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="defining-and-sharing-environments-1" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Defining and sharing environments</h2>
 <ul>
 <li>Update an existing environment:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode bash hljs"><span id="cb9-1" class="hljs-ln-code"><a></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode bash hljs"><span id="cb2-1" class="hljs-ln-code"><a></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="defining-and-sharing-environments-2" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Defining and sharing environments</h2>
 <ul>
 <li>Update an existing environment:</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Export environment (including all dependencies) to a file:</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="ex">conda</span> env export <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="ex">conda</span> env export <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="defining-and-sharing-environments-3" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Defining and sharing environments</h2>
 <ul>
 <li>Update an existing environment:</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Export environment (including all dependencies) to a file:</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="ex">conda</span> env export <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">conda</span> env export <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Export historical environment (only packages explicitly installed):</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a></a><span class="ex">conda</span> env export <span class="at">--from-history</span> <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a></a><span class="ex">conda</span> env export <span class="at">--from-history</span> <span class="op">&gt;</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="conda-anaconda-miniconda-miniforge" class="slide level2 smaller">
+<section id="conda-anaconda-miniconda-miniforge" class="slide level2">
 <h2>Conda, Anaconda, Miniconda, Miniforge…</h2>
 <div>
 <ul>
@@ -743,7 +687,7 @@
 <li class="fragment">A cloud service where conda packages are hosted (<a href="https://anaconda.com">anaconda.com</a>)</li>
 </ul></li>
 <li class="fragment"><span class="green">Miniconda</span>: A minimal installer for Conda, pre-configured to use the <code>default</code> channel</li>
-<li class="fragment"><span class="green">Miniforge</span>: A minimal installer for Conda, pre-configured to use the <code>conda-forge</code> channel</li>
+<li class="fragment"><span class="green">Miniforge</span>: A minimal installer for Conda, pre-configured to use the <code>conda-forge</code> channel (use this!)</li>
 </ul>
 </div>
 </section>

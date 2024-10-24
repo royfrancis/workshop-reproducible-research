@@ -185,7 +185,7 @@ background-size: cover;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">18-Oct-2024</p>
+        <p class="date">24-Oct-2024</p>
       </div>
     </div>
     
@@ -235,7 +235,7 @@ background-size: cover;
 
 <section id="introduction" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
-<p>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain code, equations, visualizations and text. The functionality is partly overlapping with Quarto (see the <a href="quarto-1-introduction">tutorial</a>), in that they both use markdown and code chunks to generate reports that integrate results of computations with the code that generated them. Jupyter Notebook comes from the Python community while Quarto was developed by Posit (who also created R Markdown and RStudio), but you could use most common programming languages in either alternative. In practice though, it’s quite common that R developers use Jupyter but probably not very common that Python developers use RStudio. Some reasons to use Jupyter include:</p>
+<p>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain code, equations, visualizations and text. The functionality is partly overlapping with Quarto (see the <a href="quarto.html">tutorial</a>), in that they both use markdown and code chunks to generate reports that integrate results of computations with the code that generated them. Jupyter Notebook comes from the Python community while Quarto was developed by Posit (who also created R Markdown and RStudio), but you could use most common programming languages in either alternative. In practice though, it’s quite common that R developers use Jupyter but probably not very common that Python developers use RStudio. Some reasons to use Jupyter include:</p>
 <ul>
 <li>Python is lacking a really good IDE for doing exploratory scientific data analysis, like RStudio or Matlab. Some people use Jupyter simply as an alternative for that.</li>
 <li>The Jupyter Project community is large and dynamic, and there are lots of tools for sharing, displaying or interacting with notebooks.</li>
@@ -243,7 +243,7 @@ background-size: cover;
 <li>Jupyter notebooks can be used, just like Quarto, to provide a tighter connection between your data and your results by integrating results of computations with the code that generated them. They can also do this in an interactive way that makes them very appealing for sharing with others.</li>
 </ul>
 <p>As always, the best way is to try it out yourself and decide what to use it for!</p>
-<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="pre-course-setup">setup</a> for instructions on how to set it up if you haven’t done so already. Then open up a terminal and go to <code>workshop-reproducible-research/tutorials/jupyter</code> and activate your <code>jupyter-env</code> Conda environment.</p>
+<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="../home_precourse.html">setup</a> for instructions on how to set it up if you haven’t done so already. Then open up a terminal and go to <code>workshop-reproducible-research/tutorials/jupyter</code> and activate your <code>jupyter-env</code> Conda environment.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="A note on nomenclature">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -335,7 +335,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you want to start Jupyter Notebooks on a cluster that you SSH to (<em>e.g.</em> Uppmax) see the section in the <a href="jupyter-10-extra-material">Extra material</a></p>
+<p>If you want to start Jupyter Notebooks on a cluster that you SSH to (<em>e.g.</em> Uppmax) see the section in the <a href="#extra-material">Extra material</a>.</p>
 </div>
 </div>
 <p>Jupyter notebooks are made up of cells, and you are currently standing in the first cell in your notebook. Your cursor should be blinking in this cell, indicating that you are in “Edit mode” meaning that you can type text in the cell. Pressing the <code>Esc</code> key puts you in “Command mode” which allows you to manipulate the notebook as a whole, more on this later.</p>
@@ -343,7 +343,7 @@ Tip
 <ul>
 <li><strong>Markdown:</strong></li>
 </ul>
-<p>These cells contain static material such as captions, text, lists, images and so on. You express this using Markdown, which is a lightweight markup language. Markdown documents can then be converted to other formats for viewing (the document you’re reading now is written in Markdown and then converted to HTML). The format is discussed a little more in detail in the <a href="quarto-1-introduction">Quarto tutoriall</a>. Jupyter Notebook uses a dialect of Markdown called GitHub Flavoured Markdown, which is described <a href="https://guides.github.com/features/mastering-markdown/">here</a>.</p>
+<p>These cells contain static material such as captions, text, lists, images and so on. You express this using Markdown, which is a lightweight markup language. Markdown documents can then be converted to other formats for viewing. The format is discussed a little more in detail in the <a href="markdown.html">Markdown introduction</a>. Jupyter Notebook uses a dialect of Markdown called GitHub Flavoured Markdown, which is described <a href="https://guides.github.com/features/mastering-markdown/">at GitHub</a>.</p>
 <ul>
 <li><strong>Code:</strong></li>
 </ul>
@@ -449,9 +449,9 @@ See [here](https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/W
 <h2 data-number="4" class="anchored" data-anchor-id="writing-code"><span class="header-section-number">4</span> Writing code</h2>
 <p>Now let’s write some code! Since we chose a Python kernel, Python would be the native language to run in a cell. Enter this code in the second cell and run it:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello world!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note how the output is directly displayed below the cell. This interactive way of working is one of the things that sets Jupyter Notebook apart from RStudio and Quarto. In RStudio/Quarto, documents are typically rendered top-to-bottom in one run, while you work <em>in</em> a Jupyter notebook in a different way. This requires some special attention when it comes to reproducibility, which we will get back to in the <a href="jupyter-7-reproducibility">reproducibility</a> section.</p>
+<p>Note how the output is directly displayed below the cell. This interactive way of working is one of the things that sets Jupyter Notebook apart from RStudio and Quarto. In RStudio/Quarto, documents are typically rendered top-to-bottom in one run, while you work <em>in</em> a Jupyter notebook in a different way. This requires some special attention when it comes to reproducibility, which we will get back to in the <a href="#reproducibility">reproducibility</a> section.</p>
 <p>What <strong>is</strong> a Jupyter notebook? Let’s look a closer at the notebook we’re currently working in. Jupyter Notebooks are autosaved every minute or so, so you will already have it available. We can be a little meta and do this from within the notebook itself, by running some shell commands in a code cell. This very handy functionality is possible by prepending the command with <code>!</code>. Try adding <code>!ls</code> to a code cell and run it. This will list the files in the current directory.</p>
-<p>Aha, we have a new file called <code>jupyter-tutorial.ipynb</code>! This is our notebook. Look at the first ten lines of the file by using <code>!head jupyter-tutorial.ipynb</code>. Seems like it’s just a plain old JSON file. Since it’s a text file it’s suitable for version control with for example Git. There are however some special considerations to take into account for Notebooks which we will cover in the <a href="jupyter-7-reproducibility">reproducibility section</a> of this tutorial.</p>
+<p>Aha, we have a new file called <code>jupyter-tutorial.ipynb</code>! This is our notebook. Look at the first ten lines of the file by using <code>!head jupyter-tutorial.ipynb</code>. Seems like it’s just a plain old JSON file. Since it’s a text file it’s suitable for version control with for example Git. There are however some special considerations to take into account for Notebooks which we will cover in the <a href="#reproducibility">reproducibility section</a> of this tutorial.</p>
 <p>Variables defined in cells become variables in the global namespace. You can therefore share information between cells. Try to define a function or variable in one cell and use it in the next. For example, add the following to a new cell and run it:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_me(<span class="bu">str</span>):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -552,7 +552,7 @@ Quick recap
 </section>
 <section id="plotting" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="plotting"><span class="header-section-number">6</span> Plotting</h2>
-<p>An essential feature of Jupyter Notebooks is of course the ability to visualize data and results via plots. A full guide to plotting in Python is beyond the scope of this course, but we’ll offer a few glimpses into the plotting landscape of Python.</p>
+<p>An essential feature of Jupyter Notebooks is of course the ability to visualize data and results via plots. A full guide to plotting in Python is beyond the scope of this course, but will offer a few glimpses into the plotting landscape of Python.</p>
 <p>First of all, Python has a library for plotting called <a href="https://matplotlib.org/stable/index.html">matplotlib</a>, which comes packed with functionality for creating high-quality plots. Below is an example of how to generate a line plot of a sine wave.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -582,7 +582,7 @@ Quick recap
 <div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Simple right? Yes, but maybe not very informative. Here Seaborn simply calculates the mean of all numeric variables for the penguins and plots them with error bars representing a 95% confidence interval.</p>
 <p>Let’s say that instead we want to plot the mean value of the body mass of the penguins at the different islands where they were examined.</p>
-<pre><code>sns.barplot(data=penguins, x="island", y="body_mass_g", errorbar="sd");</code></pre>
+<pre><code>sns.barplot(data=penguins, x="island", y="body_mass_g", errorbar="sd")</code></pre>
 <p>Here we specified to use values in the ‘island’ column as categories for the x-axis, and values in the ‘body_mass_g’ column as values for the y-axis. The barplot function of Seaborn will then calculate the mean body mass for each island and plot the bars. With <code>errorbar="sd"</code> we tell the function to draw the standard deviation as error bars, instead of computing a confidence interval.</p>
 <p>If we instead want to visualize the data as a scatterplot we can use the <code>sns.scatterplot</code> function. Let’s plot the body mass vs bill length for all penguins and colour the data points by species. We’ll also move the legend outside of the plotting area and modify the x and y-axis labels:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the matplotlib axes containing the plot in a variable called 'ax'</span></span>
@@ -592,7 +592,7 @@ Quick recap
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Bill length (mm)"</span>)</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Body mass (g)"</span>)</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set legend position outside of plot</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>ax.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>ax.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you want to save a plot to file you can use the <code>plt.savefig</code> function. Add the following to the bottom of the cell with the scatterplot code:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"scatterplot.pdf"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>bbox_inches="tight"</code> setting ensures that the figure is not clipped when saved to file.</p>
@@ -707,7 +707,7 @@ Caution
 <h2 data-number="9" class="anchored" data-anchor-id="other-interactive-plots"><span class="header-section-number">9</span> Other interactive plots</h2>
 <p>Jupyter widgets, like we used here, is the most vanilla way of getting interactive graphs in Jupyter notebooks. Some other alternatives are:</p>
 <ul>
-<li><a href="https://altair-viz.github.io/">altair</a> is a plotting library that uses Vega-Lite grammar which is reminiscent of ggplot2 in R. The syntax is different from what we’ve shown here, but it’s very powerful once you get the hang of it.</li>
+<li><a href="https://altair-viz.github.io/">Altair</a> is a plotting library that uses Vega-Lite grammar which is reminiscent of ggplot2 in R. The syntax is different from what we’ve shown here, but it’s very powerful once you get the hang of it.</li>
 <li><a href="https://plot.ly/python/ipython-notebook-tutorial">Plotly</a> is actually an API to a web service that renders your graph and returns it for display in your Jupyter notebook. Generates very visually appealing graphs, but from a reproducibility perspective it’s maybe not a good idea to be so reliant on a third party.</li>
 <li><a href="https://bokeh.pydata.org/en/latest/docs/user_guide/notebook.html#userguide-notebook">Bokeh</a> is another popular tool for interactive graphs. Most plotting packages for Python are built on top of matplotlib, but Bokeh has its own library. This can give a steeper learning curve if you’re used to the standard packages.</li>
 <li><a href="http://mpld3.github.io">mpld3</a> tries to integrate matplotlib with Javascript and the D3js package. It doesn’t scale well for very large datasets, but it’s easy to use and works quite seamlessly.</li>
@@ -954,7 +954,7 @@ Quick recap
 <p>Save the notebook and now render the document with Quarto from the commandline:</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render supplementary_material.ipynb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Open up the <code>supplementary_material.html</code> file in a browser and compare it to the <code>supplementary_material.nbconvert.html</code> file. You should see that the Quarto version looks a lot better. The fact that Quarto supports rendering of Jupyter notebooks means you can keep editing your notebooks as you normally would and use Quarto for rendering the final document. Also there’s very little we had to change in the notebook to make it work with Quarto. If you look closely at the code cells used to generate the plots and table you’ll see that they contain code-chunk options in the same form we used in the Quarto tutorial. These options do not impact the notebook when run in Jupyter, making it easy to use the two tools in combination.</p>
-<p>Let’s go back to the YAML header cell and fix how it looks in the Jupyter notebook. The reason it looks weird is that Jupyter doesn’t understand the syntax. But luckily there’s a Jupyter lab Quarto extension you can install to fix this. Click the extension icon in the left sidebar and search for <code>quarto</code>. Install the <code>jupyterlab-quarto</code> extension and then reload the page. Now the YAML header should look a lot better.</p>
+<p>Let’s go back to the YAML header cell and fix how it looks in the Jupyter notebook. The reason it looks weird is that Jupyter doesn’t understand the syntax. But luckily the Jupyter lab Quarto extension we mentioned in the <a href="#extensions">extensions section</a> section can be installed to fix this. Click the extension icon in the left sidebar and search for <code>quarto</code>. Install the <code>jupyterlab-quarto</code> extension and then reload the page. Now the YAML header should look a lot better.</p>
 <p>Try adding more options to the header to customize the look of the rendered document. For instance you could:</p>
 <ul>
 <li>add a Table of contents with (<code>toc: true</code>)</li>
@@ -1428,7 +1428,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/cc-by-4.0/">CC-BY-4.0 License</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

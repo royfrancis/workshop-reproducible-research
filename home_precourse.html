@@ -237,9 +237,19 @@ background-size: cover;
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/your/directory</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/NBISweden/workshop-reproducible-research.git</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop-reproducible-research</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p><strong>Tip</strong> <br> If you want to revisit the material from an older instance of this course, you can do that using <code>git switch -d tags/&lt;tag-name&gt;</code>, e.g. <code>git switch -d tags/course_1905</code>. To list all available tags, use <code>git tag</code>. Run this command after you have <code>cd</code> into <code>workshop-reproducible-research</code> as described above. If you do that, you probably also want to view the same older version of this website. Until spring 2021, the website was hosted at <a href="https://nbis-reproducible-research.readthedocs.io">ReadTheDocs</a>. Locate the version box in the bottom right corner of the website and select the corresponding version.</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you want to revisit the material from an older instance of this course, you can do that using <code>git switch -d tags/&lt;tag-name&gt;</code>, e.g. <code>git switch -d tags/course_1905</code>. To list all available tags, use <code>git tag</code>. Run this command after you have <code>cd</code> into <code>workshop-reproducible-research</code> as described above. If you do that, you probably also want to view the same older version of this website. Until spring 2021, the website was hosted at <a href="https://nbis-reproducible-research.readthedocs.io">ReadTheDocs</a>. Locate the version box in the bottom right corner of the website and select the corresponding version.</p>
+</div>
+</div>
 </section>
 <section id="setup-for-windows-users" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="setup-for-windows-users"><span class="header-section-number">2</span> Setup for Windows users</h2>
@@ -251,16 +261,46 @@ background-size: cover;
 <li><a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">Installing and using Linux Bash on Windows</a></li>
 <li><a href="https://itsfoss.com/install-bash-on-windows/">Installing Linux Bash on Windows</a></li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>Note</strong> <br> If you run into error messages when trying to download files through the Linux shell (<em>e.g.</em> <code>curl:(6) Could not resolve host</code>) then try adding the Google name server to the internet configuration by running <code>sudo nano /etc/resolv.conf</code> then add <code>nameserver 8.8.8.8</code> to the bottom of the file and save it.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>Important!</strong> <br> Whenever a setup instruction specifies Mac or Linux (<em>i.e.</em> only those two, with no alternative for Windows), <strong>please follow the Linux instructions.</strong></p>
-</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you run into error messages when trying to download files through the Linux shell (<em>e.g.</em> <code>curl:(6) Could not resolve host</code>) then try adding the Google name server to the internet configuration by running <code>sudo nano /etc/resolv.conf</code> then add <code>nameserver 8.8.8.8</code> to the bottom of the file and save it.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Whenever a setup instruction specifies Mac or Linux (<em>i.e.</em> only those two, with no alternative for Windows), <strong>please follow the Linux instructions.</strong></p>
+</div>
+</div>
 <p>Open a bash shell Linux terminal and clone the GitHub repository containing all files you will need for completing the tutorials as follows. First, <code>cd</code> into a directory on your computer (or create one) where it makes sense to download the course directory.</p>
-<blockquote class="blockquote">
-<p><strong>Tip</strong> <br> You can find the directory where the Linux distribution is storing all its files by typing <code>explorer.exe .</code>. This will launch the Windows File Explorer showing the current Linux directory. Alternatively, you can find the Windows C drive from within the bash shell Linux terminal by navigating to <code>/mnt/c/</code>.</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can find the directory where the Linux distribution is storing all its files by typing <code>explorer.exe .</code>. This will launch the Windows File Explorer showing the current Linux directory. Alternatively, you can find the Windows C drive from within the bash shell Linux terminal by navigating to <code>/mnt/c/</code>.</p>
+</div>
+</div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/your/directory</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/NBISweden/workshop-reproducible-research.git</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop-reproducible-research</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -273,30 +313,60 @@ background-size: cover;
 <p>If it is the first time you use git on your computer, you may want to configure it so that it is aware of your username and email. These should match those that you have registered on GitHub. This will make it easier when you want to sync local changes with your remote GitHub repository.</p>
 <pre><code>git config --global user.name "Mona Lisa"
 git config --global user.email "mona_lisa@gmail.com"</code></pre>
-<blockquote class="blockquote">
-<p><strong>Tip</strong> <br> If you have several accounts (<em>e.g.</em> both a GitHub and Bitbucket account), and thereby several different usernames, you can configure git on a per-repository level. Change directory into the relevant local git repository and run <code>git config user.name "Mona Lisa"</code>. This will set the default username for that repository only.</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have several accounts (<em>e.g.</em> both a GitHub and Bitbucket account), and thereby several different usernames, you can configure git on a per-repository level. Change directory into the relevant local git repository and run <code>git config user.name "Mona Lisa"</code>. This will set the default username for that repository only.</p>
+</div>
+</div>
 <p>You will also need to configure the default branch name to be <code>main</code> instead of <code>master</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch <span class="st">"main"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The short version of why you need to do this is that GitHub uses <code>main</code> as the default branch while Git itself is still using <code>master</code>; please read the box below for more information.</p>
-<blockquote class="blockquote">
-<p><strong>The default branch name</strong> <br> The default branch name for Git and many of the online resources for hosting Git repositories has traditionally been <code>master</code>, which historically comes from the “master/slave” repositories of <a href="https://mail.gnome.org/archives/desktop-devel-list/2019-May/msg00066.html">BitKeeper</a>. This has been heavily discussed and in 2020 the decision was made by many (<a href="https://sfconservancy.org/news/2020/jun/23/gitbranchname/">including GitHub</a>) to start using <code>main</code> instead. Any repository created with GitHub uses this new naming scheme since October of 2020, and Git itself is currently discussing implementing a similar change. Git did, however, introduce the ability to set the default branch name when using <code>git init</code> in <a href="https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch">version 2.28</a>, instead of using a hard-coded <code>master</code>. We at NBIS want to be a part of this change, so we have chosen to use <code>main</code> for this course.</p>
-</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="The default branch name">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The default branch name
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The default branch name for Git and many of the online resources for hosting Git repositories has traditionally been <code>master</code>, which historically comes from the “master/slave” repositories of <a href="https://mail.gnome.org/archives/desktop-devel-list/2019-May/msg00066.html">BitKeeper</a>. This has been heavily discussed and in 2020 the decision was made by many (<a href="https://sfconservancy.org/news/2020/jun/23/gitbranchname/">including GitHub</a>) to start using <code>main</code> instead. Any repository created with GitHub uses this new naming scheme since October of 2020, and Git itself is currently discussing implementing a similar change. Git did, however, introduce the ability to set the default branch name when using <code>git init</code> in <a href="https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch">version 2.28</a>, instead of using a hard-coded <code>master</code>. We at NBIS want to be a part of this change, so we have chosen to use <code>main</code> for this course.</p>
+</div>
+</div>
 </section>
 <section id="github-setup" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="github-setup"><span class="header-section-number">3.2</span> GitHub setup</h3>
 <p><a href="https://github.com">GitHub</a> is one of several online hosting platforms for Git repositories. We’ll go through the details regarding how Git and GitHub are connected in the course itself, so for now we’ll stick to setting up your account and credentials.</p>
 <p>If you have not done so already, go to <a href="https://github.com/join">github.com</a> and create an account. You can also create an account on another online hosting service for version control, <em>e.g.</em> <a href="https://bitbucket.org">Bitbucket</a> or <a href="https://about.gitlab.com/">GitLab</a>. The exercises in this course are written with examples from GitHub (as that is the most popular platform with the most extensive features), but the same thing can be done on alternative services, although the exact menu structure and link placements differ.</p>
 <p>Any upload to and from GitHub requires you to authenticate yourself. GitHub used to allow authentication with your account and password, but this is no longer the case - using SSH keys is required instead. Knowing exactly what these are is not necessary to get them working, but we encourage you to read the box below to learn more about them! GitHub has excellent, platform-specific instructions both on how to <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">generate</a> and <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">add</a> SSH keys to your account, so please follow those instructions.</p>
-<blockquote class="blockquote">
-<p><strong>SSH keys and authentication</strong> <br> Using SSH (Secure Shell) for authentication basically entails setting up a pair of keys: one private and one public. You keep the private key on your local computer and give the public key to anywhere you want to be able to connect to, <em>e.g.</em> GitHub. The public key can be used to encrypt messages that <em>only</em> the corresponding private key can decrypt. A simplified description of how SSH authentication works goes like this:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="SSH keys and authentication">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+SSH keys and authentication
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using SSH (Secure Shell) for authentication basically entails setting up a pair of keys: one private and one public. You keep the private key on your local computer and give the public key to anywhere you want to be able to connect to, <em>e.g.</em> GitHub. The public key can be used to encrypt messages that <em>only</em> the corresponding private key can decrypt. A simplified description of how SSH authentication works goes like this:</p>
 <ol type="1">
 <li>The client (<em>i.e.</em> the local computer) sends the ID of the SSH key pair it would like to use for authentication to the server (<em>e.g.</em> GitHub)</li>
 <li>If that ID is found, the server generates a random number and encrypts this with the public key and sends it back to the client</li>
 <li>The client decrypts the random number with the private key and sends it back to the server</li>
 </ol>
 <p>Notice that the private key always remains on the client’s side and is never transferred over the connection; the ability to decrypt messages encrypted with the public key is enough to ascertain the client’s authenticity. This is in contrast with using passwords, which are themselves sent across a connection (albeit encrypted). It is also important to note that even though the keys come in pairs it is impossible to derive the private key from the public key. If you want to read more details about how SSH authentication work you can check out <a href="https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process">this website</a>, which has more in-depth information than we provide here.</p>
-</blockquote>
+</div>
+</div>
 </section>
 </section>
 <section id="installing-conda" class="level2" data-number="4">
@@ -333,9 +403,19 @@ git config --global user.email "mona_lisa@gmail.com"</code></pre>
 conda config --add channels conda-forge</code></pre>
 <p>And we will also set so called ‘strict’ channel priority, which ensures higher stability and better performance (see details about this setting by running the following:</p>
 <pre><code>conda config --set channel_priority strict</code></pre>
-<blockquote class="blockquote">
-<p><strong>Important!</strong> <br> The Conda docs specify a couple of things to keep in mind when using Conda. First of all, <code>conda</code> should be installed in the <code>base</code> environment and no other packages should be installed into <code>base</code>. Furthermore, mixing of the <code>conda-forge</code> and <code>defaults</code> channels should be avoided as the default Anaconda channels are incompatible with <code>conda-forge</code>. Since we are installing from <code>miniforge</code> we get the <code>conda-forge</code> defaults without having to do anything.</p>
-</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Conda docs specify a couple of things to keep in mind when using Conda. First of all, <code>conda</code> should be installed in the <code>base</code> environment and no other packages should be installed into <code>base</code>. Furthermore, mixing of the <code>conda-forge</code> and <code>defaults</code> channels should be avoided as the default Anaconda channels are incompatible with <code>conda-forge</code>. Since we are installing from <code>miniforge</code> we get the <code>conda-forge</code> defaults without having to do anything.</p>
+</div>
+</div>
 </section>
 <section id="conda-on-new-macs" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="conda-on-new-macs"><span class="header-section-number">4.3</span> Conda on new Macs</h3>
@@ -351,9 +431,19 @@ conda config --add channels conda-forge</code></pre>
 <p>We will use Conda environments for the set up of this tutorial, but don’t worry if you don’t understand exactly what everything does - you’ll learn all the details at the course. First make sure you’re currently situated inside the tutorials directory (<code>workshop-reproducible-research/tutorials</code>) and then create the Conda environment like so:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> snakemake/environment.yml <span class="at">-n</span> snakemake-env</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate snakemake-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p><strong>ARM64 users:</strong> <br> Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda/Conda-on-new-macs">instructions above</a>.</p>
-</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled" title="ARM64 users">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+ARM64 users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda-on-new-macs">instructions above</a>.</p>
+</div>
+</div>
 <p>Check that Snakemake is installed correctly, for example by executing <code>snakemake --help</code>. This should output a list of available Snakemake settings. If you get <code>bash: snakemake: command not found</code> then you need to go back and ensure that the Conda steps were successful. Once you’ve successfully completed the above steps you can deactivate the environment using <code>conda deactivate</code> and continue with the setup for the other tools.</p>
 </section>
 <section id="installing-nextflow" class="level2" data-number="6">
@@ -364,9 +454,19 @@ conda config --add channels conda-forge</code></pre>
 <p>If you’re getting Java-related errors, you can either try to <a href="https://www.nextflow.io/docs/latest/getstarted.html#requirements">update your Java installation</a> (Nextflow requires Java 11 or later) or install Nextflow using conda. If you want to use Conda, navigate to <code>workshop-reproducible-research/tutorials</code> and create the environment:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> nextflow/environment.yml <span class="at">-n</span> nextflow-env</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate nextflow-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p><strong>ARM64 users:</strong> <br> Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda/Conda-on-new-macs">instructions above</a>.</p>
-</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled" title="ARM64 users">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+ARM64 users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda-on-new-macs">instructions above</a>.</p>
+</div>
+</div>
 <p>Check that Nextflow was installed correctly by running <code>nextflow -version</code>. If you successfully installed Nextflow using Conda you can now deactivate the environment using <code>conda deactivate</code> and continue with the other setups, as needed.</p>
 </section>
 <section id="installing-quarto" class="level2" data-number="7">
@@ -375,9 +475,6 @@ conda config --add channels conda-forge</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> install tinytex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>While we’re not installing Quarto <em>itself</em> using Conda, we <em>will</em> install some software packages that are used in the Quarto tutorial using Conda: make sure your working directory is in the tutorials directory (<code>workshop-reproducible-research/tutorials</code>) and install the necessary packages defined in the <code>environment.yml</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> quarto/environment.yml <span class="at">-n</span> quarto-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p><strong>ARM64 users:</strong> <br> Some of the packages in this environment is not available for the ARM64 architecture, so you’ll have to follow the <a href="#conda/Conda-on-new-macs">instructions above</a>.</p>
-</blockquote>
 </section>
 <section id="installing-jupyter" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="installing-jupyter"><span class="header-section-number">8</span> Installing Jupyter</h2>
@@ -389,12 +486,22 @@ conda config --add channels conda-forge</code></pre>
 <section id="installing-docker" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="installing-docker"><span class="header-section-number">9</span> Installing Docker</h2>
 <p>Installing Docker (specifically Docker Desktop) is quite straightforward on Mac, Windows and Linux distributions. Note that Docker runs as root, which means that you have to have <code>sudo</code> privileges on your computer in order to install or run Docker. When you have finished installing docker, regardless of which OS you are on, please type <code>docker --version</code> to verify that the installation was successful.</p>
-<blockquote class="blockquote">
-<p><strong>Docker for older versions of OSX/Windows</strong> <br> The latest version of Docker may not work if you have an old version of either OSX or Windows. You can find older Docker versions that may be compatible for you if you go to <a href="https://docs.docker.com/desktop/">https://docs.docker.com/desktop/</a> and click “Previous versions” in the left side menu.</p>
-</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Docker for older versions of OSX/Windows">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Docker for older versions of OSX/Windows
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The latest version of Docker may not work if you have an old version of either OSX or Windows. You can find older Docker versions that may be compatible for you if you go to <a href="https://docs.docker.com/desktop/">https://docs.docker.com/desktop/</a> and click “Previous versions” in the left side menu.</p>
+</div>
+</div>
 <section id="macos" class="level3" data-number="9.1">
 <h3 data-number="9.1" class="anchored" data-anchor-id="macos"><span class="header-section-number">9.1</span> MacOS</h3>
-<p>Go to <a href="https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac">docker.com</a> and select the download option that is suitable for your computer’s architecture (<em>i.e.</em> if you have an Intel chip or a newer Apple M1 chip). This will download a <code>dmg</code> file - click on it when it’s done to start the installation. This will open up a window where you can drag the Docker.app to Applications. Close the window and click the Docker app from the Applications menu. Now it’s basically just to click “next” a couple of times and we should be good to go. You can find the Docker icon in the menu bar in the upper right part of the screen.</p>
+<p>Go to <a href="https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac">docker.com</a> and select the download option that is suitable for your computer’s architecture (<em>i.e.</em> if you have an Intel chip or a newer Apple silicon chip). This will download a <code>dmg</code> file - click on it when it’s done to start the installation. This will open up a window where you can drag the Docker.app to Applications. Close the window and click the Docker app from the Applications menu. Now it’s basically just to click “next” a couple of times and we should be good to go. You can find the Docker icon in the menu bar in the upper right part of the screen.</p>
 </section>
 <section id="linux" class="level3" data-number="9.2">
 <h3 data-number="9.2" class="anchored" data-anchor-id="linux"><span class="header-section-number">9.2</span> Linux</h3>
@@ -802,7 +909,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/cc-by-4.0/">CC-BY-4.0 License</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

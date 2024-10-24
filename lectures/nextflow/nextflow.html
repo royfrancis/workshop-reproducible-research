@@ -404,8 +404,7 @@
         <div class="title-parent title-two">
       <div class="title-child-text">
         <h1 class="title">Making reproducible workflows with <img src="https://nextflow-io.github.io/nf-hack18/assets/nextflow_logo.png" style="width:50%; padding: 15px 15px 15px 15px"></h1>
-                <p class="subtitle">Specky quarto theme</p>
-                                        <p class="date">18-Oct-2024</p>
+                                        <p class="date">24-Oct-2024</p>
               </div>
       <div class="title-child-hero">
                 <div class="title-hero">
@@ -434,7 +433,7 @@
 <h2>Concepts and nomenclature</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="https://training.seqera.io/img/channel-process.png" class="quarto-figure quarto-figure-center" height="300"></p>
+<p><img data-src="images/concepts.png" class="quarto-figure quarto-figure-center" height="300"></p>
 </figure>
 </div>
 <div>
@@ -615,14 +614,14 @@
 <p><br></p>
 </div>
 <div class="fragment">
-<p>Use Docker or Apptainer</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run main.nf <span class="at">-with-docker</span></span>
-<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run main.nf <span class="at">-with-apptainer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use a pre-defined configuration profile</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run main.nf <span class="at">-profile</span> uppmax</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </div>
 <div class="fragment">
-<p>Use a pre-defined configuration profile</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run main.nf <span class="at">-profile</span> uppmax</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use Docker or Apptainer</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run main.nf <span class="at">-with-docker</span></span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run main.nf <span class="at">-with-apptainer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </div>
 </div>
@@ -630,6 +629,11 @@
 </section>
 <section id="snakemake-and-nextflow-differences" class="slide level2">
 <h2>Snakemake and Nextflow differences</h2>
+<p><br> <br></p>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:80%;">
 <table>
 <colgroup>
 <col style="width: 21%">
@@ -677,6 +681,8 @@
 <li class="fragment"><span class="green">Question</span>: But, which one is the <em>best?</em></li>
 <li class="fragment"><span class="green">Answer</span>: Both - it’s mostly up to personal preference!</li>
 </ul>
+</div>
+</div>
 </div>
 </section>
 <section id="questions" class="title-slide slide level1 center">

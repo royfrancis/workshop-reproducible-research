@@ -185,7 +185,7 @@ background-size: cover;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">18-Oct-2024</p>
+        <p class="date">24-Oct-2024</p>
       </div>
     </div>
     
@@ -262,7 +262,7 @@ background-size: cover;
 <p><a href="https://www.nextflow.io/">Nextflow</a> is a <em>workflow management system</em> (WfMS), and is one of the most common such systems within the bioinformatic and academic communities. These systems are important for scientific reproducibility in that they greatly facilitate keeping track of which files have been processed in what way throughout an entire project.</p>
 <p>Nextflow is built from the ground-up to be portable, scalable, reproducible and usable in a platform-agnostic sense. This means that any workflow you write in Nextflow can be run locally on your laptop, a computer cluster or a cloud service (as long as your architecture has the necessary computational resources). You can also define the compute environment in which each task is carried out on a per-task basis. You might thus develop your workflow on your local computer using a minimal test dataset, but run the full analyses with all samples on <em>e.g.</em> a computer cluster. Nextflow can work on both files and arbitrary values, often-times connected in useful and advanced ways.</p>
 <p>Nextflow can easily work with dynamic inputs where the exact output is unknown, <em>e.g.</em> the exact number of files or which samples pass some arbitrary quality control threshold. While Nextflow is based on the Groovy language, you don’t need to know how to code Groovy to be able to write good Nextflow workflows. Nextflow has a large community centred around it, including the <a href="https://nf-co.re/">nf-core</a> curated collection of high quality pipelines used by <em>e.g.</em> the <a href="https://ngisweden.scilifelab.se/">National Genomics Infrastructure</a>.</p>
-<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="pre-course-setup">setup</a> for instructions on how to set it up if you haven’t done so already, then open up a terminal and go to <code>workshop-reproducible-research/tutorials/nextflow</code> and activate your <code>nextflow-env</code> Conda environment.</p>
+<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="../home_precourse.html">setup</a> for instructions on how to set it up if you haven’t done so already, then open up a terminal and go to <code>workshop-reproducible-research/tutorials/nextflow</code> and activate your <code>nextflow-env</code> Conda environment.</p>
 </section>
 <section id="the-basics" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="the-basics"><span class="header-section-number">2</span> The basics</h2>
@@ -1440,7 +1440,7 @@ sample_3      2.0     case      fulvestrant</code></pre>
 <h3 data-number="7.6" class="anchored" data-anchor-id="the-nf-core-pipeline-collection"><span class="header-section-number">7.6</span> The nf-core pipeline collection</h3>
 <p>You may have heard of the <a href="https://nf-co.re/">nf-core</a> pipeline collection previously, which is a large, collaborative bioinformatics community dedicated to building, developing and maintaining Nextflow workflows. In fact, if you have sequenced data at <em>e.g.</em> the National Genomics Infrastructure (<a href="https://ngisweden.scilifelab.se/">NGI</a>), you can be sure that the data processing has been run using one of the nf-core pipelines! While the community only started in 2018 (with a <a href="https://www.nature.com/articles/s41587-020-0439-x">Nature Biotechnology</a> paper in 2020), it already has over 30 production-ready pipelines with everything from genomics, transcriptomics, proteomics and metagenomics - and more being developed all the time.</p>
 <p>The nf-core pipelines all work in the same way, in that they have the same exact base for inputs, parameters and arguments, making them all highly similar to run. Since you’ve already learnt the basics of Nextflow in this course, you should now be able to also run the nf-core pipelines! It might be that you have a data type that you can analyse using one of the pipelines in nf-core, meaning you don’t need to do anything other than find out what parameters you should run it with.</p>
-<p>Each pipeline comes with extensive documentation, test datasets that you can use to practice on, can be run on both HPCs like Uppmax, cloud services like AWS or locally on your own computer. All pipelines support both Conda and Docker/Apptainer, and you can additionally run specific versions of the pipelines, allowing for full reproducibility of your analyses. If you want to check nf-core out, simply head over to their <a href="https://nf-co.re/pipelines">list of pipelines</a> and see what’s available! Who knows, you might even write your own nf-core pipeline in the future?</p>
+<p>Each pipeline comes with extensive documentation, test datasets that you can use to practice on, can be run on both HPCs like Uppmax, cloud services like AWS or locally on your own computer. All pipelines support both Conda and Docker and Apptainer, and you can additionally run specific versions of the pipelines, allowing for full reproducibility of your analyses. If you want to check nf-core out, simply head over to their <a href="https://nf-co.re/pipelines">list of pipelines</a> and see what’s available! Who knows, you might even write your own nf-core pipeline in the future?</p>
 
 
 </section>
@@ -1838,7 +1838,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/cc-by-4.0/">CC-BY-4.0 License</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

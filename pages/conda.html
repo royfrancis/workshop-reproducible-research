@@ -185,7 +185,7 @@ background-size: cover;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">18-Oct-2024</p>
+        <p class="date">24-Oct-2024</p>
       </div>
     </div>
     
@@ -241,7 +241,7 @@ background-size: cover;
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>Conda is a package and environment manager. As a package manager it enables you to install a wide range of software and tools using one simple command: <code>conda install</code>. As an environment manager it allows you to create and manage multiple different environments, each with their own set of packages.</p>
 <p>What are the benefits of using an environment manager? Some examples include the ability to easily run different versions of the same package, have different cross-package dependencies that are otherwise incompatible with each other and, last but not least, easy installation of all the software needed for an analysis.</p>
-<p>Environments are of particular relevance when making bioinformatics projects reproducible. Full reproducibility requires the ability to recreate the system that was originally used to generate the results. This can, to a large extent, be accomplished by using Conda to make a project environment with specific versions of the packages that are needed in the project. You can read more about Conda <a href="https://conda.io/projects/conda/en/latest/user-guide/concepts/index.html">here</a>.</p>
+<p>Environments are of particular relevance when making bioinformatics projects reproducible. Full reproducibility requires the ability to recreate the system that was originally used to generate the results. This can, to a large extent, be accomplished by using Conda to make a project environment with specific versions of the packages that are needed in the project. You can read more about Conda <a href="https://conda.io/projects/conda/en/latest/user-guide/concepts/index.html">at the Conda website</a>.</p>
 <p>A Conda <em>package</em> is a compressed tarball (system-level libraries, Python or other modules, executable programs or other components). Conda keeps track of the dependencies between packages and platforms - this means that when installing a given package, all necessary dependencies will also be installed.</p>
 <p>Conda packages are typically hosted and downloaded from remote so-called <em>channels</em>. Some widely used channels for general-purpose and bioinformatics packages are <a href="https://conda-forge.org/">conda-forge</a> and <a href="https://bioconda.github.io/">Bioconda</a>, respectively. Both of these are community-driven projects, so if you’re missing some package you can contribute to the channel by adding the package to it. When installing a Conda package you specify the package name, version (optional) and channel to download from.</p>
 <p>A Conda <em>environment</em> is essentially a directory that is added to your PATH and that contains a specific collection of packages that you have installed. Packages are symlinked between environments to avoid unnecessary duplication.</p>
@@ -252,7 +252,7 @@ background-size: cover;
 </section>
 <section id="the-basics" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="the-basics"><span class="header-section-number">2</span> The basics</h2>
-<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="pre-course-setup">setup</a> for instructions on how to set it up if, you haven’t done so already. Then open up a terminal and go to <code>workshop-reproducible-research/tutorials/conda</code>. Instructions below assume that you are standing in <code>workshop-reproducible-research/tutorials/conda/</code> unless otherwise specified (<em>e.g.</em> if it says “create a file”, it means save it in <code>workshop-reproducible-research/tutorials/conda/</code>).</p>
+<p>This tutorial depends on files from the course GitHub repo. Take a look at the <a href="../home_precourse.html">setup</a> for instructions on how to set it up if, you haven’t done so already. Then open up a terminal and go to <code>workshop-reproducible-research/tutorials/conda</code>. Instructions below assume that you are standing in <code>workshop-reproducible-research/tutorials/conda/</code> unless otherwise specified (<em>e.g.</em> if it says “create a file”, it means save it in <code>workshop-reproducible-research/tutorials/conda/</code>).</p>
 <p>Let’s assume that you are just about to start a new exciting research project called <em>Project A</em>.</p>
 <section id="creating-conda-environments" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="creating-conda-environments"><span class="header-section-number">2.1</span> Creating Conda environments</h3>
@@ -358,7 +358,7 @@ Quick recap
 <section id="working-with-environments" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="working-with-environments"><span class="header-section-number">3</span> Working with environments</h2>
 <p>We have up until now specified which Conda packages to install directly on the command line using the <code>conda create</code> and <code>conda install</code> commands. For working in projects this is not the recommended way. Instead, for increased control and reproducibility, it is better to use an <em>environment file</em> (in <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>) that specifies the packages, versions and channels needed to create the environment for a project.</p>
-<p>Throughout these tutorials we will use a case study where we analyse an RNA-seq experiment with the multi-resistant bacteria MRSA (see <a href="introduction">intro</a>). You will now start to make a Conda YAML file for this MRSA project. The file will contain a list of the software and versions needed to execute the analysis code.</p>
+<p>Throughout these tutorials we will use a case study where we analyse an RNA-seq experiment with the multi-resistant bacteria MRSA (please see the <a href="introduction.html">introduction</a>). You will now start to make a Conda YAML file for this MRSA project. The file will contain a list of the software and versions needed to execute the analysis code.</p>
 <p>In this Conda tutorial, all code for the analysis is available in the script <code>code/run_qc.sh</code>. This code will download the raw FASTQ-files and subsequently run quality control on these using the FastQC software.</p>
 <section id="working-with-environments-1" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="working-with-environments-1"><span class="header-section-number">3.1</span> Working with environments</h3>
@@ -937,7 +937,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/gpl-3.0/">GPL-3 License</a></p>
+<p>2024 <a href="https://nbis.se">NBIS</a> | <a href="https://choosealicense.com/licenses/cc-by-4.0/">CC-BY-4.0 License</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
